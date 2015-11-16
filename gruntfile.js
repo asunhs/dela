@@ -12,8 +12,8 @@ module.exports = function(grunt) {
 
     // Default tasks.
     grunt.registerTask('lib', ['copy']);
-    grunt.registerTask('app', ['browserify', 'html2js', 'sass']);
-    grunt.registerTask('default', ['lib', 'app', 'uglify']);
+    grunt.registerTask('js', ['html2js', 'browserify', 'clean:build']);
+    grunt.registerTask('default', ['lib', 'sass', 'js', 'uglify']);
 
     grunt.initConfig({
         baseDir: 'src',
@@ -31,10 +31,6 @@ module.exports = function(grunt) {
             app: {
                 src: '<%= distDir %>/app.js',
                 dest: '<%= distDir %>/app.min.js'
-            },
-            templates: {
-                src: '<%= distDir %>/templates.js',
-                dest: '<%= distDir %>/templates.min.js'
             }
         },
         browserify: {
@@ -47,7 +43,7 @@ module.exports = function(grunt) {
                     transform: ['browserify-ngannotate']
                 },
                 files: {
-                    '<%= distDir %>/app.js': ['<%= src.js %>']
+                    '<%= distDir %>/app.js': ['<%= src.js %>', '<%= distDir %>/templates.js']
                 }
             }
         },
@@ -71,6 +67,9 @@ module.exports = function(grunt) {
                     dest: '<%= distDir %>/index.html'
                 }]
             }
+        },
+        clean: {
+            build: ['<%= distDir %>/templates.js']
         },
         watch:{
             configFiles: {
