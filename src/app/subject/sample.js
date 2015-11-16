@@ -6,7 +6,7 @@ function SampleCtrl ($scope) {
 
 module.exports = require('app').directive('packSample', /* @ngInject */ function () {
     return {
-        templateUrl: "app/subject/sample.tpl.html",
+        templateUrl: "subject/sample.tpl.html",
         controller: SampleCtrl
     };
 });

@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-env');
@@ -12,8 +13,9 @@ module.exports = function(grunt) {
 
     // Default tasks.
     grunt.registerTask('lib', ['copy']);
-    grunt.registerTask('js', ['html2js', 'browserify', 'clean:build']);
-    grunt.registerTask('default', ['lib', 'sass', 'js', 'uglify']);
+    grunt.registerTask('js', ['html2js', 'browserify', 'clean:js']);
+    grunt.registerTask('css', ['sass', 'cssmin', 'clean:css']);
+    grunt.registerTask('default', ['lib', 'css', 'js', 'uglify']);
 
     grunt.initConfig({
         baseDir: 'src',
@@ -49,8 +51,12 @@ module.exports = function(grunt) {
         },
         html2js: {
             html: {
+                options: {
+                    base: '<%= baseDir %>/app'
+                },
                 src: ['<%= src.templates %>'],
-                dest: '<%= distDir %>/templates.js'
+                dest: '<%= distDir %>/templates.js',
+                module: 'templates-html'
             }
         },
         sass: {
@@ -58,6 +64,17 @@ module.exports = function(grunt) {
                 files: {
                     '<%= distDir %>/main.css': '<%= src.sass %>'
                 }
+            }
+        },
+        cssmin: {
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= distDir %>',
+                    src: ['*.css', '!*.min.css'],
+                    dest: '<%= distDir %>',
+                    ext: '.min.css'
+                }]
             }
         },
         copy: {
@@ -69,7 +86,8 @@ module.exports = function(grunt) {
             }
         },
         clean: {
-            build: ['<%= distDir %>/templates.js']
+            js: ['<%= distDir %>/templates.js'],
+            css: ['<%= distDir %>/*.css', '!<%= distDir %>/*.min.css']
         },
         watch:{
             configFiles: {
