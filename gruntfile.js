@@ -40,6 +40,9 @@ module.exports = function(grunt) {
         browserify: {
             js: {
                 options: {
+                    alias: {
+                        app: './<%= baseDir %>/app/app.js'
+                    },
                     debug: false,
                     transform: ['browserify-ngannotate']
                 },
@@ -49,7 +52,7 @@ module.exports = function(grunt) {
             }
         },
         html2js: {
-            main: {
+            html: {
                 src: ['<%= src.templates %>'],
                 dest: '<%= distDir %>/templates.js'
             }
