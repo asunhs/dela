@@ -1,7 +1,7 @@
 {
-  "name": "ngWork",
+  "name": "Dela App",
   "version": "1.0.0",
-  "description": "angular works",
+  "description": "Dela Court Menus Mirror",
   "scripts": {
     "preinstall": "npm install -g grunt-cli"
   },

@@ -39,7 +39,7 @@ module.exports = function(grunt) {
             js: {
                 options: {
                     alias: {
-                        app: './<%= baseDir %>/app/app.js'
+                        'DelaApp': './<%= baseDir %>/app/app.js'
                     },
                     debug: false,
                     transform: ['browserify-ngannotate']
