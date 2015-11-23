@@ -1,22 +1,18 @@
-<div>
+<div class="dela-card">
     <div class="dela-card-header">
         <span class="cal-level {{::calLevel}}">{{::calLevel}}</span>
     </div>
     <div class="dela-card-content">
-        <div class="dela-card-section">
+        <img ng-src="{{::menu.imgSrc}}" alt="{{::menu.en}}" />
+        <div class="dela-card-section {{::menu.sectionId}}">
             {{::menu.sectionName}}
         </div>
         <div class="dela-card-menu">
-            <div class="menu">
-                <p><span>{{::menu.ko}}</span></p>
-                <p><span>{{::menu.en}}</span></p>
-                <p ng-if="!menu.soldout"><span>{{::price | number}} 원</span> <span>{{::discounted | number}} 원</span></p>
-                <p ng-if="menu.soldout"><span class="soldout">SOLD OUT</span></p>
-                <p>{{::calories | number}} kcal</p>
-            </div>
-            <div class="image">
-                <img ng-src="{{::menu.imgSrc}}" alt="{{::menu.en}}" />
-            </div>
+            <p><span class="title-ko">{{::menu.ko}}</span></p>
+            <p><span class="title-en">{{::menu.en}}</span></p>
+            <p>{{::calories | number}} kcal</p>
+            <p ng-if="!menu.soldout"><span class="price">{{::price | number}} 원</span> <span class="discounted">({{::discounted | number}} 원)</span></p>
+            <p ng-if="menu.soldout"><span class="soldout">SOLD OUT</span></p>
         </div>
     </div>
     <div class="dela-card-footer">

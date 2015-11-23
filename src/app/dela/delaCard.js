@@ -1,10 +1,10 @@
 
 var CAL_LEVEL = {
-    'SUPER_HIGH' : '5',
-    'HIGH' : '4',
-    'NORMAL' : '3',
-    'LOW' : '2',
-    'SUPER_LOW' : '1'
+    'SUPER_HIGH' : 'high',
+    'HIGH' : 'high',
+    'NORMAL' : 'normal',
+    'LOW' : 'low',
+    'SUPER_LOW' : 'low'
 };
 
 function numberify(str) {
@@ -12,9 +12,9 @@ function numberify(str) {
 }
 
 function caloriesLevel(calories) {
-    if (calories > 850) {
+    if (calories > 900) {
         return CAL_LEVEL.SUPER_HIGH;
-    } else if (calories > 800) {
+    } else if (calories > 850) {
         return CAL_LEVEL.HIGH;
     } else if (calories < 600) {
         return CAL_LEVEL.SUPER_LOW;
