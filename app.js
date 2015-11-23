@@ -7,7 +7,7 @@ module.exports = angular.module('DelaApp', [
     $httpProvider.useApplyAsync(true);
 }]);
 },{}],1:[function(require,module,exports){
-angular.module('templates-html', ['dela/delaCard.tpl.html']);
+angular.module('templates-html', ['dela/delaCard.tpl.html', 'dela/loading.tpl.html']);
 
 angular.module("dela/delaCard.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("dela/delaCard.tpl.html",
@@ -15,12 +15,12 @@ angular.module("dela/delaCard.tpl.html", []).run(["$templateCache", function($te
     "    <div class=\"dela-card-header\">\n" +
     "        <span class=\"cal-level {{::calLevel}}\">{{::calLabel}}</span>\n" +
     "    </div>\n" +
-    "    <div class=\"dela-card-content\" ng-click=\"toggle()\">\n" +
+    "    <div class=\"dela-card-content\">\n" +
     "        <img ng-src=\"{{::menu.imgSrc}}\" alt=\"{{::menu.en}}\" />\n" +
     "        <div class=\"dela-card-section {{::menu.sectionId}}\">\n" +
     "            {{::menu.sectionName}}\n" +
     "        </div>\n" +
-    "        <div class=\"dela-card-menu\">\n" +
+    "        <div class=\"dela-card-menu\" ng-click=\"toggle()\">\n" +
     "            <p><span class=\"title-ko\">{{::menu.ko}}</span></p>\n" +
     "            <p><span class=\"title-en\">{{::menu.en}}</span></p>\n" +
     "            <p>{{::calories | number}} kcal</p>\n" +
@@ -33,9 +33,17 @@ angular.module("dela/delaCard.tpl.html", []).run(["$templateCache", function($te
     "                <div class=\"good\">50.0%</div>\n" +
     "                <div class=\"bad\">50.0%</div>\n" +
     "            </div>\n" +
-    "            <span class=\"btn good\">Good</span><span class=\"btn bad\">Bad</span>\n" +
+    "            <span class=\"btn good\" ng-click=\"good()\">Good</span>\n" +
+    "            <span class=\"btn bad\" ng-click=\"bad()\">Bad</span>\n" +
     "        </div>\n" +
     "    </div>\n" +
+    "</div>");
+}]);
+
+angular.module("dela/loading.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("dela/loading.tpl.html",
+    "<div class=\"loading-wrap\">\n" +
+    "    <img src=\"images/loading_apple.gif\" alt=\"loading\" />\n" +
     "</div>");
 }]);
 
@@ -60,16 +68,14 @@ function Card(menu, section, zone) {
     this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : null;
 }
 
-
+var JSONP_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
 
 
 /* @ngInject */
-function DelaSvc($http) {
+function DelaSvc(JSONPSvc) {
 
     function getMenus() {
-        return $http.jsonp('https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK').then(function (res) {
-            return res.data;
-        });
+        return JSONPSvc.request(JSONP_URL + 'dummy');
     }
 
     function newCard(section, zone) {
@@ -94,10 +100,20 @@ function DelaSvc($http) {
         return flatten(menus);
     }
 
+    function like(card) {
+        return JSONPSvc.request(JSONP_URL + 'good&name=' + card.ko);
+    }
+
+    function dislike(card) {
+        return JSONPSvc.request(JSONP_URL + 'bad&name=' + card.ko);
+    }
+
     this.getMenus = getMenus;
     this.getCards = getCards;
+    this.like = like;
+    this.dislike = dislike;
 }
-DelaSvc.$inject = ["$http"];
+DelaSvc.$inject = ["JSONPSvc"];
 
 
 /* @ngInject */
@@ -157,7 +173,7 @@ function discount(price) {
 
 
 /* @ngInject */
-function CardDirective() {
+function CardDirective(DelaSvc) {
     return {
         restrict: 'E',
         templateUrl: 'dela/delaCard.tpl.html',
@@ -177,14 +193,73 @@ function CardDirective() {
             
             scope.toggle = function () {
                 scope.unfold = !scope.unfold;
-            }
+            };
+            
+            scope.good = function () {
+                DelaSvc.like(menu).then(function (message) {
+                    alert(message.join(' '));
+                });
+            };
+
+            scope.bad = function () {
+                DelaSvc.dislike(menu).then(function (message) {
+                    alert(message.join(' '));
+                });
+            };
         }
     };
 }
+CardDirective.$inject = ["DelaSvc"];
 
 
 require('DelaApp').directive('delaCard', CardDirective);
 },{"DelaApp":"DelaApp"}],4:[function(require,module,exports){
+
+/* @ngInject */
+function JSONPSvc($http, LoadingSvc) {
+
+    function request(url) {
+        var resolver = LoadingSvc.loading();
+        return $http.jsonp(url).then(function (res) {
+            resolver();
+            return res.data;
+        }, resolver);
+    }
+    
+    this.request = request;
+}
+JSONPSvc.$inject = ["$http", "LoadingSvc"];
+
+require('DelaApp').service('JSONPSvc', JSONPSvc);
+},{"DelaApp":"DelaApp"}],5:[function(require,module,exports){
+
+/* @ngInject */
+function LoadingSvc($templateCache, $q) {
+    
+    var loadingTemplate = $templateCache.get('dela/loading.tpl.html'),
+        element = angular.element(loadingTemplate);
+    
+    function loading() {
+        
+        var defer = $q.defer();
+        
+        element.appendTo('body');
+        
+        defer.promise.then(function () {
+            element.remove();
+        });
+        
+        return function () {
+            defer.resolve();
+        };
+    }
+    
+    this.loading = loading;
+}
+LoadingSvc.$inject = ["$templateCache", "$q"];
+
+require('DelaApp').service('LoadingSvc', LoadingSvc);
+},{"DelaApp":"DelaApp"}],6:[function(require,module,exports){
 
 
 /* @ngInject */
@@ -203,4 +278,4 @@ function NumberFilter() {
 }
 
 require('DelaApp').filter('number', NumberFilter);
-},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,1]);
+},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,1]);
