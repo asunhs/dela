@@ -18,16 +18,14 @@ function Card(menu, section, zone) {
     this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : null;
 }
 
-
+var JSONP_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
 
 
 /* @ngInject */
-function DelaSvc($http) {
+function DelaSvc(JSONPSvc) {
 
     function getMenus() {
-        return $http.jsonp('https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK').then(function (res) {
-            return res.data;
-        });
+        return JSONPSvc.request(JSONP_URL + 'dummy');
     }
 
     function newCard(section, zone) {
@@ -52,8 +50,18 @@ function DelaSvc($http) {
         return flatten(menus);
     }
 
+    function like(card) {
+        return JSONPSvc.request(JSONP_URL + 'good&name=' + card.ko);
+    }
+
+    function dislike(card) {
+        return JSONPSvc.request(JSONP_URL + 'bad&name=' + card.ko);
+    }
+
     this.getMenus = getMenus;
     this.getCards = getCards;
+    this.like = like;
+    this.dislike = dislike;
 }
 
 
