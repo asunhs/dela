@@ -1,1 +1,38 @@
-@import "partial";
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+@mixin vendor-prefix($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  background-color: #0b2c19;
+  color: #3f3f3f;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+div {
+  display: inline-block;
+}
+
+ul {
+  padding: 0;
+}
+
+.header {
+  width: 100%;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  color: #381909;
+  background-color: #d6a066;
+}
+
+@import "card";

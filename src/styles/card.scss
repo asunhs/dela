@@ -1,0 +1,188 @@
+
+
+.dela-card {
+  width: 100%;
+  margin-top: 5px;
+
+  .dela-card-header {
+    width: 100%;
+    margin-bottom: -5px;
+    
+    span {
+      float: right;
+      margin: 0px 2px;
+      padding: 2px 10px;
+      border-radius: 5px 5px 0 0;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    
+    .cal-level {
+      
+      &.high {
+        background-color: lightcoral;
+      }
+
+      &.normal {
+        background-color: lightblue;
+      }
+
+      &.low {
+        background-color: lightgreen;
+      }
+    }
+  }
+  
+  .dela-card-content {
+    
+    width: 100%;
+    position: relative;
+    background-color: #f9f9f9;
+    border-radius: 5px 0 0 5px;
+    
+    img {
+      float: right;
+      height: 76px;
+      padding: 15px 0;
+    }
+    
+    .dela-card-section {
+      position: absolute;
+      left: 0;
+      width: 20px;
+      height: 100%;
+      font-size: 13px;
+      color: #ffffff;
+      text-align: center;
+      border-radius: 5px 0 0 5px;
+  
+      @include vendor-prefix(writing-mode, vertical-rl);
+      
+      &.DEPT001 {
+        background-color: #b45d10;
+      }
+
+      &.DEPT002 {
+        background-color: #b45d10;
+      }
+
+      &.DEPT003 {
+        background-color: #e88705;
+      }
+
+      &.DEPT004 {
+        background-color: #e5ac05;
+      }
+
+      &.DEPT005 {
+        background-color: #59aa31;
+      }
+    }
+    
+    .dela-card-menu {
+      margin-left: 20px;
+      padding: 10px;
+      font-size: 12px;
+      
+      p:nth-child(2) {
+        margin-bottom: 10px;
+      }
+      
+      .title-ko {
+        font-size: 16px;
+      }
+      
+      .title-en {
+        font-size: 10px;
+        color: #afafaf;
+      }
+      
+      .price {
+        color: #afafaf;
+      }
+      
+      .discounted {
+        font-weight: bold;
+      }
+      
+      .soldout {
+        font-width: bold;
+        color: #990000;
+      }
+      
+    }
+
+
+    .dela-card-footer {
+      width: 100%;
+      height: 30px;
+      font-size: 12px;
+      position: relative;
+      padding: 5px 0;
+
+      .btn {
+        width: 70px;
+        border-radius: 3px;
+        text-align: center;
+        padding: 5px 0;
+        position: absolute;
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+
+        &.good {
+          left: 30px;
+          background-color: #00008b;
+        }
+
+        &.bad {
+          right: 10px;
+          background-color: #8b0000;
+        }
+      }
+      
+      .gauge {
+        position: absolute;
+        top: 10px;
+        left: 30px;
+        right: 10px;
+        
+        div {
+          height: 18px;
+          color: #ffffff;
+          font-size: 9px;
+          padding: 3px;
+          box-sizing: border-box;
+        }
+        
+        .good {
+          width: 49%;
+          background-color: #add8e6;
+          text-align: right;
+        }
+        
+        .bad {
+          width: 49%;
+          background-color: #f08080;
+        }
+      }
+
+    }
+    
+  }
+
+
+  &.fold {
+    margin-top: -10px;
+    
+    .dela-card-header {
+      margin-bottom: -21px;
+    }
+
+    .dela-card-footer {
+      display: none;
+    }
+  }
+}
