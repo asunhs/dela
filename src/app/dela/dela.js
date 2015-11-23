@@ -62,7 +62,6 @@ function DelaCtrl($scope, DelaSvc) {
     
     DelaSvc.getMenus().then(DelaSvc.getCards).then(function (cards) {
         $scope.menus = cards;
-        console.log(cards);
     });
     
 }

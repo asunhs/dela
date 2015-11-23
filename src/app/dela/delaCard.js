@@ -1,11 +1,18 @@
 
 var CAL_LEVEL = {
-    'SUPER_HIGH' : 'high',
-    'HIGH' : 'high',
-    'NORMAL' : 'normal',
-    'LOW' : 'low',
-    'SUPER_LOW' : 'low'
-};
+        'SUPER_HIGH': 'super_high',
+        'HIGH': 'high',
+        'NORMAL': 'normal',
+        'LOW': 'low',
+        'SUPER_LOW': 'super_low'
+    },
+    CAL_LABEL = {
+        'super_high': '초고칼로리',
+        'high': '고칼로리',
+        'normal': '표준칼로리',
+        'low': '저칼로리',
+        'super_low': '초저칼로리'
+    };
 
 function numberify(str) {
     return str.replace(/\D/g, '');
@@ -40,6 +47,7 @@ function CardDirective() {
         restrict: 'E',
         templateUrl: 'dela/delaCard.tpl.html',
         scope: true,
+        replace: true,
         link: function (scope) {
             
             var menu = scope.menu,
@@ -48,8 +56,13 @@ function CardDirective() {
             
             scope.calories = calories;
             scope.calLevel = caloriesLevel(calories);
+            scope.calLabel = CAL_LABEL[scope.calLevel];
             scope.price = price;
             scope.discounted = discount(price);
+            
+            scope.toggle = function () {
+                scope.unfold = !scope.unfold;
+            }
         }
     };
 }
