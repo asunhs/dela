@@ -6,7 +6,7 @@
 
   .dela-card-header {
     width: 100%;
-    margin-bottom: -5px;
+    margin-bottom: -7px;
     
     span {
       float: right;
@@ -82,9 +82,13 @@
     }
     
     .dela-card-menu {
-      margin-left: 20px;
+      position: absolute;
+      left: 20px;
+      right: 115px;
       padding: 10px;
       font-size: 12px;
+      overflow: hidden;
+      white-space: nowrap;
       
       p:nth-child(2) {
         margin-bottom: 10px;
@@ -121,6 +125,7 @@
       font-size: 12px;
       position: relative;
       padding: 5px 0;
+      margin-top: 20px;
 
       .btn {
         width: 70px;
@@ -146,8 +151,8 @@
       .gauge {
         position: absolute;
         top: 10px;
-        left: 30px;
-        right: 10px;
+        left: 98px;
+        right: 78px;
         
         div {
           height: 18px;
@@ -178,7 +183,7 @@
     margin-top: -10px;
     
     .dela-card-header {
-      margin-bottom: -21px;
+      margin-bottom: -22px;
     }
 
     .dela-card-footer {
