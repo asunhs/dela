@@ -2,12 +2,12 @@
     <div class="dela-card-header">
         <span class="cal-level {{::calLevel}}">{{::calLabel}}</span>
     </div>
-    <div class="dela-card-content" ng-click="toggle()">
+    <div class="dela-card-content">
         <img ng-src="{{::menu.imgSrc}}" alt="{{::menu.en}}" />
         <div class="dela-card-section {{::menu.sectionId}}">
             {{::menu.sectionName}}
         </div>
-        <div class="dela-card-menu">
+        <div class="dela-card-menu" ng-click="toggle()">
             <p><span class="title-ko">{{::menu.ko}}</span></p>
             <p><span class="title-en">{{::menu.en}}</span></p>
             <p>{{::calories | number}} kcal</p>
@@ -20,7 +20,8 @@
                 <div class="good">50.0%</div>
                 <div class="bad">50.0%</div>
             </div>
-            <span class="btn good">Good</span><span class="btn bad">Bad</span>
+            <span class="btn good" ng-click="good()">Good</span>
+            <span class="btn bad" ng-click="bad()">Bad</span>
         </div>
     </div>
 </div>

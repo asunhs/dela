@@ -42,7 +42,7 @@ function discount(price) {
 
 
 /* @ngInject */
-function CardDirective() {
+function CardDirective(DelaSvc) {
     return {
         restrict: 'E',
         templateUrl: 'dela/delaCard.tpl.html',
@@ -62,7 +62,19 @@ function CardDirective() {
             
             scope.toggle = function () {
                 scope.unfold = !scope.unfold;
-            }
+            };
+            
+            scope.good = function () {
+                DelaSvc.like(menu).then(function (message) {
+                    alert(message.join(' '));
+                });
+            };
+
+            scope.bad = function () {
+                DelaSvc.dislike(menu).then(function (message) {
+                    alert(message.join(' '));
+                });
+            };
         }
     };
 }
