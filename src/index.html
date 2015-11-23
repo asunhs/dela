@@ -2,6 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dela App</title>
     <link rel="stylesheet" href="main.min.css" />
     <script src="http://underscorejs.org/underscore-min.js"></script>
@@ -10,5 +11,8 @@
     <script src="app.js"></script>
 </head>
 <body ng-app="DelaApp">
+    <ul ng-controller="DelaCtrl">
+        <li><dela-card ng-repeat="menu in menus"></dela-card></li>
+    </ul>
 </body>
 </html>
