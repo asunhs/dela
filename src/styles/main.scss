@@ -35,4 +35,13 @@ ul {
   background-color: #d6a066;
 }
 
+.closed {
+  width: 100%;
+  text-align: center;
+  color: #577620;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 50px 0;
+}
+
 @import "card";
