@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dela App</title>
+    <link rel="stylesheet" href="main.min.css" />
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-touch.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-app="DelaApp">
+    <div class="header">Delacourt Mini</div>
+    <ul ng-controller="DelaCtrl">
+        <li ng-repeat="menu in menus"><dela-card /></li>
+    </ul>
+</body>
+</html>
