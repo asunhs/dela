@@ -15,6 +15,12 @@
     <div class="header">Delacourt Mini</div>
     <ul ng-controller="DelaCtrl">
         <li ng-repeat="menu in menus"><dela-card /></li>
+        <li ng-if="!menus.length">
+            <div class="closed">
+                <p>지금은 영업중이 아닙니다.</p>
+                <p>We're closed now</p>
+            </div>
+        </li>
     </ul>
 </body>
 </html>
