@@ -12,10 +12,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-sass');
 
     // Default tasks.
-    grunt.registerTask('asset', ['copy']);
+    grunt.registerTask('asset', ['copy:index', 'copy:images']);
     grunt.registerTask('js', ['html2js', 'browserify', 'clean:js']);
     grunt.registerTask('css', ['sass', 'cssmin', 'clean:css']);
     grunt.registerTask('default', ['asset', 'css', 'js', 'uglify']);
+    grunt.registerTask('publish', ['default', 'copy:publish']);
 
     grunt.initConfig({
         baseDir: 'src',
@@ -89,6 +90,14 @@ module.exports = function(grunt) {
                     dest: '<%=distDir%>/images',
                     src:['**/*'],
                     cwd: '<%=baseDir%>/images',
+                    expand: true
+                }]
+            },
+            publish: {
+                files: [{
+                    dest: '.',
+                    src:['**/*'],
+                    cwd: '<%=distDir%>',
                     expand: true
                 }]
             }
