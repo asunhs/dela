@@ -7,15 +7,14 @@ function Card(menu, section, zone) {
     
     // Section info
     this.sectionId = section.sectionId;
-    this.sectionName = section.name;
+    this.sectionName = _.unescape(section.name);
     
     // Menu info
     this.cal = menu.cal;
-    this.calLevel = menu.cal;
-    this.en = menu.en;
-    this.ko = menu.ko;
+    this.en = _.unescape(menu.en);
+    this.ko = _.unescape(menu.ko);
     this.price = menu.price;
-    this.discounted = menu.price;
+    this.soldout = menu.soldout;
     this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : null;
 }
 

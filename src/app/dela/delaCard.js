@@ -1,12 +1,55 @@
 
+var CAL_LEVEL = {
+    'SUPER_HIGH' : '5',
+    'HIGH' : '4',
+    'NORMAL' : '3',
+    'LOW' : '2',
+    'SUPER_LOW' : '1'
+};
+
+function numberify(str) {
+    return str.replace(/\D/g, '');
+}
+
+function caloriesLevel(calories) {
+    if (calories > 850) {
+        return CAL_LEVEL.SUPER_HIGH;
+    } else if (calories > 800) {
+        return CAL_LEVEL.HIGH;
+    } else if (calories < 600) {
+        return CAL_LEVEL.SUPER_LOW;
+    } else if (calories < 650) {
+        return CAL_LEVEL.LOW;
+    } else {
+        return CAL_LEVEL.NORMAL;
+    }
+}
+
+function discount(price) {
+    if (price = 5500) {
+        return 2500;
+    }
+    return price - 2500;
+}
+
+
 
 /* @ngInject */
 function CardDirective() {
     return {
         restrict: 'E',
         templateUrl: 'dela/delaCard.tpl.html',
-        link: function (scope, element, attrs) {
+        scope: true,
+        link: function (scope) {
             
+            var menu = scope.menu,
+                calories = numberify(menu.cal),
+                price = numberify(menu.price);
+            
+            scope.calories = calories;
+            scope.calLevel = caloriesLevel(calories);
+            scope.price = price;
+            scope.discounted = discount(price);
         }
     };
 }
