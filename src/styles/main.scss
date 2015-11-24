@@ -12,6 +12,10 @@
   margin: 0;
 }
 
+html {
+  @include vendor-prefix(text-size-adjust, 100%); /* Prevent font scaling in landscape while allowing user zoom */
+}
+
 body {
   background-color: #0b2c19;
   color: #3f3f3f;
