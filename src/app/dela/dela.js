@@ -10,6 +10,7 @@ function Card(menu, section, zone) {
     this.sectionName = _.unescape(section.name);
 
     // Menu info
+    this.keyCode = menu.keyCode;
     this.cal = menu.cal;
     this.en = _.unescape(menu.en);
     this.ko = _.unescape(menu.ko);
@@ -55,11 +56,11 @@ function DelaSvc(JSONPSvc) {
     }
 
     function like(card) {
-        return JSONPSvc.request(JSONP_URL + 'good&name=' + card.ko);
+        return JSONPSvc.request(JSONP_URL + 'good&keyCode=' + encodeURIComponent(card.keyCode));
     }
 
     function dislike(card) {
-        return JSONPSvc.request(JSONP_URL + 'bad&name=' + card.ko);
+        return JSONPSvc.request(JSONP_URL + 'bad&keyCode=' + encodeURIComponent(card.keyCode));
     }
 
     this.getMenus = getMenus;
