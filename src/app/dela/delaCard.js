@@ -1,17 +1,17 @@
 
 var CAL_LEVEL = {
-        'SUPER_HIGH': 'super_high',
+        'SUPER_HIGH': 'super-high',
         'HIGH': 'high',
         'NORMAL': 'normal',
         'LOW': 'low',
-        'SUPER_LOW': 'super_low'
+        'SUPER_LOW': 'super-low'
     },
     CAL_LABEL = {
-        'super_high': '초고칼로리',
+        'super-high': '초고칼로리',
         'high': '고칼로리',
         'normal': '표준칼로리',
         'low': '저칼로리',
-        'super_low': '초저칼로리'
+        'super-low': '초저칼로리'
     };
 
 function numberify(str) {
