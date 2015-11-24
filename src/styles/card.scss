@@ -19,6 +19,17 @@
       text-transform: uppercase;
     }
     
+    .zone {
+      
+      &.ZONE01 {
+        background-color: #e88705;
+      }
+      
+      &.ZONE02 {
+        background-color: #59aa31;
+      }
+    }
+    
     .cal-level {
 
       &.super-high {
