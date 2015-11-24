@@ -28,14 +28,14 @@ angular.module("dela/delaCard.tpl.html", []).run(["$templateCache", function($te
     "            <p ng-if=\"menu.soldout\"><span class=\"soldout\">SOLD OUT</span></p>\n" +
     "        </div>\n" +
     "\n" +
-    "        <div class=\"dela-card-footer\"> \n" +
+    "        <!--<div class=\"dela-card-footer\"> \n" +
     "            <div class=\"gauge\">\n" +
     "                <div class=\"good\">50.0%</div>\n" +
     "                <div class=\"bad\">50.0%</div>\n" +
     "            </div>\n" +
     "            <span class=\"btn good\" ng-click=\"good()\">Good</span>\n" +
     "            <span class=\"btn bad\" ng-click=\"bad()\">Bad</span>\n" +
-    "        </div>\n" +
+    "        </div>-->\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -75,6 +75,10 @@ var JSONP_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVw
 function DelaSvc(JSONPSvc) {
 
     function getMenus() {
+        return JSONPSvc.request(JSONP_URL + 'menus');
+    }
+
+    function getDummys() {
         return JSONPSvc.request(JSONP_URL + 'dummy');
     }
 
@@ -109,6 +113,7 @@ function DelaSvc(JSONPSvc) {
     }
 
     this.getMenus = getMenus;
+    this.getDummys = getDummys;
     this.getCards = getCards;
     this.like = like;
     this.dislike = dislike;
@@ -117,32 +122,33 @@ DelaSvc.$inject = ["JSONPSvc"];
 
 
 /* @ngInject */
-function DelaCtrl($scope, DelaSvc) {
-
-    DelaSvc.getMenus().then(DelaSvc.getCards).then(function (cards) {
+function DelaCtrl($scope, $location, DelaSvc) {
+    
+    var searchObject = $location.search();
+    
+    (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(DelaSvc.getCards).then(function (cards) {
         $scope.menus = cards;
     });
-
 }
-DelaCtrl.$inject = ["$scope", "DelaSvc"];
+DelaCtrl.$inject = ["$scope", "$location", "DelaSvc"];
 
 
 require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl);
 },{"DelaApp":"DelaApp"}],3:[function(require,module,exports){
 
 var CAL_LEVEL = {
-        'SUPER_HIGH': 'super_high',
+        'SUPER_HIGH': 'super-high',
         'HIGH': 'high',
         'NORMAL': 'normal',
         'LOW': 'low',
-        'SUPER_LOW': 'super_low'
+        'SUPER_LOW': 'super-low'
     },
     CAL_LABEL = {
-        'super_high': '초고칼로리',
+        'super-high': '초고칼로리',
         'high': '고칼로리',
         'normal': '표준칼로리',
         'low': '저칼로리',
-        'super_low': '초저칼로리'
+        'super-low': '초저칼로리'
     };
 
 function numberify(str) {
