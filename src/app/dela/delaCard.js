@@ -33,7 +33,7 @@ function caloriesLevel(calories) {
 }
 
 function discount(price) {
-    if (price = 5500) {
+    if (price == 5500) {
         return 2500;
     }
     return price - 2500;
