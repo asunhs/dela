@@ -25,6 +25,10 @@ var JSONP_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVw
 function DelaSvc(JSONPSvc) {
 
     function getMenus() {
+        return JSONPSvc.request(JSONP_URL + 'menus');
+    }
+
+    function getDummys() {
         return JSONPSvc.request(JSONP_URL + 'dummy');
     }
 
@@ -59,6 +63,7 @@ function DelaSvc(JSONPSvc) {
     }
 
     this.getMenus = getMenus;
+    this.getDummys = getDummys;
     this.getCards = getCards;
     this.like = like;
     this.dislike = dislike;
@@ -66,12 +71,13 @@ function DelaSvc(JSONPSvc) {
 
 
 /* @ngInject */
-function DelaCtrl($scope, DelaSvc) {
-
-    DelaSvc.getMenus().then(DelaSvc.getCards).then(function (cards) {
+function DelaCtrl($scope, $location, DelaSvc) {
+    
+    var searchObject = $location.search();
+    
+    (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(DelaSvc.getCards).then(function (cards) {
         $scope.menus = cards;
     });
-
 }
 
 

@@ -20,17 +20,25 @@
     }
     
     .cal-level {
+
+      &.super-high {
+        background-color: #b70f0f;
+      }
       
       &.high {
-        background-color: lightcoral;
+        background-color: #f08080;
       }
 
       &.normal {
-        background-color: lightblue;
+        background-color: #add8e6;
       }
 
       &.low {
-        background-color: lightgreen;
+        background-color: #577620;
+      }
+
+      &.super-low {
+        background-color: #90ee90;
       }
     }
   }
@@ -78,6 +86,38 @@
 
       &.DEPT005 {
         background-color: #59aa31;
+      }
+
+      &.DSDS011 {
+        background-color: #b45d10;
+      }
+
+      &.DSDS012 {
+        background-color: #b45d10;
+      }
+
+      &.DSDS013 {
+        background-color: #59aa31;
+      }
+
+      &.DSDS014 {
+        background-color: #8a36be;
+      }
+
+      &.DSDS015 {
+        background-color: #b45d10;
+      }
+
+      &.DSDS016 {
+        background-color: #31aa8b;
+      }
+
+      &.DSDS017 {
+        background-color: #b70f0f;
+      }
+
+      &.DSDS018 {
+        background-color: #e5ac05;
       }
     }
     
