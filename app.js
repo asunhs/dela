@@ -14,6 +14,7 @@ angular.module("dela/delaCard.tpl.html", []).run(["$templateCache", function($te
     "<div class=\"dela-card\" ng-class=\"{fold:!unfold}\">\n" +
     "    <div class=\"dela-card-header\">\n" +
     "        <span class=\"cal-level {{::calLevel}}\">{{::calLabel}}</span>\n" +
+    "        <span class=\"zone {{::menu.zoneId}}\">{{::zoneName}}</span>\n" +
     "    </div>\n" +
     "    <div class=\"dela-card-content\">\n" +
     "        <img ng-src=\"{{::menu.imgSrc}}\" alt=\"{{::menu.en}}\" />\n" +
@@ -151,6 +152,18 @@ var CAL_LEVEL = {
         'super-low': '초저칼로리'
     };
 
+
+function getZoneName(zoneId) {
+    switch (zoneId) {
+        case 'ZONE01':
+            return 'B1F';
+        case 'ZONE02':
+            return 'B2F';
+        default:
+            return '';
+    }
+}
+
 function numberify(str) {
     return str.replace(/\D/g, '');
 }
@@ -191,6 +204,7 @@ function CardDirective(DelaSvc) {
                 calories = numberify(menu.cal),
                 price = numberify(menu.price);
             
+            scope.zoneName = getZoneName(menu.zoneId);
             scope.calories = calories;
             scope.calLevel = caloriesLevel(calories);
             scope.calLabel = CAL_LABEL[scope.calLevel];

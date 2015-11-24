@@ -3,19 +3,19 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Dela App</title>
+    <title>Dela Mini</title>
     <link rel="stylesheet" href="main.min.css" />
     <script src="http://underscorejs.org/underscore-min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-touch.js"></script>
-    <script src="app.js"></script>
+    <script src="app.min.js"></script>
 </head>
 <body ng-app="DelaApp">
     <div class="header">Delacourt Mini</div>
     <ul ng-controller="DelaCtrl">
         <li ng-repeat="menu in menus"><dela-card /></li>
-        <li ng-if="!menus.length">
+        <li ng-if="menus.length === 0">
             <div class="closed">
                 <p>지금은 영업중이 아닙니다.</p>
                 <p>We're closed now</p>
