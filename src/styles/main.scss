@@ -32,11 +32,27 @@ ul {
 
 .header {
   width: 100%;
-  padding: 10px 10px 5px 10px;
+  padding: 15px 10px 10px 10px;
   box-sizing: border-box;
   margin-bottom: 5px;
   color: #381909;
   background-color: #d6a066;
+  
+  .sort {
+    display: inline-block;
+    float: right;
+    margin: 0 10px;
+    padding: 0 5px;
+    color: #d6a066;
+    font-size: 10px;
+    background-color: #815b32;
+    border-radius: 3px;
+    box-shadow: #381909 2px 2px 2px;
+    
+    b {
+      font-size: 14px;
+    }
+  }
 }
 
 .closed {
