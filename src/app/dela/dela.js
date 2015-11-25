@@ -16,7 +16,7 @@ function Card(menu, section, zone) {
     this.ko = _.unescape(menu.ko);
     this.price = menu.price;
     this.soldout = menu.soldout;
-    this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : 'http://sdsfoodmenu.co.kr:9106/foodcourt/img/food_sold_out_01_01.png';
+    this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : 'images/no-image.png';
 }
 
 var JSONP_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
