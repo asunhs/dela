@@ -16,7 +16,7 @@ function Card(menu, section, zone) {
     this.ko = _.unescape(menu.ko);
     this.price = menu.price;
     this.soldout = menu.soldout;
-    this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : null;
+    this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : 'http://sdsfoodmenu.co.kr:9106/foodcourt/img/food_sold_out_01_01.png';
 }
 
 var JSONP_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
@@ -79,6 +79,16 @@ function DelaCtrl($scope, $location, DelaSvc) {
     (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(DelaSvc.getCards).then(function (cards) {
         $scope.menus = cards;
     });
+
+    $scope.orderFactor = ['', 'cal', 'price'];
+    $scope.orderName = ['Place', 'Calories', 'Price'];
+    $scope.orderIndex = 0;
+    
+    function toggleOrder() {
+        $scope.orderIndex = ($scope.orderIndex + 1) % 3;
+    }
+
+    $scope.toggleOrder = toggleOrder;
 }
 
 
