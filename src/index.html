@@ -9,12 +9,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-touch.js"></script>
-    <script src="app.min.js"></script>
+    <script src="app.js"></script>
 </head>
-<body ng-app="DelaApp">
-    <div class="header">Delacourt Mini</div>
-    <ul ng-controller="DelaCtrl">
-        <li ng-repeat="menu in menus"><dela-card /></li>
+<body ng-app="DelaApp" ng-controller="DelaCtrl">
+    <div class="header">
+        Delacourt Mini
+        <span class="sort" ng-click="toggleOrder()">Order By <b>{{orderName[orderIndex]}}</b></span>
+    </div>
+    <ul>
+        <li ng-repeat="menu in menus | orderBy:orderFactor[orderIndex]"><dela-card /></li>
         <li ng-if="menus.length === 0">
             <div class="closed">
                 <p>지금은 영업중이 아닙니다.</p>
