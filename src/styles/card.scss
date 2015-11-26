@@ -215,6 +215,7 @@
             text-align: center;
             top: -13px;
             left: 30px;
+            @include vendor-prefix(box-shadow, #666666 -1px 1px 3px);
           }
         }
 
