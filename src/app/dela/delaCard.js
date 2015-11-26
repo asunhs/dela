@@ -91,15 +91,13 @@ function CardDirective(CountSvc, DelaSvc) {
             };
             
             scope.good = function () {
-                CountSvc.like(menu).then(function (message) {
-                    console.log(message);
+                CountSvc.like(menu).then(function () {
                     DelaSvc.getCounts();
                 });
             };
 
             scope.bad = function () {
-                CountSvc.dislike(menu).then(function (message) {
-                    console.log(message);
+                CountSvc.dislike(menu).then(function () {
                     DelaSvc.getCounts();
                 });
             };
