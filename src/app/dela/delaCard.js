@@ -54,7 +54,8 @@ function discount(price) {
 
 
 /* @ngInject */
-function CardDirective(DelaSvc) {
+function CardDirective(CountSvc, DelaSvc) {
+    
     return {
         restrict: 'E',
         templateUrl: 'dela/delaCard.tpl.html',
@@ -73,19 +74,31 @@ function CardDirective(DelaSvc) {
             scope.price = price;
             scope.discounted = discount(price);
             
+            scope.$on('updateCounts', function () {
+                var count = CountSvc.getCountByKeyCode(menu.keyCode);
+                
+                if (count) {
+                    scope.likes = count.getLikeRatio();
+                    scope.dislikes = count.getDislikeRatio();
+                } else {
+                    scope.likes = 0;
+                    scope.dislikes = 0;
+                }
+            });
+            
             scope.toggle = function () {
                 scope.unfold = !scope.unfold;
             };
             
             scope.good = function () {
-                DelaSvc.like(menu).then(function (message) {
-                    alert(message.join(' '));
+                CountSvc.like(menu).then(function () {
+                    DelaSvc.getCounts();
                 });
             };
 
             scope.bad = function () {
-                DelaSvc.dislike(menu).then(function (message) {
-                    alert(message.join(' '));
+                CountSvc.dislike(menu).then(function () {
+                    DelaSvc.getCounts();
                 });
             };
         }
