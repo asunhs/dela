@@ -18,12 +18,16 @@
 
         <div class="dela-card-footer">
             <div class="vote">
-                <div class="btn btn-good" ng-click="good()"></div>
                 <div class="gauge-box">                    
                     <span class="gauge gauge-good" ng-style="{width:likes + '%'}"><b>{{likes}}%</b></span>
                     <span class="gauge gauge-bad" ng-style="{width:dislikes + '%'}"><b>{{dislikes}}%</b></span>
                 </div>
-                <div class="btn btn-bad" ng-click="bad()"></div>
+                <div class="btn btn-good" ng-click="good()">
+                    <span class="badge">{{like | badge}}</span>
+                </div>
+                <div class="btn btn-bad" ng-click="bad()">
+                    <span class="badge">{{dislike | badge}}</span>
+                </div>
             </div>
         </div>
     </div>
