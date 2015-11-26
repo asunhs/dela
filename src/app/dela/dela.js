@@ -21,7 +21,7 @@ function Card(menu, section, zone) {
 
 
 /* @ngInject */
-function DelaSvc(JSONPSvc) {
+function DelaSvc(JSONPSvc, CountSvc, Cards) {
 
     function getMenus() {
         return JSONPSvc.request('menus');
@@ -52,24 +52,28 @@ function DelaSvc(JSONPSvc) {
     function getCards(menus) {
         return flatten(menus);
     }
+    
+    function getCounts() {
+        CountSvc.counts(Cards.list.map(function (card) {
+            return card.keyCode;
+        }));
+    }
 
     this.getMenus = getMenus;
     this.getDummys = getDummys;
     this.getCards = getCards;
+    this.getCounts = getCounts;
 }
 
 
 /* @ngInject */
-function DelaCtrl($scope, $location, DelaSvc, CountSvc, Counts) {
+function DelaCtrl($scope, $location, DelaSvc, Cards) {
     
     var searchObject = $location.search();
     
     (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(DelaSvc.getCards).then(function (cards) {
-        $scope.menus = cards;
-
-        CountSvc.counts(cards.map(function (card) {
-            return card.keyCode;
-        }));
+        $scope.menus = Cards.list = cards;
+        DelaSvc.getCounts();
     });
 
     $scope.orderFactor = ['', 'cal', 'price'];
@@ -84,4 +88,4 @@ function DelaCtrl($scope, $location, DelaSvc, CountSvc, Counts) {
 }
 
 
-require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl);
+require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {});

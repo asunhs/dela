@@ -54,7 +54,7 @@ function discount(price) {
 
 
 /* @ngInject */
-function CardDirective(CountSvc) {
+function CardDirective(CountSvc, DelaSvc) {
     
     return {
         restrict: 'E',
@@ -92,13 +92,15 @@ function CardDirective(CountSvc) {
             
             scope.good = function () {
                 CountSvc.like(menu).then(function (message) {
-                    alert(message.join(' '));
+                    console.log(message);
+                    DelaSvc.getCounts();
                 });
             };
 
             scope.bad = function () {
                 CountSvc.dislike(menu).then(function (message) {
-                    alert(message.join(' '));
+                    console.log(message);
+                    DelaSvc.getCounts();
                 });
             };
         }
