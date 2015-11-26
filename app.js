@@ -31,12 +31,16 @@ angular.module("dela/delaCard.tpl.html", []).run(["$templateCache", function($te
     "\n" +
     "        <div class=\"dela-card-footer\">\n" +
     "            <div class=\"vote\">\n" +
-    "                <div class=\"btn btn-good\" ng-click=\"good()\"></div>\n" +
     "                <div class=\"gauge-box\">                    \n" +
     "                    <span class=\"gauge gauge-good\" ng-style=\"{width:likes + '%'}\"><b>{{likes}}%</b></span>\n" +
     "                    <span class=\"gauge gauge-bad\" ng-style=\"{width:dislikes + '%'}\"><b>{{dislikes}}%</b></span>\n" +
     "                </div>\n" +
-    "                <div class=\"btn btn-bad\" ng-click=\"bad()\"></div>\n" +
+    "                <div class=\"btn btn-good\" ng-click=\"good()\">\n" +
+    "                    <span class=\"badge\">{{like | badge}}</span>\n" +
+    "                </div>\n" +
+    "                <div class=\"btn btn-bad\" ng-click=\"bad()\">\n" +
+    "                    <span class=\"badge\">{{dislike | badge}}</span>\n" +
+    "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -285,9 +289,13 @@ function CardDirective(CountSvc, DelaSvc) {
                 var count = CountSvc.getCountByKeyCode(menu.keyCode);
                 
                 if (count) {
+                    scope.like = count.like;
+                    scope.dislike = count.dislike; 
                     scope.likes = count.getLikeRatio();
                     scope.dislikes = count.getDislikeRatio();
                 } else {
+                    scope.like = 0;
+                    scope.dislike = 0;
                     scope.likes = 0;
                     scope.dislikes = 0;
                 }
@@ -366,6 +374,21 @@ require('DelaApp').service('LoadingSvc', LoadingSvc);
 },{"DelaApp":"DelaApp"}],7:[function(require,module,exports){
 
 
+/* @ngInject */
+function BadgeFilter() {
+    return function (num) {
+        if (num < 1000) {
+            return "" + num;
+        } else {
+            return '999+';
+        }
+    };
+}
+
+require('DelaApp').filter('badge', BadgeFilter);
+},{"DelaApp":"DelaApp"}],8:[function(require,module,exports){
+
+
 function zeroLPad(n) {
     var str = '' + n;
     return '000'.substr(str.length) + str;
@@ -388,4 +411,4 @@ function NumberFilter() {
 }
 
 require('DelaApp').filter('number', NumberFilter);
-},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,7,1]);
+},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,7,8,1]);
