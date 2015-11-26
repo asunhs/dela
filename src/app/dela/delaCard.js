@@ -78,9 +78,13 @@ function CardDirective(CountSvc, DelaSvc) {
                 var count = CountSvc.getCountByKeyCode(menu.keyCode);
                 
                 if (count) {
+                    scope.like = count.like;
+                    scope.dislike = count.dislike; 
                     scope.likes = count.getLikeRatio();
                     scope.dislikes = count.getDislikeRatio();
                 } else {
+                    scope.like = 0;
+                    scope.dislike = 0;
                     scope.likes = 0;
                     scope.dislikes = 0;
                 }

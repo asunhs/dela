@@ -199,14 +199,29 @@
           &.btn-bad {
             background-position: 43px -13px;
             background-color: #df9e9d;
-            right: 0;
+            right: 5px;
+          }
+          
+          .badge {
+            display: inline-block;
+            position: relative;
+            padding: 1px;
+            min-width: 16px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #B94A48;
+            text-align: center;
+            top: -13px;
+            left: 30px;
           }
         }
 
         .gauge-box {
           position: absolute;
           left: 42px;
-          right: 42px;
+          right: 47px;
 
           .gauge {
             position: absolute;
