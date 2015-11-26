@@ -138,14 +138,28 @@ function Card(menu, section, zone) {
 
 
 /* @ngInject */
-function DelaSvc(JSONPSvc, CountSvc, Cards) {
+function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
     function getMenus() {
-        return JSONPSvc.request('menus');
+        return JSONPSvc.request('menus').then(afterGetMenus);
     }
 
     function getDummys() {
-        return JSONPSvc.request('dummy');
+        return JSONPSvc.request('dummy').then(afterGetMenus);
+    }
+
+    function getMenuHash(cards) {
+        return CryptoJS.SHA1(cards.map(function (card) {
+            return card.keyCode;
+        }).join('')).toString();
+    }
+
+    function afterGetMenus(menus) {
+        Cards.list = getCards(menus);
+        Cards.hash = getMenuHash(Cards.list);
+        StoreSvc.storeMenuHash(Cards.hash);
+        getCounts();
+        return Cards.list;
     }
 
     function newCard(section, zone) {
@@ -169,7 +183,9 @@ function DelaSvc(JSONPSvc, CountSvc, Cards) {
     function getCards(menus) {
         return flatten(menus);
     }
-    
+
+
+
     function getCounts() {
         CountSvc.counts(Cards.list.map(function (card) {
             return card.keyCode;
@@ -180,24 +196,24 @@ function DelaSvc(JSONPSvc, CountSvc, Cards) {
     this.getDummys = getDummys;
     this.getCards = getCards;
     this.getCounts = getCounts;
+    this.getMenuHash = getMenuHash;
 }
-DelaSvc.$inject = ["JSONPSvc", "CountSvc", "Cards"];
+DelaSvc.$inject = ["JSONPSvc", "CountSvc", "Cards", "StoreSvc"];
 
 
 /* @ngInject */
 function DelaCtrl($scope, $location, DelaSvc, Cards) {
-    
+
     var searchObject = $location.search();
-    
-    (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(DelaSvc.getCards).then(function (cards) {
-        $scope.menus = Cards.list = cards;
-        DelaSvc.getCounts();
+
+    (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(function (cards) {
+        $scope.menus = cards
     });
 
     $scope.orderFactor = ['', 'cal', 'price'];
     $scope.orderName = ['Place', 'Calories', 'Price'];
     $scope.orderIndex = 0;
-    
+
     function toggleOrder() {
         $scope.orderIndex = ($scope.orderIndex + 1) % 3;
     }
@@ -373,6 +389,22 @@ LoadingSvc.$inject = ["$templateCache", "$q"];
 require('DelaApp').service('LoadingSvc', LoadingSvc);
 },{"DelaApp":"DelaApp"}],7:[function(require,module,exports){
 
+var ls = window.localStorage;
+
+/* @ngInject */
+function StoreSvc() {
+    
+    function storeMenuHash(menuHash) {
+        ls.setItem('recentMenuHash', menuHash);
+    }
+    
+    this.storeMenuHash = storeMenuHash;
+    
+}
+
+require('DelaApp').service('StoreSvc', StoreSvc);
+},{"DelaApp":"DelaApp"}],8:[function(require,module,exports){
+
 
 /* @ngInject */
 function BadgeFilter() {
@@ -386,7 +418,7 @@ function BadgeFilter() {
 }
 
 require('DelaApp').filter('badge', BadgeFilter);
-},{"DelaApp":"DelaApp"}],8:[function(require,module,exports){
+},{"DelaApp":"DelaApp"}],9:[function(require,module,exports){
 
 
 function zeroLPad(n) {
@@ -411,4 +443,4 @@ function NumberFilter() {
 }
 
 require('DelaApp').filter('number', NumberFilter);
-},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,7,8,1]);
+},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,7,8,9,1]);
