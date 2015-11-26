@@ -21,7 +21,7 @@ function Card(menu, section, zone) {
 
 
 /* @ngInject */
-function DelaSvc(JSONPSvc, CountSvc, Cards) {
+function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
     function getMenus() {
         return JSONPSvc.request('menus').then(afterGetMenus);
@@ -40,7 +40,7 @@ function DelaSvc(JSONPSvc, CountSvc, Cards) {
     function afterGetMenus(menus) {
         Cards.list = getCards(menus);
         Cards.hash = getMenuHash(Cards.list);
-        console.log("Menu Hash : " + Cards.hash);
+        StoreSvc.storeMenuHash(Cards.hash);
         getCounts();
         return Cards.list;
     }
