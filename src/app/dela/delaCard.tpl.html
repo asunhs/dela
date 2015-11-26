@@ -16,13 +16,15 @@
             <p ng-if="menu.soldout"><span class="soldout">SOLD OUT</span></p>
         </div>
 
-        <!--<div class="dela-card-footer"> 
-            <div class="gauge">
-                <div class="good">50.0%</div>
-                <div class="bad">50.0%</div>
+        <div class="dela-card-footer">
+            <div class="vote">
+                <div class="btn btn-good" ng-click="good()"></div>
+                <div class="gauge-box">                    
+                    <span class="gauge gauge-good" ng-style="{width:likes + '%'}"><b>{{likes}}%</b></span>
+                    <span class="gauge gauge-bad" ng-style="{width:dislikes + '%'}"><b>{{dislikes}}%</b></span>
+                </div>
+                <div class="btn btn-bad" ng-click="bad()"></div>
             </div>
-            <span class="btn good" ng-click="good()">Good</span>
-            <span class="btn bad" ng-click="bad()">Bad</span>
-        </div>-->
+        </div>
     </div>
 </div>

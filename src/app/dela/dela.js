@@ -19,18 +19,16 @@ function Card(menu, section, zone) {
     this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : 'images/no-image.png';
 }
 
-var JSONP_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
-
 
 /* @ngInject */
-function DelaSvc(JSONPSvc) {
+function DelaSvc(JSONPSvc, CountSvc, Cards) {
 
     function getMenus() {
-        return JSONPSvc.request(JSONP_URL + 'menus');
+        return JSONPSvc.request('menus');
     }
 
     function getDummys() {
-        return JSONPSvc.request(JSONP_URL + 'dummy');
+        return JSONPSvc.request('dummy');
     }
 
     function newCard(section, zone) {
@@ -54,30 +52,28 @@ function DelaSvc(JSONPSvc) {
     function getCards(menus) {
         return flatten(menus);
     }
-
-    function like(card) {
-        return JSONPSvc.request(JSONP_URL + 'good&keyCode=' + encodeURIComponent(card.keyCode));
-    }
-
-    function dislike(card) {
-        return JSONPSvc.request(JSONP_URL + 'bad&keyCode=' + encodeURIComponent(card.keyCode));
+    
+    function getCounts() {
+        CountSvc.counts(Cards.list.map(function (card) {
+            return card.keyCode;
+        }));
     }
 
     this.getMenus = getMenus;
     this.getDummys = getDummys;
     this.getCards = getCards;
-    this.like = like;
-    this.dislike = dislike;
+    this.getCounts = getCounts;
 }
 
 
 /* @ngInject */
-function DelaCtrl($scope, $location, DelaSvc) {
+function DelaCtrl($scope, $location, DelaSvc, Cards) {
     
     var searchObject = $location.search();
     
     (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(DelaSvc.getCards).then(function (cards) {
-        $scope.menus = cards;
+        $scope.menus = Cards.list = cards;
+        DelaSvc.getCounts();
     });
 
     $scope.orderFactor = ['', 'cal', 'price'];
@@ -92,4 +88,4 @@ function DelaCtrl($scope, $location, DelaSvc) {
 }
 
 
-require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl);
+require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {});
