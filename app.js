@@ -29,14 +29,16 @@ angular.module("dela/delaCard.tpl.html", []).run(["$templateCache", function($te
     "            <p ng-if=\"menu.soldout\"><span class=\"soldout\">SOLD OUT</span></p>\n" +
     "        </div>\n" +
     "\n" +
-    "        <!--<div class=\"dela-card-footer\"> \n" +
-    "            <div class=\"gauge\">\n" +
-    "                <div class=\"good\">50.0%</div>\n" +
-    "                <div class=\"bad\">50.0%</div>\n" +
+    "        <div class=\"dela-card-footer\">\n" +
+    "            <div class=\"vote\">\n" +
+    "                <div class=\"btn btn-good\" ng-click=\"good()\"></div>\n" +
+    "                <div class=\"gauge-box\">                    \n" +
+    "                    <span class=\"gauge gauge-good\" ng-style=\"{width:likes + '%'}\"><b>{{likes}}%</b></span>\n" +
+    "                    <span class=\"gauge gauge-bad\" ng-style=\"{width:dislikes + '%'}\"><b>{{dislikes}}%</b></span>\n" +
+    "                </div>\n" +
+    "                <div class=\"btn btn-bad\" ng-click=\"bad()\"></div>\n" +
     "            </div>\n" +
-    "            <span class=\"btn good\" ng-click=\"good()\">Good</span>\n" +
-    "            <span class=\"btn bad\" ng-click=\"bad()\">Bad</span>\n" +
-    "        </div>-->\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -49,6 +51,66 @@ angular.module("dela/loading.tpl.html", []).run(["$templateCache", function($tem
 }]);
 
 },{}],2:[function(require,module,exports){
+
+
+function Count(count) {
+    this.keyCode = count.keyCode;
+    this.like = parseInt(count.likeCount);
+    this.dislike = parseInt(count.dislikeCount);
+    this.total = this.like + this.dislike;
+}
+
+Count.prototype = {
+    getLikeRatio: function () {
+        return parseInt((this.like * 10000) / this.total) / 100;
+    },
+    getDislikeRatio: function () {
+        return parseInt((this.dislike * 10000) / this.total) / 100;
+    }
+};
+
+
+
+/* @ngInject */
+function CountSvc ($rootScope, JSONPSvc, Counts) {
+
+    function counts(keyCodes) {
+        return JSONPSvc.request('counts&keyCodes=' + _.map(keyCodes, function (keyCode) {
+            return encodeURIComponent(keyCode);
+        }).join(',')).then(function (counts) {
+            Counts.list = _.map(counts, function (count) {
+                return new Count(count);
+            });
+            $rootScope.$broadcast('updateCounts', Counts.list);
+            return Counts.list;
+        });
+    }
+
+    function like(card) {
+        return JSONPSvc.request('good&keyCode=' + encodeURIComponent(card.keyCode));
+    }
+
+    function dislike(card) {
+        return JSONPSvc.request('bad&keyCode=' + encodeURIComponent(card.keyCode));
+    }
+    
+    function getCountByKeyCode(keyCode) {
+        return _.findWhere(Counts.list, {
+            keyCode: keyCode
+        });
+    }
+
+    this.counts = counts;
+    this.like = like;
+    this.dislike = dislike;
+    this.getCountByKeyCode = getCountByKeyCode;
+}
+CountSvc.$inject = ["$rootScope", "JSONPSvc", "Counts"];
+
+
+
+require('DelaApp').service('CountSvc', CountSvc).value('Counts', {});
+},{"DelaApp":"DelaApp"}],3:[function(require,module,exports){
 
 
 function Card(menu, section, zone) {
@@ -70,18 +132,16 @@ function Card(menu, section, zone) {
     this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : 'images/no-image.png';
 }
 
-var JSONP_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
-
 
 /* @ngInject */
-function DelaSvc(JSONPSvc) {
+function DelaSvc(JSONPSvc, CountSvc, Cards) {
 
     function getMenus() {
-        return JSONPSvc.request(JSONP_URL + 'menus');
+        return JSONPSvc.request('menus');
     }
 
     function getDummys() {
-        return JSONPSvc.request(JSONP_URL + 'dummy');
+        return JSONPSvc.request('dummy');
     }
 
     function newCard(section, zone) {
@@ -105,31 +165,29 @@ function DelaSvc(JSONPSvc) {
     function getCards(menus) {
         return flatten(menus);
     }
-
-    function like(card) {
-        return JSONPSvc.request(JSONP_URL + 'good&keyCode=' + encodeURIComponent(card.keyCode));
-    }
-
-    function dislike(card) {
-        return JSONPSvc.request(JSONP_URL + 'bad&keyCode=' + encodeURIComponent(card.keyCode));
+    
+    function getCounts() {
+        CountSvc.counts(Cards.list.map(function (card) {
+            return card.keyCode;
+        }));
     }
 
     this.getMenus = getMenus;
     this.getDummys = getDummys;
     this.getCards = getCards;
-    this.like = like;
-    this.dislike = dislike;
+    this.getCounts = getCounts;
 }
-DelaSvc.$inject = ["JSONPSvc"];
+DelaSvc.$inject = ["JSONPSvc", "CountSvc", "Cards"];
 
 
 /* @ngInject */
-function DelaCtrl($scope, $location, DelaSvc) {
+function DelaCtrl($scope, $location, DelaSvc, Cards) {
     
     var searchObject = $location.search();
     
     (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(DelaSvc.getCards).then(function (cards) {
-        $scope.menus = cards;
+        $scope.menus = Cards.list = cards;
+        DelaSvc.getCounts();
     });
 
     $scope.orderFactor = ['', 'cal', 'price'];
@@ -142,11 +200,11 @@ function DelaCtrl($scope, $location, DelaSvc) {
 
     $scope.toggleOrder = toggleOrder;
 }
-DelaCtrl.$inject = ["$scope", "$location", "DelaSvc"];
+DelaCtrl.$inject = ["$scope", "$location", "DelaSvc", "Cards"];
 
 
-require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl);
-},{"DelaApp":"DelaApp"}],3:[function(require,module,exports){
+require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {});
+},{"DelaApp":"DelaApp"}],4:[function(require,module,exports){
 
 var CAL_LEVEL = {
         'SUPER_HIGH': 'super-high',
@@ -203,7 +261,8 @@ function discount(price) {
 
 
 /* @ngInject */
-function CardDirective(DelaSvc) {
+function CardDirective(CountSvc, DelaSvc) {
+    
     return {
         restrict: 'E',
         templateUrl: 'dela/delaCard.tpl.html',
@@ -222,36 +281,50 @@ function CardDirective(DelaSvc) {
             scope.price = price;
             scope.discounted = discount(price);
             
+            scope.$on('updateCounts', function () {
+                var count = CountSvc.getCountByKeyCode(menu.keyCode);
+                
+                if (count) {
+                    scope.likes = count.getLikeRatio();
+                    scope.dislikes = count.getDislikeRatio();
+                } else {
+                    scope.likes = 0;
+                    scope.dislikes = 0;
+                }
+            });
+            
             scope.toggle = function () {
                 scope.unfold = !scope.unfold;
             };
             
             scope.good = function () {
-                DelaSvc.like(menu).then(function (message) {
-                    alert(message.join(' '));
+                CountSvc.like(menu).then(function () {
+                    DelaSvc.getCounts();
                 });
             };
 
             scope.bad = function () {
-                DelaSvc.dislike(menu).then(function (message) {
-                    alert(message.join(' '));
+                CountSvc.dislike(menu).then(function () {
+                    DelaSvc.getCounts();
                 });
             };
         }
     };
 }
-CardDirective.$inject = ["DelaSvc"];
+CardDirective.$inject = ["CountSvc", "DelaSvc"];
 
 
 require('DelaApp').directive('delaCard', CardDirective);
-},{"DelaApp":"DelaApp"}],4:[function(require,module,exports){
+},{"DelaApp":"DelaApp"}],5:[function(require,module,exports){
+
+var JSONP_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
 
 /* @ngInject */
 function JSONPSvc($http, LoadingSvc) {
 
     function request(url) {
         var resolver = LoadingSvc.loading();
-        return $http.jsonp(url).then(function (res) {
+        return $http.jsonp(JSONP_URL + url).then(function (res) {
             resolver();
             return res.data;
         }, resolver);
@@ -262,7 +335,7 @@ function JSONPSvc($http, LoadingSvc) {
 JSONPSvc.$inject = ["$http", "LoadingSvc"];
 
 require('DelaApp').service('JSONPSvc', JSONPSvc);
-},{"DelaApp":"DelaApp"}],5:[function(require,module,exports){
+},{"DelaApp":"DelaApp"}],6:[function(require,module,exports){
 
 /* @ngInject */
 function LoadingSvc($templateCache, $q) {
@@ -290,7 +363,7 @@ function LoadingSvc($templateCache, $q) {
 LoadingSvc.$inject = ["$templateCache", "$q"];
 
 require('DelaApp').service('LoadingSvc', LoadingSvc);
-},{"DelaApp":"DelaApp"}],6:[function(require,module,exports){
+},{"DelaApp":"DelaApp"}],7:[function(require,module,exports){
 
 
 function zeroLPad(n) {
@@ -315,4 +388,4 @@ function NumberFilter() {
 }
 
 require('DelaApp').filter('number', NumberFilter);
-},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,1]);
+},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,7,1]);

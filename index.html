@@ -12,10 +12,6 @@
     <script src="app.min.js"></script>
 </head>
 <body ng-app="DelaApp" ng-controller="DelaCtrl">
-    <div class="header">
-        Delacourt Mini
-        <span class="sort" ng-click="toggleOrder()">Order By <b>{{orderName[orderIndex]}}</b></span>
-    </div>
     <ul>
         <li ng-repeat="menu in menus | orderBy:orderFactor[orderIndex]"><dela-card /></li>
         <li ng-if="menus.length === 0">
@@ -25,5 +21,9 @@
             </div>
         </li>
     </ul>
+    <div class="header">
+        Delacourt Mini
+        <span class="sort" ng-click="toggleOrder()">Order By <b>{{orderName[orderIndex]}}</b></span>
+    </div>
 </body>
 </html>
