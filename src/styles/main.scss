@@ -17,6 +17,7 @@ html {
 }
 
 body {
+  margin-top: 60px;
   background-color: #0b2c19;
   color: #3f3f3f;
   font-family: 'Noto Sans KR', sans-serif;
@@ -31,6 +32,9 @@ ul {
 }
 
 .header {
+  position: fixed;
+  top:0;
+  left:0;
   width: 100%;
   padding: 15px 10px 10px 10px;
   box-sizing: border-box;

@@ -172,59 +172,69 @@
 
     .dela-card-footer {
       width: 100%;
-      height: 30px;
-      font-size: 12px;
-      position: relative;
-      padding: 5px 0;
-      margin-top: 20px;
-
-      .btn {
-        width: 70px;
-        border-radius: 3px;
-        text-align: center;
-        padding: 5px 0;
-        position: absolute;
-        color: #ffffff;
-        font-weight: bold;
-        text-transform: uppercase;
-
-        &.good {
-          left: 30px;
-          background-color: #00008b;
-        }
-
-        &.bad {
-          right: 10px;
-          background-color: #8b0000;
-        }
-      }
+      height: 80px;
+      padding: 0 20px 0 40px;
+      box-sizing: border-box;
       
-      .gauge {
-        position: absolute;
-        top: 10px;
-        left: 98px;
-        right: 78px;
+      .vote {
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
         
-        div {
-          height: 18px;
-          color: #ffffff;
-          font-size: 9px;
-          padding: 3px;
-          box-sizing: border-box;
-        }
-        
-        .good {
-          width: 49%;
-          background-color: #add8e6;
-          text-align: right;
-        }
-        
-        .bad {
-          width: 49%;
-          background-color: #f08080;
-        }
-      }
+        .btn {
+          position: absolute;
+          display: inline-block;
+          background-image: url("images/like.png");
+          width: 52px;
+          height: 45px;
+          background-size: 100px;
+          border-radius: 3px;
 
+          &.btn-good {
+            background-position: 0 -5px;
+            background-color: #a9c9e8;
+            left: 0;
+          }
+
+          &.btn-bad {
+            background-position: 53px -15px;
+            background-color: #df9e9d;
+            right: 0;
+          }
+        }
+        
+        .gauge-box {
+          position: absolute;
+          left: 52px;
+          right: 52px;
+
+          .gauge {
+            position: absolute;
+            font-size: 12px;
+            color: #ffffff;
+            display: inline-block;
+            width: 50%;
+            height: 25px;
+            margin: 10px 0;
+            padding: 3px 10px;
+            box-sizing: border-box;
+            
+            &.gauge-good {
+              left: 0;
+              background-color: #8ab6e0;
+              margin-left: -1px;
+              text-align: right;
+            }
+            
+            &.gauge-bad {
+              right: 0;
+              background-color: #d47978;
+              margin-left: 1px;
+            }
+          }
+        }
+        
+      }
     }
     
   }
