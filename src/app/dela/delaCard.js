@@ -54,32 +54,32 @@ function discount(price) {
 
 
 /* @ngInject */
-function CardDirective(CountSvc, DelaSvc) {
-    
+function CardDirective(CountSvc, DelaSvc, StoreSvc) {
+
     return {
         restrict: 'E',
         templateUrl: 'dela/delaCard.tpl.html',
         scope: true,
         replace: true,
         link: function (scope) {
-            
+
             var menu = scope.menu,
                 calories = numberify(menu.cal),
                 price = numberify(menu.price);
-            
+
             scope.zoneName = getZoneName(menu.zoneId);
             scope.calories = calories;
             scope.calLevel = caloriesLevel(calories);
             scope.calLabel = CAL_LABEL[scope.calLevel];
             scope.price = price;
             scope.discounted = discount(price);
-            
+
             scope.$on('updateCounts', function () {
                 var count = CountSvc.getCountByKeyCode(menu.keyCode);
-                
+
                 if (count) {
                     scope.like = count.like;
-                    scope.dislike = count.dislike; 
+                    scope.dislike = count.dislike;
                     scope.likes = count.getLikeRatio();
                     scope.dislikes = count.getDislikeRatio();
                 } else {
@@ -89,19 +89,31 @@ function CardDirective(CountSvc, DelaSvc) {
                     scope.dislikes = 0;
                 }
             });
-            
+
             scope.toggle = function () {
                 scope.unfold = !scope.unfold;
             };
-            
+
             scope.good = function () {
+
+                if (StoreSvc.isVotedHash(menu.keyCode)) {
+                    return alert('You already voted');
+                }
+
                 CountSvc.like(menu).then(function () {
+                    StoreSvc.storeVoteHash(menu.keyCode);
                     DelaSvc.getCounts();
                 });
             };
 
             scope.bad = function () {
+
+                if (StoreSvc.isVotedHash(menu.keyCode)) {
+                    return alert('You already voted');
+                }
+
                 CountSvc.dislike(menu).then(function () {
+                    StoreSvc.storeVoteHash(menu.keyCode);
                     DelaSvc.getCounts();
                 });
             };

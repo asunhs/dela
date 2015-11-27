@@ -4,7 +4,7 @@
         <span class="zone {{::menu.zoneId}}">{{::zoneName}}</span>
     </div>
     <div class="dela-card-content">
-        <img ng-src="{{::menu.imgSrc}}" alt="{{::menu.en}}" />
+        <img ng-src="{{::menu.imgSrc}}" alt="{{::menu.en}}" ng-click="toggle()" />
         <div class="dela-card-section {{::menu.sectionId}}">
             {{::menu.sectionName}}
         </div>
