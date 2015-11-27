@@ -3,6 +3,36 @@
 .dela-card {
   width: 100%;
   margin-top: 5px;
+  
+  
+  .dela-card-emblem {
+    position: absolute;
+    top: -15px;
+    left: 6px;
+    
+    .rating {
+      position: absolute;
+      display: inline-block;
+      background-image: url("images/medal.png");
+      width: 32px;
+      height: 46px;
+      background-size: 100px;
+      
+      
+      &.rating_1 {
+        background-position: 0 0;
+      }
+
+      &.rating_2 {
+        background-position: -34px 0;
+      }
+
+      &.rating_3 {
+        background-position: -68px 0;
+      }
+    }
+  }
+  
 
   .dela-card-header {
     width: 100%;
