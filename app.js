@@ -154,9 +154,9 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
         }).join('')).toString();
     }
 
-    function afterGetMenus(menus) {
-        Cards.list = getCards(menus);
-        Cards.hash = getMenuHash(Cards.list);
+    function afterGetMenus(data) {
+        Cards.list = getCards(data.menus);
+        Cards.hash = data.menuHash; // getMenuHash(Cards.list);
         StoreSvc.storeMenuHash(Cards.hash);
         getCounts();
         return Cards.list;
