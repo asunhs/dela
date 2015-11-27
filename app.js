@@ -17,7 +17,7 @@ angular.module("dela/delaCard.tpl.html", []).run(["$templateCache", function($te
     "        <span class=\"zone {{::menu.zoneId}}\">{{::zoneName}}</span>\n" +
     "    </div>\n" +
     "    <div class=\"dela-card-content\">\n" +
-    "        <img ng-src=\"{{::menu.imgSrc}}\" alt=\"{{::menu.en}}\" />\n" +
+    "        <img ng-src=\"{{::menu.imgSrc}}\" alt=\"{{::menu.en}}\" ng-click=\"toggle()\" />\n" +
     "        <div class=\"dela-card-section {{::menu.sectionId}}\">\n" +
     "            {{::menu.sectionName}}\n" +
     "        </div>\n" +
@@ -265,32 +265,32 @@ function discount(price) {
 
 
 /* @ngInject */
-function CardDirective(CountSvc, DelaSvc) {
-    
+function CardDirective(CountSvc, DelaSvc, StoreSvc) {
+
     return {
         restrict: 'E',
         templateUrl: 'dela/delaCard.tpl.html',
         scope: true,
         replace: true,
         link: function (scope) {
-            
+
             var menu = scope.menu,
                 calories = numberify(menu.cal),
                 price = numberify(menu.price);
-            
+
             scope.zoneName = getZoneName(menu.zoneId);
             scope.calories = calories;
             scope.calLevel = caloriesLevel(calories);
             scope.calLabel = CAL_LABEL[scope.calLevel];
             scope.price = price;
             scope.discounted = discount(price);
-            
+
             scope.$on('updateCounts', function () {
                 var count = CountSvc.getCountByKeyCode(menu.keyCode);
-                
+
                 if (count) {
                     scope.like = count.like;
-                    scope.dislike = count.dislike; 
+                    scope.dislike = count.dislike;
                     scope.likes = count.getLikeRatio();
                     scope.dislikes = count.getDislikeRatio();
                 } else {
@@ -300,26 +300,38 @@ function CardDirective(CountSvc, DelaSvc) {
                     scope.dislikes = 0;
                 }
             });
-            
+
             scope.toggle = function () {
                 scope.unfold = !scope.unfold;
             };
-            
+
             scope.good = function () {
+
+                if (StoreSvc.isVotedHash(menu.keyCode)) {
+                    return alert('You already voted');
+                }
+
                 CountSvc.like(menu).then(function () {
+                    StoreSvc.storeVoteHash(menu.keyCode);
                     DelaSvc.getCounts();
                 });
             };
 
             scope.bad = function () {
+
+                if (StoreSvc.isVotedHash(menu.keyCode)) {
+                    return alert('You already voted');
+                }
+
                 CountSvc.dislike(menu).then(function () {
+                    StoreSvc.storeVoteHash(menu.keyCode);
                     DelaSvc.getCounts();
                 });
             };
         }
     };
 }
-CardDirective.$inject = ["CountSvc", "DelaSvc"];
+CardDirective.$inject = ["CountSvc", "DelaSvc", "StoreSvc"];
 
 
 require('DelaApp').directive('delaCard', CardDirective);
@@ -376,15 +388,49 @@ require('DelaApp').service('LoadingSvc', LoadingSvc);
 var ls = window.localStorage;
 
 /* @ngInject */
-function StoreSvc() {
-    
-    function storeMenuHash(menuHash) {
-        ls.setItem('recentMenuHash', menuHash);
+function StoreSvc(Cards) {
+
+    function loadMenuHash() {
+        return ls.getItem('dela-mini-recent-menu-hash');
     }
-    
+
+    function storeMenuHash(menuHash) {
+        var recentMenuHash = loadMenuHash();
+
+        if (menuHash === recentMenuHash) {
+            return;
+        }
+
+        ls.setItem('dela-mini-vote-hash', JSON.stringify([]));
+        ls.setItem('dela-mini-recent-menu-hash', menuHash);
+    }
+
+    function loadVoteHashs() {
+        return JSON.parse(ls.getItem('dela-mini-vote-hash'));
+    }
+
+    function isVotedHash(keyCode) {
+        var voteHashs = loadVoteHashs(),
+            voteCode = Cards.hash + keyCode;
+
+        return _.contains(voteHashs, voteCode);
+    }
+
+    function storeVoteHash(keyCode) {
+        var voteHashs = loadVoteHashs(),
+            voteCode = Cards.hash + keyCode;
+
+        voteHashs.push(voteCode);
+        ls.setItem('dela-mini-vote-hash', JSON.stringify(voteHashs));
+    }
+
+    this.loadMenuHash = loadMenuHash;
     this.storeMenuHash = storeMenuHash;
-    
+    this.loadVoteHashs = loadVoteHashs;
+    this.isVotedHash = isVotedHash;
+    this.storeVoteHash = storeVoteHash;
 }
+StoreSvc.$inject = ["Cards"];
 
 require('DelaApp').service('StoreSvc', StoreSvc);
 },{"DelaApp":"DelaApp"}],8:[function(require,module,exports){
