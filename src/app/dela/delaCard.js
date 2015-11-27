@@ -82,6 +82,7 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
                     scope.dislike = count.dislike;
                     scope.likes = count.getLikeRatio();
                     scope.dislikes = count.getDislikeRatio();
+                    scope.ratingOrder = count.order;
                 } else {
                     scope.like = 0;
                     scope.dislike = 0;
