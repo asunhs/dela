@@ -1,13 +1,13 @@
 
 
-function Card(menu, section, zone) {
+function Card(menu) {
 
     // Zone info
-    this.zoneId = zone.zoneId;
+    this.zoneId = menu.zoneId;
 
     // Section info
-    this.sectionId = section.sectionId;
-    this.sectionName = _.unescape(section.name);
+    this.sectionId = menu.sectionId;
+    this.sectionName = _.unescape(menu.sectionName);
 
     // Menu info
     this.keyCode = menu.keyCode;
@@ -45,26 +45,10 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
         return Cards.list;
     }
 
-    function newCard(section, zone) {
-        return _.map(section.menus, function (menu) {
-            return new Card(menu, section, zone);
-        });
-    }
-
-    function flatten(zones) {
-        var cardSet = [];
-
-        _.each(zones, function (zone) {
-            cardSet.push(_.map(zone.sections, function (section) {
-                return newCard(section, zone);
-            }));
-        });
-
-        return _.flatten(cardSet);
-    }
-
     function getCards(menus) {
-        return flatten(menus);
+        return _.map(menus, function (menu) {
+            return new Card(menu);
+        });
     }
 
 
@@ -84,12 +68,12 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
 
 /* @ngInject */
-function DelaCtrl($scope, $location, DelaSvc, Cards) {
+function DelaCtrl($scope, $location, DelaSvc) {
 
     var searchObject = $location.search();
 
     (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(function (cards) {
-        $scope.menus = cards
+        $scope.menus = cards;
     });
 
     $scope.orderFactor = ['', 'cal', 'price'];
