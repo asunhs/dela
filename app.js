@@ -43,6 +43,9 @@ angular.module("dela/delaCard.tpl.html", []).run(["$templateCache", function($te
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +
+    "        <div class=\"dela-card-emblem\">\n" +
+    "            <span ng-if=\"ratingOrder\" class=\"rating rating_{{ratingOrder}}\"></span>\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "</div>");
 }]);
@@ -82,12 +85,34 @@ function CountSvc ($rootScope, JSONPSvc, Counts) {
         return JSONPSvc.request('counts&keyCodes=' + _.map(keyCodes, function (keyCode) {
             return encodeURIComponent(keyCode);
         }).join(',')).then(function (counts) {
-            Counts.list = _.map(counts, function (count) {
+            
+            var countList = rating(_.map(counts, function (count) {
                 return new Count(count);
-            });
-            $rootScope.$broadcast('updateCounts', Counts.list);
+            }));
+            
+            $rootScope.$broadcast('updateCounts', Counts.list = countList);
             return Counts.list;
         });
+    }
+    
+    
+    function rating(counts) {
+        var filtered = _.filter(counts, function (count) {
+            return count.like + count.dislike >= 5;
+        });
+
+        filtered.sort(function (l, h) {
+            if (l.getLikeRatio() === h.getLikeRatio()) {
+                return h.like - l.like;
+            }
+            return h.getLikeRatio() - l.getLikeRatio();
+        });
+
+        filtered[0] && (filtered[0].order = 1);
+        filtered[1] && (filtered[1].order = 2);
+        filtered[2] && (filtered[2].order = 3);
+        
+        return counts;
     }
 
     function like(card) {
@@ -293,6 +318,7 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
                     scope.dislike = count.dislike;
                     scope.likes = count.getLikeRatio();
                     scope.dislikes = count.getDislikeRatio();
+                    scope.ratingOrder = count.order;
                 } else {
                     scope.like = 0;
                     scope.dislike = 0;
