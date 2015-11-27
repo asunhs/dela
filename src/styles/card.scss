@@ -8,7 +8,7 @@
   .dela-card-emblem {
     position: absolute;
     top: -4px;
-    width: 100%;
+    left: 3px;
     
     .rating {
       display: inline-block;
@@ -16,7 +16,6 @@
       width: 32px;
       height: 46px;
       background-size: 100px;
-      float: right;
       
       
       &.rating_1 {
