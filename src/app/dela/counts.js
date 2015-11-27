@@ -26,11 +26,9 @@ function CountSvc ($rootScope, JSONPSvc, Counts) {
             return encodeURIComponent(keyCode);
         }).join(',')).then(function (counts) {
             
-            var countList = _.map(counts, function (count) {
+            var countList = rating(_.map(counts, function (count) {
                 return new Count(count);
-            });
-            
-            console.log(rating(countList));
+            }));
             
             $rootScope.$broadcast('updateCounts', Counts.list = countList);
             return Counts.list;
