@@ -19,16 +19,17 @@ function Card(menu) {
     this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : 'images/no-image.png';
 }
 
+var DELA_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
 
 /* @ngInject */
 function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
     function getMenus() {
-        return JSONPSvc.request('menus').then(afterGetMenus);
+        return JSONPSvc.request(DELA_URL + 'menus').then(afterGetMenus);
     }
 
     function getDummys() {
-        return JSONPSvc.request('dummy').then(afterGetMenus);
+        return JSONPSvc.request(DELA_URL + 'dummy').then(afterGetMenus);
     }
 
     function getMenuHash(cards) {
