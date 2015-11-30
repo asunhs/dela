@@ -77,12 +77,13 @@ Count.prototype = {
 };
 
 
+var COUNT_URL = 'https://script.google.com/macros/s/AKfycbx-WG_T_qYlQIeSH2xbeyz1Ejw8HVqNtS7BFILZFVxXYzk1Idk/exec?callback=JSON_CALLBACK&action=';
 
 /* @ngInject */
 function CountSvc ($rootScope, JSONPSvc, Counts) {
 
     function counts(keyCodes) {
-        return JSONPSvc.request('counts&keyCodes=' + _.map(keyCodes, function (keyCode) {
+        return JSONPSvc.request(COUNT_URL + 'counts&keyCodes=' + _.map(keyCodes, function (keyCode) {
             return encodeURIComponent(keyCode);
         }).join(',')).then(function (counts) {
             
@@ -116,11 +117,11 @@ function CountSvc ($rootScope, JSONPSvc, Counts) {
     }
 
     function like(card) {
-        return JSONPSvc.request('good&keyCode=' + encodeURIComponent(card.keyCode));
+        return JSONPSvc.request(COUNT_URL + 'good&keyCode=' + encodeURIComponent(card.keyCode));
     }
 
     function dislike(card) {
-        return JSONPSvc.request('bad&keyCode=' + encodeURIComponent(card.keyCode));
+        return JSONPSvc.request(COUNT_URL + 'bad&keyCode=' + encodeURIComponent(card.keyCode));
     }
     
     function getCountByKeyCode(keyCode) {
@@ -161,16 +162,17 @@ function Card(menu) {
     this.imgSrc = menu.product ? 'http://sdsfoodmenu.co.kr:9106/foodcourt/menu?menuId=' + menu.product : 'images/no-image.png';
 }
 
+var DELA_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
 
 /* @ngInject */
 function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
     function getMenus() {
-        return JSONPSvc.request('menus').then(afterGetMenus);
+        return JSONPSvc.request(DELA_URL + 'menus').then(afterGetMenus);
     }
 
     function getDummys() {
-        return JSONPSvc.request('dummy').then(afterGetMenus);
+        return JSONPSvc.request(DELA_URL + 'dummy').then(afterGetMenus);
     }
 
     function getMenuHash(cards) {
@@ -363,14 +365,12 @@ CardDirective.$inject = ["CountSvc", "DelaSvc", "StoreSvc"];
 require('DelaApp').directive('delaCard', CardDirective);
 },{"DelaApp":"DelaApp"}],5:[function(require,module,exports){
 
-var JSONP_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
-
 /* @ngInject */
 function JSONPSvc($http, LoadingSvc) {
 
     function request(url) {
         var resolver = LoadingSvc.loading();
-        return $http.jsonp(JSONP_URL + url).then(function (res) {
+        return $http.jsonp(url).then(function (res) {
             resolver();
             return res.data;
         }, resolver);
