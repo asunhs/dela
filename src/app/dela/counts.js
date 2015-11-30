@@ -17,12 +17,13 @@ Count.prototype = {
 };
 
 
+var COUNT_URL = 'https://script.google.com/macros/s/AKfycbx-WG_T_qYlQIeSH2xbeyz1Ejw8HVqNtS7BFILZFVxXYzk1Idk/exec?callback=JSON_CALLBACK&action=';
 
 /* @ngInject */
 function CountSvc ($rootScope, JSONPSvc, Counts) {
 
     function counts(keyCodes) {
-        return JSONPSvc.request('counts&keyCodes=' + _.map(keyCodes, function (keyCode) {
+        return JSONPSvc.request(COUNT_URL + 'counts&keyCodes=' + _.map(keyCodes, function (keyCode) {
             return encodeURIComponent(keyCode);
         }).join(',')).then(function (counts) {
             
@@ -56,11 +57,11 @@ function CountSvc ($rootScope, JSONPSvc, Counts) {
     }
 
     function like(card) {
-        return JSONPSvc.request('good&keyCode=' + encodeURIComponent(card.keyCode));
+        return JSONPSvc.request(COUNT_URL + 'good&keyCode=' + encodeURIComponent(card.keyCode));
     }
 
     function dislike(card) {
-        return JSONPSvc.request('bad&keyCode=' + encodeURIComponent(card.keyCode));
+        return JSONPSvc.request(COUNT_URL + 'bad&keyCode=' + encodeURIComponent(card.keyCode));
     }
     
     function getCountByKeyCode(keyCode) {
