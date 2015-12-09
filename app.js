@@ -1,6 +1,7 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"DelaApp":[function(require,module,exports){
 module.exports = angular.module('DelaApp', [
     'templates-html',
+    'naver-weather',
     'ngTouch'
 ]).config(/* @ngInject */ ["$compileProvider", "$httpProvider", function ($compileProvider, $httpProvider) {
     $compileProvider.debugInfoEnabled(false);
@@ -213,7 +214,7 @@ DelaSvc.$inject = ["JSONPSvc", "CountSvc", "Cards", "StoreSvc"];
 
 
 /* @ngInject */
-function DelaCtrl($scope, $location, DelaSvc) {
+function DelaCtrl($scope, $location, DelaSvc, NaverWeatherAPI) {
 
     var searchObject = $location.search();
 
@@ -225,13 +226,23 @@ function DelaCtrl($scope, $location, DelaSvc) {
     $scope.orderName = ['Place', 'Calories', 'Price'];
     $scope.orderIndex = 0;
 
+    NaverWeatherAPI.getWeather().then(function (info) {
+        try {
+            $scope.weatherImg = info.weather.iconURL;
+            $scope.weatherText = info.weather.weatherText;
+            $scope.weatherPosition = [info.region.doName, info.region.siName, info.region.dongName].join(' ');
+        } catch (e) {
+            // do not anything
+        }
+    });
+
     function toggleOrder() {
         $scope.orderIndex = ($scope.orderIndex + 1) % 3;
     }
 
     $scope.toggleOrder = toggleOrder;
 }
-DelaCtrl.$inject = ["$scope", "$location", "DelaSvc"];
+DelaCtrl.$inject = ["$scope", "$location", "DelaSvc", "NaverWeatherAPI"];
 
 
 require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {});
@@ -419,6 +430,27 @@ LoadingSvc.$inject = ["$templateCache", "$q"];
 require('DelaApp').service('LoadingSvc', LoadingSvc);
 },{"DelaApp":"DelaApp"}],7:[function(require,module,exports){
 
+var WEST_CAMPUS = 'https://script.google.com/macros/s/AKfycbyJ_LVJvLMYQEYyycw0yJkZj6mbuEGQkjMuZEEq3ZiUl4IFB5lx/exec?lat=37.518142&lng=127.10065';
+
+/* @ngInject */
+function NaverWeatherAPI($http) {
+
+    function getWeather() {
+        return $http.jsonp(WEST_CAMPUS + '&callback=JSON_CALLBACK').then(function (res) {
+            return res.data.result;
+        });
+    }
+
+    this.getWeather = getWeather;
+
+}
+NaverWeatherAPI.$inject = ["$http"];
+
+
+
+angular.module('naver-weather', []).service('NaverWeatherAPI', NaverWeatherAPI);
+},{}],8:[function(require,module,exports){
+
 var ls = window.localStorage;
 
 /* @ngInject */
@@ -467,7 +499,7 @@ function StoreSvc(Cards) {
 StoreSvc.$inject = ["Cards"];
 
 require('DelaApp').service('StoreSvc', StoreSvc);
-},{"DelaApp":"DelaApp"}],8:[function(require,module,exports){
+},{"DelaApp":"DelaApp"}],9:[function(require,module,exports){
 
 
 /* @ngInject */
@@ -482,7 +514,7 @@ function BadgeFilter() {
 }
 
 require('DelaApp').filter('badge', BadgeFilter);
-},{"DelaApp":"DelaApp"}],9:[function(require,module,exports){
+},{"DelaApp":"DelaApp"}],10:[function(require,module,exports){
 
 
 function zeroLPad(n) {
@@ -507,4 +539,4 @@ function NumberFilter() {
 }
 
 require('DelaApp').filter('number', NumberFilter);
-},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,7,8,9,1]);
+},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,7,8,9,10,1]);
