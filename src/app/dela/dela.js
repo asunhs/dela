@@ -69,7 +69,7 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
 
 /* @ngInject */
-function DelaCtrl($scope, $location, DelaSvc) {
+function DelaCtrl($scope, $location, DelaSvc, NaverWeatherAPI) {
 
     var searchObject = $location.search();
 
@@ -80,6 +80,16 @@ function DelaCtrl($scope, $location, DelaSvc) {
     $scope.orderFactor = ['', 'cal', 'price'];
     $scope.orderName = ['Place', 'Calories', 'Price'];
     $scope.orderIndex = 0;
+
+    NaverWeatherAPI.getWeather().then(function (info) {
+        try {
+            $scope.weatherImg = info.weather.iconURL;
+            $scope.weatherText = info.weather.weatherText;
+            $scope.weatherPosition = [info.region.doName, info.region.siName, info.region.dongName].join(' ');
+        } catch (e) {
+            // do not anything
+        }
+    });
 
     function toggleOrder() {
         $scope.orderIndex = ($scope.orderIndex + 1) % 3;
