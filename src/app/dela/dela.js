@@ -42,7 +42,7 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
         Cards.list = getCards(data.menus);
         Cards.hash = data.menuHash; // getMenuHash(Cards.list);
         StoreSvc.storeMenuHash(Cards.hash);
-        getCounts();
+        getCounts(true);
         return Cards.list;
     }
 
@@ -54,10 +54,10 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
 
 
-    function getCounts() {
+    function getCounts(background) {
         CountSvc.counts(Cards.list.map(function (card) {
             return card.keyCode;
-        }));
+        }), background);
     }
 
     this.getMenus = getMenus;
