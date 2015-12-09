@@ -38,5 +38,6 @@
         Delacourt Mini
         <span class="sort" ng-click="toggleOrder()">Order By <b>{{orderName[orderIndex]}}</b></span>
     </div>
+    <div class="footer"><img ng-if="weatherImg" ng-src="{{::weatherImg}}" alt="weather" /> {{::weatherText}} ({{::weatherPosition}} 현재)</div>
 </body>
 </html>
