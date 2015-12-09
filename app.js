@@ -82,21 +82,21 @@ var COUNT_URL = 'https://script.google.com/macros/s/AKfycbx-WG_T_qYlQIeSH2xbeyz1
 /* @ngInject */
 function CountSvc ($rootScope, JSONPSvc, Counts) {
 
-    function counts(keyCodes) {
+    function counts(keyCodes, background) {
         return JSONPSvc.request(COUNT_URL + 'counts&keyCodes=' + _.map(keyCodes, function (keyCode) {
             return encodeURIComponent(keyCode);
-        }).join(',')).then(function (counts) {
-            
+        }).join(','), background).then(function (counts) {
+
             var countList = rating(_.map(counts, function (count) {
                 return new Count(count);
             }));
-            
+
             $rootScope.$broadcast('updateCounts', Counts.list = countList);
             return Counts.list;
         });
     }
-    
-    
+
+
     function rating(counts) {
         var filtered = _.filter(counts, function (count) {
             return count.like + count.dislike >= 5;
@@ -112,7 +112,7 @@ function CountSvc ($rootScope, JSONPSvc, Counts) {
         filtered[0] && (filtered[0].order = 1);
         filtered[1] && (filtered[1].order = 2);
         filtered[2] && (filtered[2].order = 3);
-        
+
         return counts;
     }
 
@@ -123,7 +123,7 @@ function CountSvc ($rootScope, JSONPSvc, Counts) {
     function dislike(card) {
         return JSONPSvc.request(COUNT_URL + 'bad&keyCode=' + encodeURIComponent(card.keyCode));
     }
-    
+
     function getCountByKeyCode(keyCode) {
         return _.findWhere(Counts.list, {
             keyCode: keyCode
@@ -185,7 +185,7 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
         Cards.list = getCards(data.menus);
         Cards.hash = data.menuHash; // getMenuHash(Cards.list);
         StoreSvc.storeMenuHash(Cards.hash);
-        getCounts();
+        getCounts(true);
         return Cards.list;
     }
 
@@ -197,10 +197,10 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
 
 
-    function getCounts() {
+    function getCounts(background) {
         CountSvc.counts(Cards.list.map(function (card) {
             return card.keyCode;
-        }));
+        }), background);
     }
 
     this.getMenus = getMenus;
@@ -368,14 +368,22 @@ require('DelaApp').directive('delaCard', CardDirective);
 /* @ngInject */
 function JSONPSvc($http, LoadingSvc) {
 
-    function request(url) {
+    function request(url, background) {
+
+        if (!!background) {
+            return $http.jsonp(url).then(function (res) {
+                return res.data;
+            });
+        }
+
         var resolver = LoadingSvc.loading();
+
         return $http.jsonp(url).then(function (res) {
             resolver();
             return res.data;
         }, resolver);
     }
-    
+
     this.request = request;
 }
 JSONPSvc.$inject = ["$http", "LoadingSvc"];
