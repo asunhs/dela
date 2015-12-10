@@ -96,6 +96,10 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
             };
 
             scope.good = function () {
+                
+                if (!StoreSvc.getSupportLocalStorage()) {
+                    return alert('Currently browser can not use some features.\n- Vote');;
+                }
 
                 if (StoreSvc.isVotedHash(menu.keyCode)) {
                     return alert('You already voted');
@@ -108,6 +112,10 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
             };
 
             scope.bad = function () {
+
+                if (!StoreSvc.getSupportLocalStorage()) {
+                    return alert('Currently browser can not use some features.\n- Vote');;
+                }
 
                 if (StoreSvc.isVotedHash(menu.keyCode)) {
                     return alert('You already voted');

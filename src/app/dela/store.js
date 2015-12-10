@@ -3,6 +3,8 @@ var ls = window.localStorage;
 
 /* @ngInject */
 function StoreSvc(Cards) {
+    
+    var supportLocalStorage = true;
 
     function loadMenuHash() {
         return ls.getItem('dela-mini-recent-menu-hash');
@@ -15,8 +17,13 @@ function StoreSvc(Cards) {
             return;
         }
 
-        ls.setItem('dela-mini-vote-hash', JSON.stringify([]));
-        ls.setItem('dela-mini-recent-menu-hash', menuHash);
+        try {
+            ls.setItem('dela-mini-vote-hash', JSON.stringify([]));
+            ls.setItem('dela-mini-recent-menu-hash', menuHash);
+        } catch (e) {
+            supportLocalStorage = false;
+            alert('Currently browser can not use some features.\n- Vote');
+        }
     }
 
     function loadVoteHashs() {
@@ -38,11 +45,16 @@ function StoreSvc(Cards) {
         ls.setItem('dela-mini-vote-hash', JSON.stringify(voteHashs));
     }
 
+    function getSupportLocalStorage() {
+        return supportLocalStorage;
+    }
+
     this.loadMenuHash = loadMenuHash;
     this.storeMenuHash = storeMenuHash;
     this.loadVoteHashs = loadVoteHashs;
     this.isVotedHash = isVotedHash;
     this.storeVoteHash = storeVoteHash;
+    this.getSupportLocalStorage = getSupportLocalStorage;
 }
 
 require('DelaApp').service('StoreSvc', StoreSvc);
