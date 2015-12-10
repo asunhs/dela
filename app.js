@@ -349,6 +349,10 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
             };
 
             scope.good = function () {
+                
+                if (!StoreSvc.getSupportLocalStorage()) {
+                    return alert('Currently browser can not use some features.\n- Vote');;
+                }
 
                 if (StoreSvc.isVotedHash(menu.keyCode)) {
                     return alert('You already voted');
@@ -361,6 +365,10 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
             };
 
             scope.bad = function () {
+
+                if (!StoreSvc.getSupportLocalStorage()) {
+                    return alert('Currently browser can not use some features.\n- Vote');;
+                }
 
                 if (StoreSvc.isVotedHash(menu.keyCode)) {
                     return alert('You already voted');
@@ -459,6 +467,8 @@ var ls = window.localStorage;
 
 /* @ngInject */
 function StoreSvc(Cards) {
+    
+    var supportLocalStorage = true;
 
     function loadMenuHash() {
         return ls.getItem('dela-mini-recent-menu-hash');
@@ -471,8 +481,13 @@ function StoreSvc(Cards) {
             return;
         }
 
-        ls.setItem('dela-mini-vote-hash', JSON.stringify([]));
-        ls.setItem('dela-mini-recent-menu-hash', menuHash);
+        try {
+            ls.setItem('dela-mini-vote-hash', JSON.stringify([]));
+            ls.setItem('dela-mini-recent-menu-hash', menuHash);
+        } catch (e) {
+            supportLocalStorage = false;
+            alert('Currently browser can not use some features.\n- Vote');
+        }
     }
 
     function loadVoteHashs() {
@@ -494,11 +509,16 @@ function StoreSvc(Cards) {
         ls.setItem('dela-mini-vote-hash', JSON.stringify(voteHashs));
     }
 
+    function getSupportLocalStorage() {
+        return supportLocalStorage;
+    }
+
     this.loadMenuHash = loadMenuHash;
     this.storeMenuHash = storeMenuHash;
     this.loadVoteHashs = loadVoteHashs;
     this.isVotedHash = isVotedHash;
     this.storeVoteHash = storeVoteHash;
+    this.getSupportLocalStorage = getSupportLocalStorage;
 }
 StoreSvc.$inject = ["Cards"];
 
