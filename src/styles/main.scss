@@ -81,6 +81,10 @@ ul {
   a {
     text-decoration: none;
 
+    &:visited, &:hover {
+      color: #000000;
+    }
+
     img {
       vertical-align: middle;
     }
