@@ -228,9 +228,13 @@ function DelaCtrl($scope, $location, DelaSvc, NaverWeatherAPI) {
 
     NaverWeatherAPI.getWeather().then(function (info) {
         try {
+            
+            
             $scope.weatherImg = info.weather.iconURL;
             $scope.weatherText = info.weather.weatherText;
+            $scope.weatherTemperature = parseInt(info.weather.temperature);
             $scope.weatherPosition = [info.region.doName, info.region.siName, info.region.dongName].join(' ');
+            $scope.weatherRcode = info.region.rcode;
         } catch (e) {
             // do not anything
         }
