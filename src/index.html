@@ -3,8 +3,16 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta property="og:title" content="Delacourt Mini for SDS" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://asunhs.github.io/dela/" />
+    <meta property="og:image" content="http://asunhs.github.io/dela/images/delamini_lg.png" />
+    <meta property="og:description" content="Delacourt Mini for SDS - 메뉴를 쉽고 빠르게 확인하세요" />
     <title>Dela Mini</title>
     <link rel="stylesheet" href="main.min.css" />
+    <link href="images/delamini_lg.png" rel="icon" type="image/png" />
+    <link href="images/delamini_lg.png" rel="shortcut icon" type="image/png" />
+    <link href="images/delamini_md.png" rel="apple-touch-icon"  type="image/png"/>
     <script src="http://underscorejs.org/underscore-min.js"></script>
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
@@ -25,19 +33,19 @@
     <!-- End Google Analytics -->
 </head>
 <body ng-app="DelaApp" ng-controller="DelaCtrl">
-    <ul>
-        <li ng-repeat="menu in menus | orderBy:orderFactor[orderIndex]"><dela-card /></li>
-        <li ng-if="menus.length === 0">
-            <div class="closed">
-                <p>지금은 영업중이 아닙니다.</p>
-                <p>We're closed now</p>
-            </div>
-        </li>
-    </ul>
-    <div class="header">
-        Delacourt Mini
-        <span class="sort" ng-click="toggleOrder()">Order By <b>{{orderName[orderIndex]}}</b></span>
-    </div>
-    <div class="footer"><a ng-if="weatherImg" ng-href="http://m.weather.naver.com/m/main.nhn?regionCode={{::weatherRcode}}" target="_blank"><img ng-src="{{::weatherImg}}" alt="weather" /> {{::weatherTemperature}}℃ {{::weatherText}} <span class="region">({{::weatherPosition}} 현재)</span></a></div>
+<ul>
+    <li ng-repeat="menu in menus | orderBy:orderFactor[orderIndex]"><dela-card /></li>
+    <li ng-if="menus.length === 0">
+        <div class="closed">
+            <p>지금은 영업중이 아닙니다.</p>
+            <p>We're closed now</p>
+        </div>
+    </li>
+</ul>
+<div class="header">
+    Delacourt Mini
+    <span class="sort" ng-click="toggleOrder()">Order By <b>{{orderName[orderIndex]}}</b></span>
+</div>
+<div class="footer"><a ng-if="weatherImg" ng-href="http://m.weather.naver.com/m/main.nhn?regionCode={{::weatherRcode}}" target="_blank"><img ng-src="{{::weatherImg}}" alt="weather" /> {{::weatherTemperature}}℃ {{::weatherText}} <span class="region">({{::weatherPosition}} 현재)</span></a></div>
 </body>
 </html>
