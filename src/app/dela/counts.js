@@ -39,7 +39,7 @@ function CountSvc ($rootScope, JSONPSvc, Counts) {
 
     function rating(counts) {
         var filtered = _.filter(counts, function (count) {
-            return count.like + count.dislike >= 5;
+            return count.like >= 5;
         });
 
         filtered.sort(function (l, h) {
