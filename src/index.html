@@ -45,6 +45,8 @@
     Delacourt Mini
     <span class="sort" ng-click="toggleOrder()">Order By <b>{{orderName[orderIndex]}}</b></span>
 </div>
-<div class="footer"><a ng-if="weatherImg" ng-href="http://m.weather.naver.com/m/main.nhn?regionCode={{::weatherRcode}}" target="_blank"><img ng-src="{{::weatherImg}}" alt="weather" /> {{::weatherTemperature}}℃ {{::weatherText}} <span class="region">({{::weatherPosition}} 현재)</span></a></div>
+<div class="footer">
+    <a ng-if="weatherImg" ng-href="http://m.weather.naver.com/m/main.nhn?regionCode={{::weatherRcode}}" target="_blank"><img ng-src="{{::weatherImg}}" alt="weather" /> {{::weatherTemperature}}℃ {{::weatherText}} <span class="region">({{::weatherPosition}} 현재)</span></a>
+</div>
 </body>
 </html>

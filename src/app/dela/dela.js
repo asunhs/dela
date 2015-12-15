@@ -103,4 +103,19 @@ function DelaCtrl($scope, $location, DelaSvc, NaverWeatherAPI) {
 }
 
 
-require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {});
+require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {}).run(/* @ngInject */ function ($document) {
+    var $window = angular.element(window),
+        $body = $document.find('body');
+
+    $window.scroll(function () {
+        var pos = $body.prop('scrollTop') + $window.height() - $body.prop('scrollHeight') + 270;
+        
+        console.log('pos',pos, $body.prop('scrollTop'), $body.prop('scrollHeight'));
+        
+        if (pos >= 0) {
+            $body.addClass('expand');
+        } else {
+            $body.removeClass('expand');
+        }
+    });
+});
