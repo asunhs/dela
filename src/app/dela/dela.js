@@ -110,8 +110,6 @@ require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).
     $window.scroll(function () {
         var pos = $body.prop('scrollTop') + $window.height() - $body.prop('scrollHeight') + 270;
         
-        console.log('pos',pos, $body.prop('scrollTop'), $body.prop('scrollHeight'));
-        
         if (pos >= 0) {
             $body.addClass('expand');
         } else {
