@@ -69,11 +69,9 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
 
 /* @ngInject */
-function DelaCtrl($scope, $location, DelaSvc, NaverWeatherAPI) {
-
-    var searchObject = $location.search();
-
-    (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(function (cards) {
+function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
+    
+    DelaSvc.getMenus().then(function (cards) {
         $scope.menus = cards;
     });
 
@@ -93,6 +91,10 @@ function DelaCtrl($scope, $location, DelaSvc, NaverWeatherAPI) {
         } catch (e) {
             // do not anything
         }
+    });
+
+    StockSvc.getSDS().then(function (stock) {
+        console.log(stock.Bid, stock.Change, stock.ChangeinPercent, stock.Currency);
     });
 
     function toggleOrder() {
