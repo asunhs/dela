@@ -107,13 +107,15 @@ require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).
     var $window = angular.element(window),
         $body = $document.find('body');
 
-    $window.scroll(function () {
-        var pos = $body.prop('scrollTop') + $window.height() - $body.prop('scrollHeight') + 270;
-        
+    function handler() {
+        var pos = $body.prop('scrollTop') + $window.height() - $body.prop('scrollHeight') + 135;
+
         if (pos >= 0) {
             $body.addClass('expand');
         } else {
             $body.removeClass('expand');
         }
-    });
+    }
+
+    $window.scroll(handler);
 });

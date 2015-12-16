@@ -42,11 +42,17 @@
     </li>
 </ul>
 <div class="header">
-    Delacourt Mini
+    Delacourt Mini for SDS
     <span class="sort" ng-click="toggleOrder()">Order By <b>{{orderName[orderIndex]}}</b></span>
 </div>
 <div class="footer">
     <a ng-if="weatherImg" ng-href="http://m.weather.naver.com/m/main.nhn?regionCode={{::weatherRcode}}" target="_blank"><img ng-src="{{::weatherImg}}" alt="weather" /> {{::weatherTemperature}}℃ {{::weatherText}} <span class="region">({{::weatherPosition}} 현재)</span>&nbsp; <span class="weather-more">more see...</span></a>
+    
+    
+    <div class="footer-info">
+        <p>사이트 내에 모든 정보는 <a href="http://sdsfoodmenu.co.kr:9106/foodcourt/menuplanner/list" target="_blank">Delacourt for SDS</a>에 있습니다.</p>
+        <p>사이트 개선을 위해 <a href="http://github.com/asunhs/dela" target="_blank">Github</a>에 참여해주세요.</p>
+    </div>
 </div>
 </body>
 </html>
