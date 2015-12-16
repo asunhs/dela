@@ -249,7 +249,22 @@ function DelaCtrl($scope, $location, DelaSvc, NaverWeatherAPI) {
 DelaCtrl.$inject = ["$scope", "$location", "DelaSvc", "NaverWeatherAPI"];
 
 
-require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {});
+require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {}).run(/* @ngInject */ ["$document", function ($document) {
+    var $window = angular.element(window),
+        $body = $document.find('body');
+
+    function handler() {
+        var pos = $body.prop('scrollTop') + $window.height() - $body.prop('scrollHeight') + 135;
+
+        if (pos >= 0) {
+            $body.addClass('expand');
+        } else {
+            $body.removeClass('expand');
+        }
+    }
+
+    $window.scroll(handler);
+}]);
 },{"DelaApp":"DelaApp"}],4:[function(require,module,exports){
 
 var CAL_LEVEL = {
