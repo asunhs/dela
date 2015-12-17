@@ -70,7 +70,7 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
 
 /* @ngInject */
-function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
+function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc) {
 
     DelaSvc.getMenus().then(function (cards) {
         $scope.menus = cards.list;
@@ -88,6 +88,8 @@ function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
             $scope.weatherTemperature = parseInt(info.weather.temperature);
             $scope.weatherPosition = [info.region.doName, info.region.siName, info.region.dongName].join(' ');
             $scope.weatherRcode = info.region.rcode;
+            
+            $document.find('body').letItSnow();
         } catch (e) {
             // do not anything
         }
