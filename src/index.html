@@ -54,7 +54,7 @@
 </div>
 <div class="footer">
     <a ng-if="weatherImg" ng-href="http://m.weather.naver.com/m/main.nhn?regionCode={{::weatherRcode}}" target="_blank" class="slide"><img ng-src="{{::weatherImg}}" alt="weather" /> <span class="weather-main">{{::weatherTemperature}}℃ {{::weatherText}}<span></span> <span class="region">({{::weatherPosition}} 현재)</span> <span class="weather-more">more see...</span></a>
-    <a ng-if="sdsStockSymbol" ng-href="http://finance.yahoo.com/q?s={{::sdsStockSymbol}}" target="_blank" class="sds-stock"><img ng-src="images/stock.png" alt="stock" /> {{::sdsStockName}} <span class="stock-change {{::sdsStockState}}">{{::sdsStockPrice | kstock}}원 {{::sdsStockChange | kstock}}원 ({{::sdsStockChangeinPercent}})</span> <span class="weather-more">more see...</span></a>
+    <a ng-if="sdsStockSymbol" ng-href="http://finance.yahoo.com/q?s={{::sdsStockSymbol}}" target="_blank" class="sds-stock"><img ng-src="images/stock.png" alt="stock" /> {{::sdsStockName}}&nbsp; {{::sdsStockPrice | kstock}}원 <span class="stock-change {{::sdsStockState}}">[{{::sdsStockChange | kstock}}원 / {{::sdsStockChangeinPercent}}]</span> <span class="weather-more">more see...</span></a>
 </div>
 </body>
 </html>
