@@ -41,9 +41,10 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
     function afterGetMenus(data) {
         Cards.list = getCards(data.menus);
         Cards.hash = data.menuHash; // getMenuHash(Cards.list);
+        Cards.time = data.menuTime;
         StoreSvc.storeMenuHash(Cards.hash);
         getCounts(true);
-        return Cards.list;
+        return Cards;
     }
 
     function getCards(menus) {
@@ -70,9 +71,10 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
 /* @ngInject */
 function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
-    
+
     DelaSvc.getMenus().then(function (cards) {
-        $scope.menus = cards;
+        $scope.menus = cards.list;
+        $scope.time = cards.time;
     });
 
     $scope.orderFactor = ['', 'cal', 'price'];
@@ -81,8 +83,7 @@ function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
 
     NaverWeatherAPI.getWeather().then(function (info) {
         try {
-            
-            
+
             $scope.weatherImg = info.weather.iconURL;
             $scope.weatherText = info.weather.weatherText;
             $scope.weatherTemperature = parseInt(info.weather.temperature);
@@ -115,7 +116,7 @@ require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).
 
     $interval(function () {
         var footerSlide = $document.find('.footer a.slide');
-        
+
         if (footerSlide.hasClass('out')) {
             footerSlide.removeClass('out');
         } else {
