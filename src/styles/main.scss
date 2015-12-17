@@ -71,23 +71,35 @@ ul {
   height: 30px;
   padding: 2px 10px;
   font-size: 12px;
-  font-weight: bold;
   box-sizing: border-box;
   margin-top: 5px;
   background-color: #ffffff;
   opacity: 0.9;
+  white-space: nowrap;
+  overflow: hidden;
   @include vendor-prefix(box-shadow, #3b1c0a 0 -1px 10px);
   
   > a {
+    display: block;
+    height: 25px;
     text-decoration: none;
     color: #000000;
+    margin-top: 0;
 
     &:visited, &:hover {
       color: #000000;
     }
+    
+    &.out {
+      margin-top: -25px;
+    }
 
     img {
       vertical-align: middle;
+    }
+    
+    .weather-main {
+      font-weight: bold;
     }
 
     .region {
@@ -100,6 +112,22 @@ ul {
       font-size: 6px;
       font-weight: bold;
       color: #555555;
+    }
+   
+    &.sds-stock {
+      line-height: 23px;
+      
+      .stock-change {
+        font-weight: bold;
+
+        &.red {
+          color: #B94A48;
+        }
+
+        &.blue {
+          color: #003366;
+        }
+      }
     }
   }
 }
@@ -131,5 +159,11 @@ ul {
     margin-left: 50%;
   }
 }
+
+
+.slide {
+  transition: margin-top 0.5s ease-in-out;
+}
+
 
 @import "card";
