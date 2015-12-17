@@ -43,7 +43,7 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
         Cards.hash = data.menuHash; // getMenuHash(Cards.list);
         Cards.time = data.menuTime;
         StoreSvc.storeMenuHash(Cards.hash);
-        getCounts(true);
+        getCounts();
         return Cards;
     }
 
@@ -55,10 +55,10 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
 
 
-    function getCounts(background) {
+    function getCounts() {
         CountSvc.counts(Cards.list.map(function (card) {
             return card.keyCode;
-        }), background);
+        }), true);
     }
 
     this.getMenus = getMenus;
@@ -83,7 +83,6 @@ function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
 
     NaverWeatherAPI.getWeather().then(function (info) {
         try {
-
             $scope.weatherImg = info.weather.iconURL;
             $scope.weatherText = info.weather.weatherText;
             $scope.weatherTemperature = parseInt(info.weather.temperature);

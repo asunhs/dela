@@ -261,6 +261,7 @@
             height: 21px;
             margin: 7px 0;
             box-sizing: border-box;
+            @include vendor-prefix(transition, width 0.5s ease-in-out);
 
             &.gauge-good {
               left: 0;
