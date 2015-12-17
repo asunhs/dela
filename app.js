@@ -214,11 +214,9 @@ DelaSvc.$inject = ["JSONPSvc", "CountSvc", "Cards", "StoreSvc"];
 
 
 /* @ngInject */
-function DelaCtrl($scope, $location, DelaSvc, NaverWeatherAPI) {
-
-    var searchObject = $location.search();
-
-    (searchObject.dummy ? DelaSvc.getDummys() : DelaSvc.getMenus()).then(function (cards) {
+function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
+    
+    DelaSvc.getMenus().then(function (cards) {
         $scope.menus = cards;
     });
 
@@ -240,16 +238,36 @@ function DelaCtrl($scope, $location, DelaSvc, NaverWeatherAPI) {
         }
     });
 
+    StockSvc.getSDS().then(function (stock) {
+        $scope.sdsStockName = stock.Name;
+        $scope.sdsStockBid = stock.Bid;
+        $scope.sdsStockChange = stock.Change;
+        $scope.sdsStockChangeinPercent = stock.ChangeinPercent;
+        $scope.sdsStockState = stock.Change[0] == '+' ? 'red' : stock.Change[0] == '-' ? 'blue' : '';
+        /* $scope.sdsStockCurrency = stock.Currency; */
+    });
+
     function toggleOrder() {
         $scope.orderIndex = ($scope.orderIndex + 1) % 3;
     }
 
     $scope.toggleOrder = toggleOrder;
 }
-DelaCtrl.$inject = ["$scope", "$location", "DelaSvc", "NaverWeatherAPI"];
+DelaCtrl.$inject = ["$scope", "DelaSvc", "NaverWeatherAPI", "StockSvc"];
 
 
-require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {});
+require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {}).run(/* @ngInject */ ["$document", "$interval", function ($document, $interval) {
+
+    $interval(function () {
+        var footerSlide = $document.find('.footer a.slide');
+        
+        if (footerSlide.hasClass('out')) {
+            footerSlide.removeClass('out');
+        } else {
+            footerSlide.addClass('out');
+        }
+    }, 5000);
+}]);
 },{"DelaApp":"DelaApp"}],4:[function(require,module,exports){
 
 var CAL_LEVEL = {
@@ -463,6 +481,25 @@ NaverWeatherAPI.$inject = ["$http"];
 angular.module('naver-weather', []).service('NaverWeatherAPI', NaverWeatherAPI);
 },{}],8:[function(require,module,exports){
 
+
+var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22018260.ks%22)%0A%09%09&format=json&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env&callback=JSON_CALLBACK';
+
+/* @ngInject */
+function StockSvc ($http) {
+    
+    function getSDS() {
+        return $http.jsonp(url).then(function (res) {
+            return res.data.query && res.data.query.results && res.data.query.results.quote;
+        });
+    }
+    
+    this.getSDS = getSDS;
+}
+StockSvc.$inject = ["$http"];
+
+require('DelaApp').service('StockSvc', StockSvc);
+},{"DelaApp":"DelaApp"}],9:[function(require,module,exports){
+
 var ls = window.localStorage;
 
 /* @ngInject */
@@ -523,7 +560,7 @@ function StoreSvc(Cards) {
 StoreSvc.$inject = ["Cards"];
 
 require('DelaApp').service('StoreSvc', StoreSvc);
-},{"DelaApp":"DelaApp"}],9:[function(require,module,exports){
+},{"DelaApp":"DelaApp"}],10:[function(require,module,exports){
 
 
 /* @ngInject */
@@ -538,7 +575,7 @@ function BadgeFilter() {
 }
 
 require('DelaApp').filter('badge', BadgeFilter);
-},{"DelaApp":"DelaApp"}],10:[function(require,module,exports){
+},{"DelaApp":"DelaApp"}],11:[function(require,module,exports){
 
 
 function zeroLPad(n) {
@@ -546,21 +583,37 @@ function zeroLPad(n) {
     return '000'.substr(str.length) + str;
 }
 
+function currency(num) {
+    var tokens = [];
+
+    while (num > 999) {
+        tokens.push(zeroLPad(num % 1000));
+        num = ~~(num / 1000);
+    }
+    tokens.push(num);
+
+    return tokens.reverse().join(',');
+}
+
 
 /* @ngInject */
 function NumberFilter() {
-    return function (num) {
-        var tokens = [];
-
-        while (num > 999) {
-            tokens.push(zeroLPad(num % 1000));
-            num = ~~(num / 1000);
-        }
-        tokens.push(num);
-
-        return tokens.reverse().join(',');
-    };
+    return currency;
 }
 
 require('DelaApp').filter('number', NumberFilter);
-},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,7,8,9,10,1]);
+
+
+var PRICE = /([+-]?)([0-9]+)(\.[0-9]*)/;
+
+/* @ngInject */
+function KoreanStock() {
+    return function (price) {
+        var tokens = price.match(PRICE);
+        
+        return tokens[1] + currency(tokens[2]);
+    }
+}
+
+require('DelaApp').filter('kstock', KoreanStock);
+},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,7,8,9,10,11,1]);
