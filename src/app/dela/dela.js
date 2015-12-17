@@ -89,7 +89,9 @@ function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc) {
             $scope.weatherPosition = [info.region.doName, info.region.siName, info.region.dongName].join(' ');
             $scope.weatherRcode = info.region.rcode;
             
-            $document.find('body').letItSnow();
+            if (info.weather.weatherCode == "5") {
+                $document.find('body').letItSnow();
+            }
         } catch (e) {
             // do not anything
         }

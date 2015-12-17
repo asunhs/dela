@@ -1,5 +1,5 @@
 .let_it_snow {
-  position: absolute;
+  position: fixed;
   width: 25px;
   height: 25px;
   @include vendor-prefix(animation-timing-function, ease-out);
