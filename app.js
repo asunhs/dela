@@ -217,7 +217,7 @@ DelaSvc.$inject = ["JSONPSvc", "CountSvc", "Cards", "StoreSvc"];
 
 
 /* @ngInject */
-function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
+function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc) {
 
     DelaSvc.getMenus().then(function (cards) {
         $scope.menus = cards.list;
@@ -235,6 +235,8 @@ function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
             $scope.weatherTemperature = parseInt(info.weather.temperature);
             $scope.weatherPosition = [info.region.doName, info.region.siName, info.region.dongName].join(' ');
             $scope.weatherRcode = info.region.rcode;
+            
+            $document.find('body').letItSnow();
         } catch (e) {
             // do not anything
         }
@@ -256,7 +258,7 @@ function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
 
     $scope.toggleOrder = toggleOrder;
 }
-DelaCtrl.$inject = ["$scope", "DelaSvc", "NaverWeatherAPI", "StockSvc"];
+DelaCtrl.$inject = ["$document", "$scope", "DelaSvc", "NaverWeatherAPI", "StockSvc"];
 
 
 require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {}).run(/* @ngInject */ ["$document", "$interval", function ($document, $interval) {
@@ -618,4 +620,64 @@ function KoreanStock() {
 }
 
 require('DelaApp').filter('kstock', KoreanStock);
-},{"DelaApp":"DelaApp"}]},{},["DelaApp",2,3,4,5,6,7,8,9,10,11,1]);
+},{"DelaApp":"DelaApp"}],12:[function(require,module,exports){
+/*!
+ * Let it snow
+ * http://drawain.hu/let-it-snow-jquery-plugin
+ * MIT licensed
+ *
+ * Copyright (C) 2012 Fincza András, http://drawain.hu
+ */
+(function($, window, undefined) {
+    "use strict";
+
+    var requestAnimFrame = (function(){
+        return  window.requestAnimationFrame       ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame    ||
+            window.oRequestAnimationFrame      ||
+            window.msRequestAnimationFrame     ||
+            function( callback ){
+                window.setTimeout(callback, 1000 / 60);
+            };
+    })();
+
+    $.fn.letItSnow = function() {
+
+        return this.each(function() {
+            var $container = $(this),
+
+                createSnowFlake = function() {
+                    var	$flake = $('<div class="let_it_snow"></div>'),
+                        top = '-50px',
+                        left = Math.floor(Math.random() * $container.width());
+
+                    // Add snowflake type 1 or type 2 (different images)
+                    $flake.addClass('snow_type_' + Math.ceil(Math.random()*2));
+
+                    $flake.css({ top: top, left: left + 'px', opacity: 1 });
+
+                    $container.append($flake);
+                    
+                    $flake.addClass('snow_duration_' + Math.ceil(Math.random()*5));
+                    $flake.addClass('snow_delay_' + Math.ceil(Math.random()*5));
+                    $flake.addClass('snow_anim_' + Math.ceil(Math.random()*5));
+
+                    setTimeout(function() {
+                        setTimeout(function() {
+                            $flake.remove();
+                        }, 3000);
+
+                        requestAnimFrame(createSnowFlake);
+                    }, 6000 + Math.floor(Math.random() * 1000));
+                };
+
+            for (var i=0; i<25; i++) {
+                setTimeout(createSnowFlake, i * 200 * Math.random());
+            }
+
+        });
+    };
+
+}(jQuery, window));
+},{}]},{},["DelaApp",2,3,4,5,6,7,8,9,10,11,12,1]);
