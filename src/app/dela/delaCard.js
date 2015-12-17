@@ -98,7 +98,7 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
             scope.good = function () {
                 
                 if (!StoreSvc.getSupportLocalStorage()) {
-                    return alert('Currently browser can not use some features.\n- Vote');;
+                    return alert('Currently browser can not use some features.\n- Vote');
                 }
 
                 if (StoreSvc.isVotedHash(menu.keyCode)) {
@@ -106,15 +106,15 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
                 }
 
                 CountSvc.like(menu).then(function () {
+                    scope.likes++;
                     StoreSvc.storeVoteHash(menu.keyCode);
-                    DelaSvc.getCounts();
-                });
+                }).then(DelaSvc.getCounts);
             };
 
             scope.bad = function () {
 
                 if (!StoreSvc.getSupportLocalStorage()) {
-                    return alert('Currently browser can not use some features.\n- Vote');;
+                    return alert('Currently browser can not use some features.\n- Vote');
                 }
 
                 if (StoreSvc.isVotedHash(menu.keyCode)) {
@@ -122,9 +122,9 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
                 }
 
                 CountSvc.dislike(menu).then(function () {
+                    scope.dislikes++;
                     StoreSvc.storeVoteHash(menu.keyCode);
-                    DelaSvc.getCounts();
-                });
+                }).then(DelaSvc.getCounts);
             };
         }
     };
