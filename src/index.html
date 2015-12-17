@@ -46,7 +46,8 @@
     <span class="sort" ng-click="toggleOrder()">Order By <b>{{orderName[orderIndex]}}</b></span>
 </div>
 <div class="footer">
-    <a ng-if="weatherImg" ng-href="http://m.weather.naver.com/m/main.nhn?regionCode={{::weatherRcode}}" target="_blank"><img ng-src="{{::weatherImg}}" alt="weather" /> {{::weatherTemperature}}℃ {{::weatherText}} <span class="region">({{::weatherPosition}} 현재)</span> <span class="weather-more">more see...</span></a>
+    <a ng-if="weatherImg" ng-href="http://m.weather.naver.com/m/main.nhn?regionCode={{::weatherRcode}}" target="_blank" class="slide"><img ng-src="{{::weatherImg}}" alt="weather" /> <span class="weather-main">{{::weatherTemperature}}℃ {{::weatherText}}<span></span> <span class="region">({{::weatherPosition}} 현재)</span> <span class="weather-more">more see...</span></a>
+    <a ng-if="sdsStockBid" ng-href="#" target="_blank" class="sds-stock">{{::sdsStockName}} {{::sdsStockBid|kstock}}원 <span class="stock-change {{::sdsStockState}}">{{::sdsStockChange|kstock}}원 ({{::sdsStockChangeinPercent}})</span> <span class="weather-more">more see...</span></a>
 </div>
 </body>
 </html>

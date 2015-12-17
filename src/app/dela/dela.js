@@ -94,7 +94,12 @@ function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
     });
 
     StockSvc.getSDS().then(function (stock) {
-        console.log(stock.Bid, stock.Change, stock.ChangeinPercent, stock.Currency);
+        $scope.sdsStockName = stock.Name;
+        $scope.sdsStockBid = stock.Bid;
+        $scope.sdsStockChange = stock.Change;
+        $scope.sdsStockChangeinPercent = stock.ChangeinPercent;
+        $scope.sdsStockState = stock.Change[0] == '+' ? 'red' : stock.Change[0] == '-' ? 'blue' : '';
+        /* $scope.sdsStockCurrency = stock.Currency; */
     });
 
     function toggleOrder() {
@@ -105,4 +110,15 @@ function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
 }
 
 
-require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {});
+require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {}).run(/* @ngInject */ function ($document, $interval) {
+
+    $interval(function () {
+        var footerSlide = $document.find('.footer a.slide');
+        
+        if (footerSlide.hasClass('out')) {
+            footerSlide.removeClass('out');
+        } else {
+            footerSlide.addClass('out');
+        }
+    }, 5000);
+});
