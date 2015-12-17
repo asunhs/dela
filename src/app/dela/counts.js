@@ -4,15 +4,17 @@ function Count(count) {
     this.keyCode = count.keyCode;
     this.like = parseInt(count.likeCount);
     this.dislike = parseInt(count.dislikeCount);
-    this.total = this.like + this.dislike;
 }
 
 Count.prototype = {
     getLikeRatio: function () {
-        return parseInt((this.like * 10000) / this.total) / 100;
+        return parseInt((this.like * 10000) / this.getTotal()) / 100;
     },
     getDislikeRatio: function () {
-        return parseInt((this.dislike * 10000) / this.total) / 100;
+        return parseInt((this.dislike * 10000) / this.getTotal()) / 100;
+    },
+    getTotal: function () {
+        return this.like + this.dislike;
     }
 };
 
@@ -67,7 +69,7 @@ function CountSvc ($rootScope, JSONPSvc, Counts) {
     function getCountByKeyCode(keyCode) {
         return _.findWhere(Counts.list, {
             keyCode: keyCode
-        });
+        }) || new Count({ keyCode: keyCode, likeCount: 0, dislikeCount: 0 });
     }
 
     this.counts = counts;
