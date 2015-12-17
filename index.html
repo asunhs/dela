@@ -32,7 +32,7 @@
     <!-- End Google Analytics -->
 </head>
 <body ng-app="DelaApp" ng-controller="DelaCtrl">
-<p class="time">{{::time}}</p>
+<p ng-if="menus.length > 0" class="time">{{::time}}</p>
 <ul>
     <li ng-repeat="menu in menus | orderBy:orderFactor[orderIndex]"><dela-card /></li>
     <li ng-if="menus.length === 0">

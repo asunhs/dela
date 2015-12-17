@@ -65,15 +65,17 @@ function Count(count) {
     this.keyCode = count.keyCode;
     this.like = parseInt(count.likeCount);
     this.dislike = parseInt(count.dislikeCount);
-    this.total = this.like + this.dislike;
 }
 
 Count.prototype = {
     getLikeRatio: function () {
-        return parseInt((this.like * 10000) / this.total) / 100;
+        return parseInt((this.like * 10000) / this.getTotal()) / 100;
     },
     getDislikeRatio: function () {
-        return parseInt((this.dislike * 10000) / this.total) / 100;
+        return parseInt((this.dislike * 10000) / this.getTotal()) / 100;
+    },
+    getTotal: function () {
+        return this.like + this.dislike;
     }
 };
 
@@ -128,7 +130,7 @@ function CountSvc ($rootScope, JSONPSvc, Counts) {
     function getCountByKeyCode(keyCode) {
         return _.findWhere(Counts.list, {
             keyCode: keyCode
-        });
+        }) || new Count({ keyCode: keyCode, likeCount: 0, dislikeCount: 0 });
     }
 
     this.counts = counts;
@@ -187,7 +189,7 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
         Cards.hash = data.menuHash; // getMenuHash(Cards.list);
         Cards.time = data.menuTime;
         StoreSvc.storeMenuHash(Cards.hash);
-        getCounts(true);
+        getCounts();
         return Cards;
     }
 
@@ -199,10 +201,10 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
 
 
 
-    function getCounts(background) {
+    function getCounts() {
         CountSvc.counts(Cards.list.map(function (card) {
             return card.keyCode;
-        }), background);
+        }), true);
     }
 
     this.getMenus = getMenus;
@@ -228,7 +230,6 @@ function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
 
     NaverWeatherAPI.getWeather().then(function (info) {
         try {
-
             $scope.weatherImg = info.weather.iconURL;
             $scope.weatherText = info.weather.weatherText;
             $scope.weatherTemperature = parseInt(info.weather.temperature);
@@ -346,22 +347,17 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
             scope.calLabel = CAL_LABEL[scope.calLevel];
             scope.price = price;
             scope.discounted = discount(price);
+            
+            function setCount(count) {
+                scope.like = count.like;
+                scope.dislike = count.dislike;
+                scope.likes = count.getLikeRatio();
+                scope.dislikes = count.getDislikeRatio();
+                scope.ratingOrder = count.order;
+            }
 
             scope.$on('updateCounts', function () {
-                var count = CountSvc.getCountByKeyCode(menu.keyCode);
-
-                if (count) {
-                    scope.like = count.like;
-                    scope.dislike = count.dislike;
-                    scope.likes = count.getLikeRatio();
-                    scope.dislikes = count.getDislikeRatio();
-                    scope.ratingOrder = count.order;
-                } else {
-                    scope.like = 0;
-                    scope.dislike = 0;
-                    scope.likes = 0;
-                    scope.dislikes = 0;
-                }
+                setCount(CountSvc.getCountByKeyCode(menu.keyCode));
             });
 
             scope.toggle = function () {
@@ -371,7 +367,7 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
             scope.good = function () {
                 
                 if (!StoreSvc.getSupportLocalStorage()) {
-                    return alert('Currently browser can not use some features.\n- Vote');;
+                    return alert('Currently browser can not use some features.\n- Vote');
                 }
 
                 if (StoreSvc.isVotedHash(menu.keyCode)) {
@@ -379,15 +375,17 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
                 }
 
                 CountSvc.like(menu).then(function () {
+                    var count = CountSvc.getCountByKeyCode(menu.keyCode);
+                    count.like++;
+                    setCount(count);
                     StoreSvc.storeVoteHash(menu.keyCode);
-                    DelaSvc.getCounts();
-                });
+                }).then(DelaSvc.getCounts);
             };
 
             scope.bad = function () {
 
                 if (!StoreSvc.getSupportLocalStorage()) {
-                    return alert('Currently browser can not use some features.\n- Vote');;
+                    return alert('Currently browser can not use some features.\n- Vote');
                 }
 
                 if (StoreSvc.isVotedHash(menu.keyCode)) {
@@ -395,9 +393,11 @@ function CardDirective(CountSvc, DelaSvc, StoreSvc) {
                 }
 
                 CountSvc.dislike(menu).then(function () {
+                    var count = CountSvc.getCountByKeyCode(menu.keyCode);
+                    count.dislike++;
+                    setCount(count);
                     StoreSvc.storeVoteHash(menu.keyCode);
-                    DelaSvc.getCounts();
-                });
+                }).then(DelaSvc.getCounts);
             };
         }
     };
