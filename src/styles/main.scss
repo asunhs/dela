@@ -1,6 +1,6 @@
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
-@mixin vendor-prefix($name, $argument) {
+@mixin vendor-prefix($name, $argument...) {
   -webkit-#{$name}: #{$argument};
   -ms-#{$name}: #{$argument};
   -moz-#{$name}: #{$argument};
@@ -198,3 +198,4 @@ ul {
 
 
 @import "card";
+@import "letitsnow";
