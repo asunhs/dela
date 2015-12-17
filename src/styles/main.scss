@@ -167,7 +167,7 @@ ul {
 
 
 .slide {
-  transition: margin-top 0.5s ease-in-out;
+  @include vendor-prefix(transition, margin-top 0.5s ease-in-out);
 }
 
 

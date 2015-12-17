@@ -94,6 +94,7 @@ function DelaCtrl($scope, DelaSvc, NaverWeatherAPI, StockSvc) {
     });
 
     StockSvc.getSDS().then(function (stock) {
+        $scope.sdsStockSymbol = stock.symbol;
         $scope.sdsStockName = stock.Name;
         $scope.sdsStockBid = stock.Bid;
         $scope.sdsStockChange = stock.Change;
