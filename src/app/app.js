@@ -1,6 +1,6 @@
 module.exports = angular.module('DelaApp', [
     'templates-html',
-    'naver-weather',
+    'yahoo-weather',
     'firebaseApp',
     'ngTouch'
 ]).config(/* @ngInject */ function ($compileProvider, $httpProvider) {

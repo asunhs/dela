@@ -46,11 +46,11 @@ ul {
   padding: 10px;
   margin-top: 20px;
   line-height: 22px;
-  
+
   a {
     font-weight: bold;
     color: #577620;
-    
+
     &:hover, &:visited {
       color: #577620;
     }
@@ -70,7 +70,7 @@ ul {
   color: #381909;
   background-color: #d6a066;
   @include vendor-prefix(box-shadow, #3b1c0a 0 1px 10px);
-  
+
   .sort {
     display: inline-block;
     float: right;
@@ -82,7 +82,7 @@ ul {
     background-color: #815b32;
     border-radius: 3px;
     box-shadow: #381909 2px 2px 2px;
-    
+
     b {
       font-size: 14px;
     }
@@ -104,7 +104,7 @@ ul {
   white-space: nowrap;
   overflow: hidden;
   @include vendor-prefix(box-shadow, #3b1c0a 0 -1px 10px);
-  
+
   > a {
     display: block;
     height: 25px;
@@ -115,7 +115,7 @@ ul {
     &:visited, &:hover {
       color: #000000;
     }
-    
+
     &.out {
       margin-top: -25px;
     }
@@ -123,8 +123,9 @@ ul {
     img {
       vertical-align: middle;
       margin-right: -3px;
+      padding: 0 10px;
     }
-    
+
     .weather-main {
       font-weight: bold;
     }
@@ -133,22 +134,27 @@ ul {
       font-size: 11px;
       font-weight: normal;
     }
-    
+
     .weather-more {
       font-family: sans-serif;
       font-size: 6px;
       font-weight: bold;
       color: #555555;
     }
-   
+
+    &.weather {
+        img {
+            height: 25px;
+        }
+    }
+
     &.sds-stock {
       line-height: 23px;
 
       img {
         vertical-align: sub;
-        padding: 0 10px;
       }
-      
+
       .stock-change {
         font-size: 11px;
         font-weight: bold;
@@ -182,7 +188,7 @@ ul {
   left: 0;
   background-color: #888888;
   opacity: 0.3;
-  
+
   img {
     position: absolute;
     width: 50px;
