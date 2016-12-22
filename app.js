@@ -1,7 +1,7 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"DelaApp":[function(require,module,exports){
 module.exports = angular.module('DelaApp', [
     'templates-html',
-    'naver-weather',
+    'yahoo-weather',
     'firebaseApp',
     'ngTouch'
 ]).config(/* @ngInject */ ["$compileProvider", "$httpProvider", function ($compileProvider, $httpProvider) {
@@ -147,7 +147,7 @@ CountSvc.$inject = ["$rootScope", "JSONPSvc", "Counts"];
 
 require('DelaApp').service('CountSvc', CountSvc).value('Counts', {});
 },{"DelaApp":"DelaApp"}],3:[function(require,module,exports){
-
+var snowy = [13, 14, 15, 16, 41, 42, 43, 46];
 
 function Card(menu) {
 
@@ -222,7 +222,7 @@ DelaSvc.$inject = ["JSONPSvc", "CountSvc", "Cards", "StoreSvc", "FirebaseSvc"];
 
 
 /* @ngInject */
-function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc, FirebaseSvc) {
+function DelaCtrl($document, $scope, DelaSvc, YahooWeatherAPI, StockSvc, FirebaseSvc) {
 
     DelaSvc.getMenus().then(function (cards) {
         $scope.menus = cards.list;
@@ -233,15 +233,15 @@ function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc, Firebas
     $scope.orderName = ['Place', 'Calories', 'Price'];
     $scope.orderIndex = 0;
 
-    NaverWeatherAPI.getWeather().then(function (info) {
+    YahooWeatherAPI.getWeather().then(function (info) {
         try {
-            $scope.weatherImg = info.weather.iconURL;
-            $scope.weatherText = info.weather.weatherText;
-            $scope.weatherTemperature = parseInt(info.weather.temperature);
-            $scope.weatherPosition = [info.region.doName, info.region.siName, info.region.dongName].join(' ');
-            $scope.weatherRcode = info.region.rcode;
+            $scope.weatherImg = 'http://l.yimg.com/a/i/us/we/52/' + info.code + '.gif';
+            $scope.weatherText = info.text;
+            $scope.weatherTemperature = parseInt(info.temp);
+            $scope.weatherPosition = "서울특별시 송파구 잠실동";
+            $scope.weatherRcode = info.woeid;
 
-            if (info.weather.weatherCode == "5") {
+            if (_.find(snowy, info.code)) {
                 $document.find('body').letItSnow();
             }
         } catch (e) {
@@ -265,7 +265,7 @@ function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc, Firebas
 
     $scope.toggleOrder = toggleOrder;
 }
-DelaCtrl.$inject = ["$document", "$scope", "DelaSvc", "NaverWeatherAPI", "StockSvc", "FirebaseSvc"];
+DelaCtrl.$inject = ["$document", "$scope", "DelaSvc", "YahooWeatherAPI", "StockSvc", "FirebaseSvc"];
 
 
 require('DelaApp').service('DelaSvc', DelaSvc).controller('DelaCtrl', DelaCtrl).value('Cards', {}).run(/* @ngInject */ ["$document", "$interval", function ($document, $interval) {
@@ -596,6 +596,34 @@ StoreSvc.$inject = ["Cards"];
 
 require('DelaApp').service('StoreSvc', StoreSvc);
 },{"DelaApp":"DelaApp"}],11:[function(require,module,exports){
+var WOEID = "22336060";
+var WEST_CAMPUS = "https://query.yahooapis.com/v1/public/yql?q=select%20item.condition%20from%20weather.forecast%20where%20woeid%20%3D%20" + WOEID + "%20and%20u%20%3D%27c%27&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+
+/* @ngInject */
+function YahooWeatherAPI($http) {
+
+    function getWeather() {
+        return $http.jsonp(WEST_CAMPUS + '&callback=JSON_CALLBACK').then(function (res) {
+            try {
+                return _.extend({
+                    woeid: WOEID
+                }, res.data.query.results.channel.item.condition);
+            } catch (e) {
+                return null;
+            }
+        });
+    }
+
+    this.getWeather = getWeather;
+
+}
+YahooWeatherAPI.$inject = ["$http"];
+
+
+
+angular.module('yahoo-weather', []).service('YahooWeatherAPI', YahooWeatherAPI);
+
+},{}],12:[function(require,module,exports){
 
 
 /* @ngInject */
@@ -610,7 +638,7 @@ function BadgeFilter() {
 }
 
 require('DelaApp').filter('badge', BadgeFilter);
-},{"DelaApp":"DelaApp"}],12:[function(require,module,exports){
+},{"DelaApp":"DelaApp"}],13:[function(require,module,exports){
 var PRICE = /([+-]?)([0-9]+)(\.[0-9]*)/;
 
 /* @ngInject */
@@ -624,7 +652,7 @@ function KoreanStock($filter) {
 KoreanStock.$inject = ["$filter"];
 
 require('DelaApp').filter('kstock', KoreanStock);
-},{"DelaApp":"DelaApp"}],13:[function(require,module,exports){
+},{"DelaApp":"DelaApp"}],14:[function(require,module,exports){
 /*!
  * Let it snow
  * http://drawain.hu/let-it-snow-jquery-plugin
@@ -684,4 +712,4 @@ require('DelaApp').filter('kstock', KoreanStock);
     };
 
 }(jQuery, window));
-},{}]},{},["DelaApp",2,3,4,5,6,7,8,9,10,11,12,13,1]);
+},{}]},{},["DelaApp",2,3,4,5,6,7,8,9,10,11,12,13,14,1]);
