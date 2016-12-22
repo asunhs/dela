@@ -1,4 +1,4 @@
-
+var snowy = [13, 14, 15, 16, 41, 42, 43, 46];
 
 function Card(menu) {
 
@@ -72,7 +72,7 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc, FirebaseSvc) {
 
 
 /* @ngInject */
-function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc, FirebaseSvc) {
+function DelaCtrl($document, $scope, DelaSvc, YahooWeatherAPI, StockSvc, FirebaseSvc) {
 
     DelaSvc.getMenus().then(function (cards) {
         $scope.menus = cards.list;
@@ -83,15 +83,15 @@ function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc, Firebas
     $scope.orderName = ['Place', 'Calories', 'Price'];
     $scope.orderIndex = 0;
 
-    NaverWeatherAPI.getWeather().then(function (info) {
+    YahooWeatherAPI.getWeather().then(function (info) {
         try {
-            $scope.weatherImg = info.weather.iconURL;
-            $scope.weatherText = info.weather.weatherText;
-            $scope.weatherTemperature = parseInt(info.weather.temperature);
-            $scope.weatherPosition = [info.region.doName, info.region.siName, info.region.dongName].join(' ');
-            $scope.weatherRcode = info.region.rcode;
+            $scope.weatherImg = 'http://l.yimg.com/a/i/us/we/52/' + info.code + '.gif';
+            $scope.weatherText = info.text;
+            $scope.weatherTemperature = parseInt(info.temp);
+            $scope.weatherPosition = "서울특별시 송파구 잠실동";
+            $scope.weatherRcode = info.woeid;
 
-            if (info.weather.weatherCode == "5") {
+            if (_.find(snowy, info.code)) {
                 $document.find('body').letItSnow();
             }
         } catch (e) {
