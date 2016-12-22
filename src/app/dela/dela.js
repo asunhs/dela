@@ -31,8 +31,9 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc, FirebaseSvc) {
     function getMenus() {
         // return JSONPSvc.request(DELA_URL + 'menus').then(afterGetMenus);
         return FirebaseSvc.getJamsilMenu().then(function (data) {
-            Cards.list = data.menus;
+            Cards.list = data.menus || [];
             Cards.time = data.time;
+            Cards.opened = data.opened;
 
             return Cards;
         });
@@ -77,6 +78,7 @@ function DelaCtrl($document, $scope, DelaSvc, YahooWeatherAPI, StockSvc, Firebas
     DelaSvc.getMenus().then(function (cards) {
         $scope.menus = cards.list;
         $scope.time = cards.time;
+        $scope.opened = cards.opened;
     });
 
     $scope.orderFactor = ['', 'cal', 'price'];
