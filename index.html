@@ -13,11 +13,22 @@
     <link href="images/delamini_lg.png" rel="icon" type="image/png" />
     <link href="images/delamini_lg.png" rel="shortcut icon" type="image/png" />
     <link href="images/delamini_md.png" rel="apple-touch-icon"  type="image/png"/>
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyANztDHa63ktyiuEYBEHy8TkJhylbwSSw8",
+        authDomain: "dela-mini.firebaseapp.com",
+        databaseURL: "https://dela-mini.firebaseio.com",
+        storageBucket: "dela-mini.appspot.com",
+        messagingSenderId: "910195276525"
+      };
+      firebase.initializeApp(config);
+    </script>
     <script src="http://underscorejs.org/underscore-min.js"></script>
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-touch.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-touch.min.js"></script>
     <script src="app.min.js"></script>
     <!-- Google Analytics -->
     <script>
