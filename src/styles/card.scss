@@ -3,21 +3,21 @@
 .dela-card {
   width: 100%;
   margin-top: 5px;
-  
-  
+
+
   .dela-card-emblem {
     position: absolute;
     top: -4px;
     left: 3px;
-    
+
     .rating {
       display: inline-block;
       background-image: url("images/medal.png");
       width: 32px;
       height: 46px;
       background-size: 100px;
-      
-      
+
+
       &.rating_1 {
         background-position: 0 0;
       }
@@ -31,7 +31,7 @@
       }
     }
   }
-  
+
 
   .dela-card-header {
     width: 100%;
@@ -50,11 +50,11 @@
 
     .zone {
 
-      &.ZONE01 {
+      &.B1 {
         background-color: #e88705;
       }
 
-      &.ZONE02 {
+      &.B2 {
         background-color: #e5ac05;
       }
     }
@@ -230,7 +230,7 @@
             background-color: #df9e9d;
             right: 5px;
           }
-          
+
           .badge {
             display: inline-block;
             position: relative;
