@@ -8,10 +8,10 @@ function Count(count) {
 
 Count.prototype = {
     getLikeRatio: function () {
-        return parseInt((this.like * 10000) / this.getTotal()) / 100;
+        return this.getTotal() ? parseInt((this.like * 10000) / this.getTotal()) / 100 : 0;
     },
     getDislikeRatio: function () {
-        return parseInt((this.dislike * 10000) / this.getTotal()) / 100;
+        return this.getTotal() ? parseInt((this.dislike * 10000) / this.getTotal()) / 100 : 0;
     },
     getTotal: function () {
         return this.like + this.dislike;
@@ -68,8 +68,8 @@ function CountSvc ($rootScope, JSONPSvc, Counts) {
 
     function getCountByKeyCode(keyCode) {
         return _.findWhere(Counts.list, {
-            keyCode: keyCode
-        }) || new Count({ keyCode: keyCode, likeCount: 0, dislikeCount: 0 });
+                keyCode: keyCode
+            }) || new Count({ keyCode: keyCode, likeCount: 0, dislikeCount: 0 });
     }
 
     this.counts = counts;

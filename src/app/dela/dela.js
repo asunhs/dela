@@ -22,15 +22,23 @@ function Card(menu) {
 var DELA_URL = 'https://script.google.com/macros/s/AKfycbxFhifcCIQst4i75OPBiPVwYwv154Si2woBJRTYBuxd817FrFeO/exec?callback=JSON_CALLBACK&action=';
 
 /* @ngInject */
-function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
+function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc, FirebaseSvc) {
+
+    this.getMenus = getMenus;
+    this.getCards = getCards;
+    this.getCounts = getCounts;
 
     function getMenus() {
-        return JSONPSvc.request(DELA_URL + 'menus').then(afterGetMenus);
+        // return JSONPSvc.request(DELA_URL + 'menus').then(afterGetMenus);
+        return FirebaseSvc.getJamsilMenu().then(function (data) {
+            Cards.list = data.menus;
+            Cards.time = data.time;
+
+            return Cards;
+        });
     }
 
-    function getDummys() {
-        return JSONPSvc.request(DELA_URL + 'dummy').then(afterGetMenus);
-    }
+
 
     function getMenuHash(cards) {
         return CryptoJS.SHA1(cards.map(function (card) {
@@ -60,17 +68,11 @@ function DelaSvc(JSONPSvc, CountSvc, Cards, StoreSvc) {
             return card.keyCode;
         }), true);
     }
-
-    this.getMenus = getMenus;
-    this.getDummys = getDummys;
-    this.getCards = getCards;
-    this.getCounts = getCounts;
-    this.getMenuHash = getMenuHash;
 }
 
 
 /* @ngInject */
-function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc) {
+function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc, FirebaseSvc) {
 
     DelaSvc.getMenus().then(function (cards) {
         $scope.menus = cards.list;
@@ -88,7 +90,7 @@ function DelaCtrl($document, $scope, DelaSvc, NaverWeatherAPI, StockSvc) {
             $scope.weatherTemperature = parseInt(info.weather.temperature);
             $scope.weatherPosition = [info.region.doName, info.region.siName, info.region.dongName].join(' ');
             $scope.weatherRcode = info.region.rcode;
-            
+
             if (info.weather.weatherCode == "5") {
                 $document.find('body').letItSnow();
             }
