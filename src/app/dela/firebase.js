@@ -1,13 +1,13 @@
+var JAMSIL = "https://dela-mini.firebaseio.com/delacourt/jamsil.json";
+
 /* @ngInject */
-function FirebaseSvc($q) {
+function FirebaseSvc($http) {
 
     this.getJamsilMenu = getJamsilMenu;
 
     function getJamsilMenu() {
-        return $q(function (resolve, reject) {
-            return firebase.database().ref('delacourt/jamsil').on('value', function (data) {
-                resolve(data.val());
-            }, reject);
+        return $http.jsonp(JAMSIL + '?callback=JSON_CALLBACK').then(function (data) {
+            return data.data;
         });
     }
 }

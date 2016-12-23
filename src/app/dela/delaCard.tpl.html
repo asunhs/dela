@@ -9,8 +9,8 @@
             {{::menu.sectionName}}
         </div>
         <div class="dela-card-menu" ng-click="toggle()">
-            <p><span class="title-ko">{{::menu.ko}}</span></p>
-            <p><span class="title-en">{{::menu.en}}</span></p>
+            <p><span class="title-ko">{{::menu.ko | unescape}}</span></p>
+            <p><span class="title-en">{{::menu.en | unescape}}</span></p>
             <p>{{::calories | number}} kcal</p>
             <p ng-if="!menu.soldout"><span class="price">{{::price | number}} 원</span> <span class="discounted">({{::discounted | number}} 원)</span></p>
             <p ng-if="menu.soldout"><span class="soldout">SOLD OUT</span></p>
