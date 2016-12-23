@@ -25,8 +25,8 @@ angular.module("dela/delaCard.tpl.html", []).run(["$templateCache", function($te
     "            {{::menu.sectionName}}\n" +
     "        </div>\n" +
     "        <div class=\"dela-card-menu\" ng-click=\"toggle()\">\n" +
-    "            <p><span class=\"title-ko\">{{::menu.ko}}</span></p>\n" +
-    "            <p><span class=\"title-en\">{{::menu.en}}</span></p>\n" +
+    "            <p><span class=\"title-ko\">{{::menu.ko | unescape}}</span></p>\n" +
+    "            <p><span class=\"title-en\">{{::menu.en | unescape}}</span></p>\n" +
     "            <p>{{::calories | number}} kcal</p>\n" +
     "            <p ng-if=\"!menu.soldout\"><span class=\"price\">{{::price | number}} 원</span> <span class=\"discounted\">({{::discounted | number}} 원)</span></p>\n" +
     "            <p ng-if=\"menu.soldout\"><span class=\"soldout\">SOLD OUT</span></p>\n" +
@@ -419,20 +419,20 @@ CardDirective.$inject = ["CountSvc", "DelaSvc", "StoreSvc"];
 
 require('DelaApp').directive('delaCard', CardDirective);
 },{"DelaApp":"DelaApp"}],5:[function(require,module,exports){
+var JAMSIL = "https://dela-mini.firebaseio.com/delacourt/jamsil.json";
+
 /* @ngInject */
-function FirebaseSvc($q) {
+function FirebaseSvc($http) {
 
     this.getJamsilMenu = getJamsilMenu;
 
     function getJamsilMenu() {
-        return $q(function (resolve, reject) {
-            return firebase.database().ref('delacourt/jamsil').on('value', function (data) {
-                resolve(data.val());
-            }, reject);
+        return $http.jsonp(JAMSIL + '?callback=JSON_CALLBACK').then(function (data) {
+            return data.data;
         });
     }
 }
-FirebaseSvc.$inject = ["$q"];
+FirebaseSvc.$inject = ["$http"];
 
 
 
@@ -655,6 +655,17 @@ KoreanStock.$inject = ["$filter"];
 
 require('DelaApp').filter('kstock', KoreanStock);
 },{"DelaApp":"DelaApp"}],14:[function(require,module,exports){
+var PRICE = /([+-]?)([0-9]+)(\.[0-9]*)/;
+
+/* @ngInject */
+function Unescape($filter) {
+    return _.unescape;
+}
+Unescape.$inject = ["$filter"];
+
+require('DelaApp').filter('unescape', Unescape);
+
+},{"DelaApp":"DelaApp"}],15:[function(require,module,exports){
 /*!
  * Let it snow
  * http://drawain.hu/let-it-snow-jquery-plugin
@@ -714,4 +725,4 @@ require('DelaApp').filter('kstock', KoreanStock);
     };
 
 }(jQuery, window));
-},{}]},{},["DelaApp",2,3,4,5,6,7,8,9,10,11,12,13,14,1]);
+},{}]},{},["DelaApp",2,3,4,5,6,7,8,9,10,11,12,13,14,15,1]);
