@@ -1,15 +1,9 @@
 <header>
-  Delacourt Mini
+    Delacourt Mini
+
+    <ul>
+        <li routerLink="/jamsil" routerLinkActive="on">잠실</li>
+        <li routerLink="/rnd" routerLinkActive="on">우면</li>
+    </ul>
 </header>
-<p class="time">{{dela.time}}</p>
-<dela-card *ngFor="let menu of dela.menus" [menu]=menu></dela-card>
-
-<div class="closed" *ngIf="!dela.opened">
-  <p>지금은 영업중이 아닙니다.</p>
-  <p>We're closed now</p>
-</div>
-
-<div class="page-info">
-  <p>메뉴 내용은 모두 <a href="http://sdsfoodmenu.co.kr:9106/foodcourt/menuplanner/list" target="_blank">Delacourt for SDS</a>에 권리가 있습니다.</p>
-  <p>더 좋은 사이트가 될 수 있도록 <a href="http://github.com/asunhs/dela" target="_blank">Github</a>에 참여해주세요</p>
-</div>
+<router-outlet></router-outlet>

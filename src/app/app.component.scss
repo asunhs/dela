@@ -1,0 +1,18 @@
+ul {
+    display: inline-block;
+    list-style-type: none;
+    padding: initial;
+
+    li {
+        color: #d3d3d3;
+        background-color: #375600;
+        display: inline-block;
+        padding: 2px 5px;
+        border-radius: 3px;
+
+        &.on {
+            color: #f3f3f3;
+            background-color: #577620;
+        }
+    }
+}

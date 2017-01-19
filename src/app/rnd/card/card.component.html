@@ -1,0 +1,13 @@
+<div class="dela-card-header">  
+  <span [class]="menu.sectionId | prefix">{{menu.sectionName}}</span>
+  <span [class]="menu.cal | toNumber | calories">{{menu.cal | toNumber | calories:"name"}}</span>
+  <span [class]="menu.zoneId">{{menu.zoneId | cafe}}</span>
+</div>
+
+<div class="dela-card">
+  <span class="dela-card-menu">{{menu.title | unescape}}</span>
+  <span class="dela-card-description">
+    <i *ngFor="let item of menu.menu">{{item}} </i>
+  </span>
+  <span class="dela-card-calories">{{menu.cal}}</span>
+</div>

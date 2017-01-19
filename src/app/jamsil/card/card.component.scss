@@ -1,6 +1,5 @@
 $card-height: 120px;
 $image-height: 100px;
-$section-width: 20px;
 
 * {
     box-sizing: border-box;
@@ -52,11 +51,7 @@ $section-width: 20px;
 
         
 
-        &.DEPT001 {
-            background-color: #b45d10;
-        }
-
-        &.DEPT002 {
+        &.DEPT001, &.DEPT002 {
             background-color: #b45d10;
         }
 
@@ -72,11 +67,7 @@ $section-width: 20px;
             background-color: #59aa31;
         }
 
-        &.DSDS011 {
-            background-color: #b45d10;
-        }
-
-        &.DSDS012 {
+        &.DSDS011, &.DSDS012 {
             background-color: #b45d10;
         }
 

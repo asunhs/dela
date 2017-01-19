@@ -1,0 +1,16 @@
+ul {
+    display: flex;
+    list-style-type: none;
+    padding: initial;
+
+    li {
+        flex: 1;
+        text-align: center;
+        background-color: #555;
+        color: #f3f3f3;
+
+        &.on {
+            background-color: #888;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+<p class="time">{{dela.date}}</p>
+<ul>
+  <li [class.on]="meal == 0" (click)="meal = 0">아침</li>
+  <li [class.on]="meal == 1" (click)="meal = 1">점심</li>
+  <li [class.on]="meal == 2" (click)="meal = 2">저녁</li>
+</ul>
+<dela-card *ngFor="let menu of dela.menus[meal]" [menu]=menu></dela-card>
+
+<div class="closed" *ngIf="!dela.opened">
+  <p>지금은 영업중이 아닙니다.</p>
+  <p>We're closed now</p>
+</div>
+
+<div class="page-info">
+    <p>메뉴 내용은 모두 <a href="http://www.welstory.com/menu/seoulrnd/menu.jsp" target="_blank">Welstory for SDS</a>에 권리가 있습니다.</p>
+    <p>더 좋은 사이트가 될 수 있도록 <a href="http://github.com/asunhs/dela" target="_blank">Github</a>에 참여해주세요</p>
+</div>
