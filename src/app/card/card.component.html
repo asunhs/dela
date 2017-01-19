@@ -1,12 +1,16 @@
-<ul>
-  <li>B1</li>
-  <li>표준칼로리</li>
-</ul>
-<div>
-  <span class="dela-card-section">Korean 2</span>
-  <span class="dela-card-menu">돼지고기고추장찌게</span>
-  <span class="dela-card-description">Spicy Pork Stew seasoned with Red Papper Pasto</span>
-  <span class="dela-card-calories">733 kcal</span>
-  <span class="dela-card-price">5,500 원 <b>(2,500 원)</b></span>
-  <img src="" alt="" />
+<div class="dela-card-header">  
+  <span [class]="menu.sectionId">{{menu.sectionName}}</span>
+  <span [class]="menu.cal | toNumber | calories">{{menu.cal | toNumber | calories:"name"}}</span>
+  <span [class]="menu.zoneId">{{menu.zoneId}}</span>
+</div>
+
+<div class="dela-card">
+  <span class="dela-card-image">
+    <img [src]="menu.imgSrc" [alt]="menu.ko" />
+  </span>
+  
+  <span class="dela-card-menu">{{menu.ko | unescape}}</span>
+  <span class="dela-card-description">{{menu.en | unescape}}</span>
+  <span class="dela-card-calories">{{menu.cal}}</span>
+  <span class="dela-card-price">{{menu.price}} <b>({{menu.price | toNumber | discount | number }}원)</b></span>
 </div>

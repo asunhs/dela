@@ -1,12 +1,162 @@
-ul {
-    list-style-type: none;
-    padding: initial;
+$card-height: 120px;
+$image-height: 100px;
+$section-width: 20px;
 
-    li {
-        display: inline-block;
+* {
+    box-sizing: border-box;
+}
+
+.dela-card-header {
+    color: #fff;
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+    display: flex;
+
+    span {
+        padding: 2px 10px;
+        background-color: #9dc8d6;
+
+        &:first-child {
+            flex: 1;
+        }
+        
+        &.B1 {
+            background-color: #e88705;
+        }
+
+        &.B2 {
+            background-color: #e5ac05;
+        }
+
+        
+        &.super-high {
+            background-color: #b70f0f;
+        }
+
+        &.high {
+            background-color: #e07070;
+        }
+
+        &.normal {
+            background-color: #9dc8d6;
+        }
+
+        &.low {
+            background-color: #577620;
+        }
+
+        &.super-low {
+            background-color: #90ee90;
+        }
+
+        
+
+        &.DEPT001 {
+            background-color: #b45d10;
+        }
+
+        &.DEPT002 {
+            background-color: #b45d10;
+        }
+
+        &.DEPT003 {
+            background-color: #e88705;
+        }
+
+        &.DEPT004 {
+            background-color: #e5ac05;
+        }
+
+        &.DEPT005 {
+            background-color: #59aa31;
+        }
+
+        &.DSDS011 {
+            background-color: #b45d10;
+        }
+
+        &.DSDS012 {
+            background-color: #b45d10;
+        }
+
+        &.DSDS013 {
+            background-color: #59aa31;
+        }
+
+        &.DSDS014 {
+            background-color: #8a36be;
+        }
+
+        &.DSDS015 {
+            background-color: #b45d10;
+        }
+
+        &.DSDS016 {
+            background-color: #31aa8b;
+        }
+
+        &.DSDS017 {
+            background-color: #b70f0f;
+        }
+
+        &.DSDS018 {
+            background-color: #e5ac05;
+        }
     }
 }
 
-.dela-card-section {
-    writing-mode: vertical-rl;
+div.dela-card {
+    background-color: #f9f9f9;
+    color: #3f3f3f;
+    width: 100%;
+    height: $card-height;
+    position: relative;
+    
+    padding: 10px;
+    margin-bottom: 10px;
+
+    span {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
+img {
+    height: $image-height;
+}
+
+span {
+    display: block;
+}
+
+.dela-card-image {
+    position: absolute;
+    right: 0;
+    width: 160px;
+    height: $image-height;
+    text-align: center;
+}
+
+.dela-card-menu {
+    font-size: 16px;
+}
+
+.dela-card-description {
+    font-size: 10px;
+    color: #afafaf;
+}
+
+.dela-card-calories {
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+.dela-card-price {
+    font-size: 12px;
+    color: #afafaf;
+
+    b {
+        color: #3f3f3f;
+    }
 }
