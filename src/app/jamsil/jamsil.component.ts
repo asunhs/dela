@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { DelaService } from '../dela/dela.service';
 
+import * as _ from 'lodash';
+
 @Component({
   selector: 'dela-jamsil',
   templateUrl: './jamsil.component.html',
@@ -9,12 +11,13 @@ import { DelaService } from '../dela/dela.service';
 export class JamsilComponent {
   
   dela: any = {};
+  filteredCalories: string[] = [];
 
-  constructor(private delaService:DelaService) {
-    this.getMenus().then(dela => this.dela = dela);
+  constructor(delaService:DelaService) {
+    delaService.getJamsil().then(dela => this.dela = dela);
   }
 
-  getMenus(): Promise<any> {
-    return this.delaService.getJamsil();
+  getMenus(): any {
+    return _(this.dela).value();
   }
 }

@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { JamsilModule } from './jamsil/jamsil.module';
 import { RndModule } from './rnd/rnd.module';
+import { SangamModule } from './sangam/sangam.module';
 
 import { AppComponent } from './app.component';
 
@@ -18,7 +19,8 @@ import { AppComponent } from './app.component';
     FormsModule,
     AppRoutingModule,
     JamsilModule,
-    RndModule
+    RndModule,
+    SangamModule
   ],
   bootstrap: [AppComponent]
 })

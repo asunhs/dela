@@ -19,14 +19,6 @@ $image-height: 100px;
         &:first-child {
             flex: 1;
         }
-        
-        &.B1 {
-            background-color: #e88705;
-        }
-
-        &.B2 {
-            background-color: #e5ac05;
-        }
 
         
         &.super-high {
@@ -51,47 +43,15 @@ $image-height: 100px;
 
         
 
-        &.DEPT001, &.DEPT002 {
+        &.DSDSSA001 {
             background-color: #b45d10;
         }
 
-        &.DEPT003 {
-            background-color: #e88705;
-        }
-
-        &.DEPT004 {
-            background-color: #e5ac05;
-        }
-
-        &.DEPT005 {
+        &.DSDSSA002 {
             background-color: #59aa31;
         }
 
-        &.DSDS011, &.DSDS012 {
-            background-color: #b45d10;
-        }
-
-        &.DSDS013 {
-            background-color: #59aa31;
-        }
-
-        &.DSDS014 {
-            background-color: #8a36be;
-        }
-
-        &.DSDS015 {
-            background-color: #b45d10;
-        }
-
-        &.DSDS016 {
-            background-color: #31aa8b;
-        }
-
-        &.DSDS017 {
-            background-color: #b70f0f;
-        }
-
-        &.DSDS018 {
+        &.DSDSSA003 {
             background-color: #e5ac05;
         }
     }

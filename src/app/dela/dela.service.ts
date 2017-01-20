@@ -8,6 +8,7 @@ export class DelaService {
 
   private JAMSIL:string = "https://dela-mini.firebaseio.com/delacourt/jamsil.json";
   private RND:string = "https://dela-mini.firebaseio.com/delacourt/rnd.json";
+  private SANGAM:string = "https://dela-mini.firebaseio.com/delacourt/sangam.json";
 
   constructor(private jsonp: Jsonp) { }
 
@@ -17,6 +18,10 @@ export class DelaService {
 
   getRnd(): Promise<any> {
     return this.getMenus(this.RND);
+  }
+
+  getSangam(): Promise<any> {
+    return this.getMenus(this.SANGAM);
   }
 
   getMenus(url:string): Promise<any> {

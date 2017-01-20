@@ -1,5 +1,3 @@
-$card-height: 100px;
-
 * {
     box-sizing: border-box;
 }
@@ -50,7 +48,7 @@ $card-height: 100px;
 
         
 
-        &.b_spring, &.b_dodam, &.b_01, &.b_02, &.dodam_01, &.gosel {
+        &.b_spring, &.b_dodam, &.b_01, &.b_02, &.dodam_01, &.dodam_02, &.gosel {
             background-color: #b45d10;
         }
 
@@ -84,16 +82,10 @@ div.dela-card {
     background-color: #f9f9f9;
     color: #3f3f3f;
     width: 100%;
-    height: $card-height;
     position: relative;
     
     padding: 10px;
     margin-bottom: 10px;
-
-    span {
-        white-space: nowrap;
-        overflow: hidden;
-    }
 }
 
 span {
