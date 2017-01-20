@@ -4,7 +4,9 @@
   <li [class.on]="meal == 1" (click)="meal = 1">점심</li>
   <li [class.on]="meal == 2" (click)="meal = 2">저녁</li>
 </ul>
-<dela-card *ngFor="let menu of dela.menus[meal]" [menu]=menu></dela-card>
+<div>
+  <dela-card *ngFor="let menu of dela.menus[meal]" [menu]=menu></dela-card>
+</div>
 
 <div class="closed" *ngIf="!dela.opened">
   <p>지금은 영업중이 아닙니다.</p>

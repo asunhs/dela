@@ -1,5 +1,7 @@
 <p class="time">{{dela.time}}</p>
-<dela-card *ngFor="let menu of dela.menus" [menu]=menu></dela-card>
+<div>
+  <dela-card *ngFor="let menu of dela.menus" [menu]=menu></dela-card>
+</div>
 
 <div class="closed" *ngIf="!dela.opened">
   <p>지금은 영업중이 아닙니다.</p>

@@ -1,7 +1,8 @@
 ul {
-    display: inline-block;
     list-style-type: none;
     padding: initial;
+    margin: initial;
+    float: right;
 
     li {
         cursor: pointer;
