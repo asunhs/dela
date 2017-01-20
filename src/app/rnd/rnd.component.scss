@@ -4,13 +4,15 @@ ul {
     padding: initial;
 
     li {
+        cursor: pointer;
         flex: 1;
         text-align: center;
         background-color: #555;
-        color: #f3f3f3;
+        color: #d3d3d3;
 
         &.on {
             background-color: #888;
+            color: #f3f3f3;
         }
     }
 }
