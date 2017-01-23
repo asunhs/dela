@@ -11,13 +11,27 @@ import * as _ from 'lodash';
 export class JamsilComponent {
   
   dela: any = {};
-  filteredCalories: string[] = [];
+  zoneIds = ['B1','B2'];
 
   constructor(delaService:DelaService) {
     delaService.getJamsil().then(dela => this.dela = dela);
   }
 
-  getMenus(): any {
-    return _(this.dela).value();
+  getFilteredMenus() {
+    return _.filter(this.dela.menus, (menu:any) => {
+      return this.isFilteredZone(menu.zoneId);
+    });
+  }
+
+  isFilteredZone(zoneId) {
+    return _.includes(this.zoneIds, zoneId);
+  }
+
+  toggleZoneFilter(zoneId) {
+    if (this.isFilteredZone(zoneId)) {
+      _.pull(this.zoneIds, zoneId);
+    } else {
+      this.zoneIds.push(zoneId);
+    }
   }
 }

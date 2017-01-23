@@ -1,14 +1,19 @@
 <p class="time">{{dela.date}}</p>
-<ul *ngIf="!!dela.opened">
-  <li [class.on]="meal == 0" (click)="meal = 0">아침</li>
-  <li [class.on]="meal == 1" (click)="meal = 1">점심</li>
-  <li [class.on]="meal == 2" (click)="meal = 2">저녁</li>
-</ul>
-<div>
-  <dela-card *ngFor="let menu of dela.menus[meal]" [menu]=menu></dela-card>
+<div *ngIf="!!dela.opened">
+  <span class="filter"></span>
+  <ul class="cafe-filter">
+    <li class="B" [class.on]="isFilteredZone('B')" (click)="toggleZoneFilter('B')">Cafe 1</li>
+    <li class="A" [class.on]="isFilteredZone('A')" (click)="toggleZoneFilter('A')">Cafe 2</li>
+  </ul>
+  <ul class="meal">
+    <li [class.on]="meal == 0" (click)="meal = 0">아침</li>
+    <li [class.on]="meal == 1" (click)="meal = 1">점심</li>
+    <li [class.on]="meal == 2" (click)="meal = 2">저녁</li>
+  </ul>
+  <dela-card *ngFor="let menu of getFilteredMenus()" [menu]=menu></dela-card>
 </div>
 
-<div class="closed" *ngIf="!dela.opened">
+<div class="closed" *ngIf="dela.opened === false">
   <p>지금은 영업중이 아닙니다.</p>
   <p>We're closed now</p>
 </div>

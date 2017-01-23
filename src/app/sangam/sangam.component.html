@@ -3,7 +3,7 @@
   <dela-card *ngFor="let menu of dela.menus" [menu]=menu></dela-card>
 </div>
 
-<div class="closed" *ngIf="!dela.opened">
+<div class="closed" *ngIf="dela.opened === false">
   <p>지금은 영업중이 아닙니다.</p>
   <p>We're closed now</p>
 </div>

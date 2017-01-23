@@ -1,22 +1,3 @@
-ul.meal {
-    display: flex;
-    list-style-type: none;
-    padding: initial;
-
-    li {
-        cursor: pointer;
-        flex: 1;
-        text-align: center;
-        background-color: #555;
-        color: #d3d3d3;
-
-        &.on {
-            background-color: #888;
-            color: #f3f3f3;
-        }
-    }
-}
-
 ul.cafe-filter {
     list-style-type: none;
     display: inline-block;
@@ -38,11 +19,11 @@ ul.cafe-filter {
             opacity: 1;
         }
         
-        &.A {
+        &.B1 {
             background-color: #e88705;
         }
 
-        &.B {
+        &.B2 {
             background-color: #e5ac05;
         }
     }

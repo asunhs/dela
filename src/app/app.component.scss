@@ -18,3 +18,23 @@ ul {
         }
     }
 }
+
+div.overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    opacity: .3;
+
+    > span.loading-image {
+        align-self: center;
+        width: 64px;
+        height: 64px;
+        background-size: 64px;
+        background-image: url('assets/images/loading_apple.gif');
+    }
+}
