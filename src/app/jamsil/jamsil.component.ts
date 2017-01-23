@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'dela-jamsil',
   templateUrl: './jamsil.component.html',
-  styles: []
+  styleUrls: ['./jamsil.component.scss']
 })
 export class JamsilComponent {
   
