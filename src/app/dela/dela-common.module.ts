@@ -7,6 +7,7 @@ import { UnescapePipe } from './unescape.pipe';
 import { CaloriesPipe } from './calories.pipe';
 import { ToNumberPipe } from './toNumber.pipe';
 import { DiscountPipe } from './discount.pipe';
+import { FolderDirective } from './folder.directive';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { DiscountPipe } from './discount.pipe';
     UnescapePipe,
     CaloriesPipe,
     ToNumberPipe,
-    DiscountPipe
+    DiscountPipe,
+    FolderDirective
   ],
   providers: [
     DelaService
@@ -27,7 +29,8 @@ import { DiscountPipe } from './discount.pipe';
     UnescapePipe,
     CaloriesPipe,
     ToNumberPipe,
-    DiscountPipe
+    DiscountPipe,
+    FolderDirective
   ]
 })
 export class DelaCommonModule { }

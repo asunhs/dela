@@ -1,9 +1,9 @@
 <div class="dela-card-header">  
   <span [class]="menu.sectionId">{{menu.sectionName}}</span>
-  <span [class]="menu.cal | toNumber | calories">{{menu.cal | toNumber | calories:"name"}}</span>
+  <span [class]="menu.cal | calories">{{menu.cal | calories:"name"}}</span>
 </div>
 
-<div class="dela-card">
+<div class="dela-card-content">
   <span class="dela-card-image">
     <img [src]="menu.imgSrc" [alt]="menu.ko" onError="this.src = 'assets/images/no-image.png'" />
   </span>

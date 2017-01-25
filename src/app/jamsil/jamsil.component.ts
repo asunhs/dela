@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { CaloriesFiltered } from '../dela/calories-filtered';
 import { DelaService } from '../dela/dela.service';
+import { FolderDirective } from '../dela/folder.directive';
 
 import * as _ from 'lodash';
 
@@ -8,18 +10,22 @@ import * as _ from 'lodash';
   templateUrl: './jamsil.component.html',
   styleUrls: ['./jamsil.component.scss']
 })
-export class JamsilComponent {
+export class JamsilComponent extends CaloriesFiltered {
   
   dela: any = {};
   zoneIds = ['B1','B2'];
 
-  constructor(delaService:DelaService) {
+  @ViewChild(FolderDirective)
+  private folder;
+
+  constructor(private delaService:DelaService) {
+    super();
     delaService.getJamsil().then(dela => this.dela = dela);
   }
 
   getFilteredMenus() {
     return _.filter(this.dela.menus, (menu:any) => {
-      return this.isFilteredZone(menu.zoneId);
+      return this.isFilteredZone(menu.zoneId) && this.isFilteredCalorie(this.delaService.classify(menu.cal));
     });
   }
 
@@ -33,5 +39,10 @@ export class JamsilComponent {
     } else {
       this.zoneIds.push(zoneId);
     }
+    return false;
+  }
+
+  fold() {
+    this.folder.toggle();
   }
 }

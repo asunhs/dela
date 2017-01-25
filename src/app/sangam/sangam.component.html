@@ -1,6 +1,17 @@
 <p class="time">{{dela.time}}</p>
-<div>
-  <dela-card *ngFor="let menu of dela.menus" [menu]=menu></dela-card>
+<div *ngIf="!!dela.opened">
+  <div class="filter">
+    <ul>
+      <li class="super-high" [class.on]="isFilteredCalorie('super-high')" (click)="toggleCalorieFilter('super-high')">초고</li>
+      <li class="high" [class.on]="isFilteredCalorie('high')" (click)="toggleCalorieFilter('high')">높은</li>
+      <li class="normal" [class.on]="isFilteredCalorie('normal')" (click)="toggleCalorieFilter('normal')">표준</li>
+      <li class="low" [class.on]="isFilteredCalorie('low')" (click)="toggleCalorieFilter('low')">낮은</li>
+      <li class="super-low" [class.on]="isFilteredCalorie('super-low')" (click)="toggleCalorieFilter('super-low')">초저</li>
+    </ul>
+  </div>
+  <div>
+    <dela-card *ngFor="let menu of getFilteredMenus()" [menu]=menu></dela-card>
+  </div>
 </div>
 
 <div class="closed" *ngIf="dela.opened === false">

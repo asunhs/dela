@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { DelaService } from './dela.service';
 
 const matcher = /[^\d\.]/g;
 
@@ -7,8 +8,10 @@ const matcher = /[^\d\.]/g;
 })
 export class ToNumberPipe implements PipeTransform {
 
+  constructor(private delaService:DelaService) { }
+
   transform(value: string, args?: any): number {
-    return parseInt(value.replace(matcher, ''));
+    return this.delaService.toNumber(value);
   }
 
 }

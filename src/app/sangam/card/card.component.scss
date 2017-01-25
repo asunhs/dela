@@ -14,34 +14,10 @@ $image-height: 100px;
 
     span {
         padding: 2px 10px;
-        background-color: #9dc8d6;
 
         &:first-child {
             flex: 1;
-        }
-
-        
-        &.super-high {
-            background-color: #b70f0f;
-        }
-
-        &.high {
-            background-color: #e07070;
-        }
-
-        &.normal {
-            background-color: #9dc8d6;
-        }
-
-        &.low {
-            background-color: #577620;
-        }
-
-        &.super-low {
-            background-color: #90ee90;
-        }
-
-        
+        }        
 
         &.DSDSSA001 {
             background-color: #b45d10;
@@ -57,7 +33,7 @@ $image-height: 100px;
     }
 }
 
-div.dela-card {
+div.dela-card-content {
     background-color: #f9f9f9;
     color: #3f3f3f;
     width: 100%;

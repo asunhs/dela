@@ -14,42 +14,10 @@ $image-height: 100px;
 
     span {
         padding: 2px 10px;
-        background-color: #9dc8d6;
 
         &:first-child {
             flex: 1;
         }
-        
-        &.B1 {
-            background-color: #e88705;
-        }
-
-        &.B2 {
-            background-color: #e5ac05;
-        }
-
-        
-        &.super-high {
-            background-color: #b70f0f;
-        }
-
-        &.high {
-            background-color: #e07070;
-        }
-
-        &.normal {
-            background-color: #9dc8d6;
-        }
-
-        &.low {
-            background-color: #577620;
-        }
-
-        &.super-low {
-            background-color: #90ee90;
-        }
-
-        
 
         &.DEPT001, &.DEPT002 {
             background-color: #b45d10;
@@ -97,7 +65,7 @@ $image-height: 100px;
     }
 }
 
-div.dela-card {
+div.dela-card-content {
     background-color: #f9f9f9;
     color: #3f3f3f;
     width: 100%;
@@ -105,7 +73,6 @@ div.dela-card {
     position: relative;
     
     padding: 10px;
-    margin-bottom: 10px;
 
     span {
         white-space: nowrap;

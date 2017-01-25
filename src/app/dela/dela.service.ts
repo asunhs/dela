@@ -3,6 +3,16 @@ import { Jsonp, URLSearchParams } from '@angular/http';
 
 import 'rxjs/Rx';
 
+const CAL_LEVEL = {
+  'SUPER_HIGH': 'super-high',
+  'HIGH': 'high',
+  'NORMAL': 'normal',
+  'LOW': 'low',
+  'SUPER_LOW': 'super-low'
+};
+
+const matcher = /[^\d\.]/g;
+
 @Injectable()
 export class DelaService {
 
@@ -46,5 +56,26 @@ export class DelaService {
       this.loading = false;
       return res;
     });
+  }
+
+  classify(calorieStr: string): string {
+
+    let calories = this.toNumber(calorieStr);
+
+    if (calories > 900) {
+        return CAL_LEVEL.SUPER_HIGH;
+    } else if (calories > 850) {
+        return CAL_LEVEL.HIGH;
+    } else if (calories < 600) {
+        return CAL_LEVEL.SUPER_LOW;
+    } else if (calories < 650) {
+        return CAL_LEVEL.LOW;
+    } else {
+        return CAL_LEVEL.NORMAL;
+    }
+  }
+
+  toNumber(value: string): number {
+    return parseInt(value.replace(matcher, ''))
   }
 }

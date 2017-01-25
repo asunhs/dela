@@ -1,6 +1,7 @@
 ul.meal {
     display: flex;
     list-style-type: none;
+    margin: 16px 8px;
     padding: initial;
 
     li {
@@ -15,45 +16,4 @@ ul.meal {
             color: #f3f3f3;
         }
     }
-}
-
-ul.cafe-filter {
-    list-style-type: none;
-    display: inline-block;
-    vertical-align: middle;
-    margin: initial;
-    padding: initial;
-    font-size: 14px;
-
-    li {
-        box-sizing: border-box;
-        height: 26px;
-        cursor: pointer;
-        color: #f3f3f3;
-        opacity: .5;
-        display: inline-block;
-        text-transform: uppercase;
-        padding: 2px 5px;
-        border-radius: 3px;
-
-        &.on {
-            opacity: 1;
-        }
-        
-        &.A {
-            background-color: #e88705;
-        }
-
-        &.B {
-            background-color: #e5ac05;
-        }
-    }
-}
-
-.filter {
-    display: inline-block;
-    vertical-align: middle;
-    width: 26px;
-    height: 26px;
-    background-size: 26px;
 }

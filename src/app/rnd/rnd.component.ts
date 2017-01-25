@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { CaloriesFiltered } from '../dela/calories-filtered';
 import { DelaService } from '../dela/dela.service';
+import { FolderDirective } from '../dela/folder.directive';
+
 import * as _ from 'lodash';
 
 @Component({
@@ -7,7 +10,7 @@ import * as _ from 'lodash';
   templateUrl: './rnd.component.html',
   styleUrls: ['./rnd.component.scss']
 })
-export class RndComponent {
+export class RndComponent extends CaloriesFiltered {
   
   meal:number = 1;
   dela: any = {
@@ -15,14 +18,18 @@ export class RndComponent {
   };
   zoneIds = ['A','B'];
 
+  @ViewChild(FolderDirective)
+  private folder;
+
   constructor(private delaService:DelaService) {
+    super();
     delaService.getRnd().then(dela => this.dela = dela);
     this.meal = this.now();
   }
 
   getFilteredMenus() {
     return _.filter(this.dela.menus[this.meal], (menu:any) => {
-      return this.isFilteredZone(menu.zoneId);
+      return this.isFilteredZone(menu.zoneId) && this.isFilteredCalorie(this.delaService.classify(menu.cal));
     });
   }
 
@@ -50,5 +57,9 @@ export class RndComponent {
     } else {
       return 1;
     }
+  }
+
+  fold() {
+    this.folder.toggle();
   }
 }

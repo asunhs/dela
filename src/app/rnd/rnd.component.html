@@ -1,10 +1,19 @@
 <p class="time">{{dela.date}}</p>
 <div *ngIf="!!dela.opened">
-  <span class="filter"></span>
-  <ul class="cafe-filter">
-    <li class="B" [class.on]="isFilteredZone('B')" (click)="toggleZoneFilter('B')">Cafe 1</li>
-    <li class="A" [class.on]="isFilteredZone('A')" (click)="toggleZoneFilter('A')">Cafe 2</li>
-  </ul>
+  <div class="filter" delaFolder="40px">
+    <span class="filter-more" (click)="fold()"></span>
+    <ul>
+      <li class="B" [class.on]="isFilteredZone('B')" (click)="toggleZoneFilter('B')">Cafe 1</li>
+      <li class="A" [class.on]="isFilteredZone('A')" (click)="toggleZoneFilter('A')">Cafe 2</li>
+    </ul>
+    <ul>
+      <li class="super-high" [class.on]="isFilteredCalorie('super-high')" (click)="toggleCalorieFilter('super-high')">초고</li>
+      <li class="high" [class.on]="isFilteredCalorie('high')" (click)="toggleCalorieFilter('high')">높은</li>
+      <li class="normal" [class.on]="isFilteredCalorie('normal')" (click)="toggleCalorieFilter('normal')">표준</li>
+      <li class="low" [class.on]="isFilteredCalorie('low')" (click)="toggleCalorieFilter('low')">낮은</li>
+      <li class="super-low" [class.on]="isFilteredCalorie('super-low')" (click)="toggleCalorieFilter('super-low')">초저</li>
+    </ul>
+  </div>
   <ul class="meal">
     <li [class.on]="meal == 0" (click)="meal = 0">아침</li>
     <li [class.on]="meal == 1" (click)="meal = 1">점심</li>
