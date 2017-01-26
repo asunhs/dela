@@ -123,19 +123,21 @@ dela-root {
     
     .dela-card {
         display: inline-block;
-        margin: 8px;
-        flex: 1;
+        margin: 0 8px;
+        flex: 1 1;
     }
 
     @media screen and (min-width: 300px) {
         .dela-card {
             min-width: 300px;
+            flex: 1 1 300px;
         }
     }
 
     @media screen and (min-width: 480px) {
         .dela-card {
             min-width: 400px;
+            flex: 1 1 400px;
         }
     }
 }
