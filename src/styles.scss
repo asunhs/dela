@@ -66,10 +66,15 @@ dela-root {
         margin-right: -2px;
         vertical-align: middle;
         display: inline-block;
+        opacity: .5;
         width: 26px;
         height: 26px;
         background-size: 26px;
         background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABL0lEQVR42mNggAHPXHbN0OJ8/ZiaUwaxtd8M4+v+UxODzASZDbIDZBcDMlDxTJHRi66+aJTU/N84uYWmGGQHyC6QnXCfgwRobTE6BtkJDglQkNDD59hCAhwdoHiht+UwDLKbAZQ4BsoBILsZQCl0oBwAsnvUAXgdEFg17X9a1yKKcHD1dPIdsOnIhf+Ugh0nr5DvgBV7T1HsgPUHz5HvANusrv/nbz0i2/Ir9578t8/ppiwRkuuIywQsJykXkOoIYiwnORsS6whiLSerHCDkCFIsJ7sggjjiIcWWU1QSggoXdBDZMJt+RXFA5VQMB4TVzRx1wAhygHfppP///v1DcQCo5qRre6Bo8qr/6w+d+7/h0Pn/pdPWDOEGyYA3Sge8WT7gHZMB75oNfOd0gLvnAFdyIvU/FCC4AAAAAElFTkSuQmCC');
+    }
+
+    &.on::before {
+        opacity: 1;
     }
 
     ul {
@@ -101,6 +106,7 @@ dela-root {
     }
 
     .filter-more {
+        cursor: pointer;
         float: right;
         vertical-align: middle;
         margin: 4px 0;
@@ -111,12 +117,28 @@ dela-root {
     }
 }
 
-.dela-card {
-    display: block;
-    margin: 8px;
+.dela-card-list {
+    display: flex;
+    flex-wrap: wrap;
+    
+    .dela-card {
+        display: inline-block;
+        margin: 8px;
+        flex: 1;
+    }
+
+    @media screen and (min-width: 300px) {
+        .dela-card {
+            min-width: 300px;
+        }
+    }
+
+    @media screen and (min-width: 480px) {
+        .dela-card {
+            min-width: 400px;
+        }
+    }
 }
-
-
 
 
 

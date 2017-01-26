@@ -42,6 +42,10 @@ export class JamsilComponent extends CaloriesFiltered {
     return false;
   }
 
+  isFiltered(): boolean {
+    return (_.size(this.zoneIds) < 2) || super.isFiltered();
+  }
+
   fold() {
     this.folder.toggle();
   }

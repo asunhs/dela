@@ -45,6 +45,10 @@ export class RndComponent extends CaloriesFiltered {
     }
   }
 
+  isFiltered(): boolean {
+    return (_.size(this.zoneIds) < 2) || super.isFiltered();
+  }
+
   now():number {
 
     let now:Date = new Date();

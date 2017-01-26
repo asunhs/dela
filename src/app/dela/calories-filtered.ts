@@ -15,4 +15,8 @@ export class CaloriesFiltered {
     }
     return false;
   }
+
+  isFiltered(): boolean {
+    return _.size(this.calorieClasses) < 5;
+  }
 }

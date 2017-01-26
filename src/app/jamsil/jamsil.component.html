@@ -1,6 +1,6 @@
 <p class="time">{{dela.time}}</p>
 <div *ngIf="!!dela.opened">
-  <div class="filter" delaFolder="40px">
+  <div class="filter" delaFolder="40px" [class.on]="isFiltered()">
     <span class="filter-more" (click)="fold()"></span>
     <ul>
       <li class="B1" [class.on]="isFilteredZone('B1')" (click)="toggleZoneFilter('B1')">B1</li>
@@ -14,7 +14,7 @@
       <li class="super-low" [class.on]="isFilteredCalorie('super-low')" (click)="toggleCalorieFilter('super-low')">초저</li>
     </ul>
   </div>
-  <div>
+  <div class="dela-card-list">
     <dela-card *ngFor="let menu of getFilteredMenus()" [menu]=menu></dela-card>
   </div>
 </div>
