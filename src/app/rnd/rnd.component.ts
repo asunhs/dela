@@ -16,15 +16,21 @@ export class RndComponent extends CaloriesFiltered {
   dela: any = {
     menus: []
   };
-  zoneIds = ['A','B'];
+  zoneIds;
 
   @ViewChild(FolderDirective)
   private folder;
 
   constructor(private delaService:DelaService) {
     super();
+    this.init();
     delaService.getRnd().then(dela => this.dela = dela);
     this.meal = this.now();
+  }
+
+  init() {
+    super.init();
+    this.zoneIds = ['A','B'];
   }
 
   getFilteredMenus() {

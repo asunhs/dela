@@ -1,7 +1,12 @@
 import * as _ from 'lodash';
 
 export class CaloriesFiltered {
-  calorieClasses = ['super-high', 'high', 'normal', 'low', 'super-low'];
+  
+  calorieClasses;
+
+  init() {
+    this.calorieClasses = ['super-high', 'high', 'normal', 'low', 'super-low'];
+  }
 
   isFilteredCalorie(calorieClass) {
     return _.includes(this.calorieClasses, calorieClass);

@@ -2,6 +2,7 @@
 <div *ngIf="!!dela.opened">
   <div class="filter" delaFolder="40px" [class.on]="isFiltered()">
     <span class="filter-more" (click)="fold()"></span>
+    <span class="filters" (click)="init()"></span>
     <ul>
       <li class="B" [class.on]="isFilteredZone('B')" (click)="toggleZoneFilter('B')">Cafe 1</li>
       <li class="A" [class.on]="isFilteredZone('A')" (click)="toggleZoneFilter('A')">Cafe 2</li>

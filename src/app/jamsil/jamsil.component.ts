@@ -13,14 +13,20 @@ import * as _ from 'lodash';
 export class JamsilComponent extends CaloriesFiltered {
   
   dela: any = {};
-  zoneIds = ['B1','B2'];
+  zoneIds;
 
   @ViewChild(FolderDirective)
   private folder;
 
   constructor(private delaService:DelaService) {
     super();
+    this.init();
     delaService.getJamsil().then(dela => this.dela = dela);
+  }
+
+  init() {
+    super.init();
+    this.zoneIds = ['B1','B2'];
   }
 
   getFilteredMenus() {

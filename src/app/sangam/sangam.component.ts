@@ -15,7 +15,12 @@ export class SangamComponent extends CaloriesFiltered {
 
   constructor(private delaService:DelaService) {
     super();
+    this.init();
     delaService.getSangam().then(dela => this.dela = dela);
+  }
+
+  init() {
+    super.init();
   }
 
   getFilteredMenus() {

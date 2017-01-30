@@ -1,6 +1,7 @@
 <p class="time">{{dela.time}}</p>
 <div *ngIf="!!dela.opened">
   <div class="filter" [class.on]="isFiltered()">
+    <span class="filters" (click)="init()"></span>
     <ul>
       <li class="super-high" [class.on]="isFilteredCalorie('super-high')" (click)="toggleCalorieFilter('super-high')">초고</li>
       <li class="high" [class.on]="isFilteredCalorie('high')" (click)="toggleCalorieFilter('high')">높은</li>
