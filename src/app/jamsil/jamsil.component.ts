@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Inject, Component, ViewChild } from '@angular/core';
 import { CaloriesFiltered } from '../dela/calories-filtered';
-import { DelaService } from '../dela/dela.service';
+import { DelaService, API_URL } from '../dela/dela.service';
 import { FolderDirective } from '../dela/folder.directive';
 
 import * as _ from 'lodash';
@@ -8,7 +8,10 @@ import * as _ from 'lodash';
 @Component({
   selector: 'dela-jamsil',
   templateUrl: './jamsil.component.html',
-  styleUrls: ['./jamsil.component.scss']
+  styleUrls: ['./jamsil.component.scss'],
+  providers: [
+    { provide: API_URL, useValue: "https://dela-mini.firebaseio.com/delacourt/jamsil.json" }
+  ]
 })
 export class JamsilComponent extends CaloriesFiltered {
   
@@ -18,10 +21,12 @@ export class JamsilComponent extends CaloriesFiltered {
   @ViewChild(FolderDirective)
   private folder;
 
-  constructor(private delaService:DelaService) {
+  constructor(
+    private delaService:DelaService,
+    @Inject(API_URL) url: string) {
     super();
     this.init();
-    delaService.getJamsil().then(dela => this.dela = dela);
+    delaService.getMenus(url).subscribe(dela => this.dela = dela);
   }
 
   init() {

@@ -1,22 +1,28 @@
-import { Component } from '@angular/core';
+import { Inject, Component } from '@angular/core';
 import { CaloriesFiltered } from '../dela/calories-filtered';
-import { DelaService } from '../dela/dela.service';
+import { DelaService, API_URL } from '../dela/dela.service';
 
 import * as _ from 'lodash';
 
 @Component({
   selector: 'dela-jamsil',
   templateUrl: './sangam.component.html',
-  styles: []
+  styles: [],
+  providers: [
+    { provide: API_URL, useValue: "https://dela-mini.firebaseio.com/delacourt/sangam.json" }
+  ]
 })
 export class SangamComponent extends CaloriesFiltered {
   
   dela: any = {};
 
-  constructor(private delaService:DelaService) {
+  constructor(
+    private delaService:DelaService,
+    @Inject(API_URL) url: string
+  ) {
     super();
     this.init();
-    delaService.getSangam().then(dela => this.dela = dela);
+    delaService.getMenus(url).subscribe(dela => this.dela = dela);
   }
 
   init() {

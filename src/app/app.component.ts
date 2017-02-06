@@ -8,9 +8,13 @@ import { DelaService } from './dela/dela.service';
 })
 export class AppComponent {
 
-  constructor(private delaService:DelaService) { }
+  private loading: boolean;
+
+  constructor(delaService:DelaService) {
+    delaService.loading.subscribe(loading => this.loading = loading)
+  }
 
   isLoading() {
-    return this.delaService.isLoading();
+    return this.loading;
   }
 }

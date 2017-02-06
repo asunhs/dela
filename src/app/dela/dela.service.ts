@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, OpaqueToken, EventEmitter } from '@angular/core';
 import { Jsonp, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs';
 
 import 'rxjs/Rx';
 
@@ -13,49 +14,26 @@ const CAL_LEVEL = {
 
 const matcher = /[^\d\.]/g;
 
+export const API_URL = new OpaqueToken("API_URL");
+
 @Injectable()
 export class DelaService {
 
-  private JAMSIL:string = "https://dela-mini.firebaseio.com/delacourt/jamsil.json";
-  private RND:string = "https://dela-mini.firebaseio.com/delacourt/rnd.json";
-  private SANGAM:string = "https://dela-mini.firebaseio.com/delacourt/sangam.json";
-  private loading = false;
+  public loading = new EventEmitter<boolean>();
 
   constructor(private jsonp: Jsonp) { }
 
-  getJamsil(): Promise<any> {
-    return this.getMenus(this.JAMSIL);
-  }
-
-  getRnd(): Promise<any> {
-    return this.getMenus(this.RND);
-  }
-
-  getSangam(): Promise<any> {
-    return this.getMenus(this.SANGAM);
-  }
-
-  isLoading() {
-    return !!this.loading;
-  }
-
-  getMenus(url:string): Promise<any> {
+  getMenus(url:string): Observable<any> {
 
     let params = new URLSearchParams();
 
     params.set('callback', 'JSONP_CALLBACK');
 
-    this.loading = true;
+    this.loading.next(true);
 
     return this.jsonp.get(url, {
       search: params
-    }).map(response => response.json()).toPromise().then(res => {
-      this.loading = false;
-      return res;
-    }, res => {
-      this.loading = false;
-      return res;
-    });
+    }).map(response => response.json()).do(() => this.loading.next(false));
   }
 
   classify(calorieStr: string): string {
