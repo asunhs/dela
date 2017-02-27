@@ -18,9 +18,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     AppRoutingModule,
-    DelaCommonModule,
     JamsilModule,
     RndModule,
     SangamModule
