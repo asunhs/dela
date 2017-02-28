@@ -4,12 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
-import { DelaCommonModule } from './dela/dela-common.module';
 import { JamsilModule } from './jamsil/jamsil.module';
 import { RndModule } from './rnd/rnd.module';
 import { SangamModule } from './sangam/sangam.module';
 
 import { AppComponent } from './app.component';
+
+import { HttpModule, JsonpModule } from '@angular/http';
+import { DelaService } from './dela/dela.service';
+import { Jsonp } from '@angular/http';
 
 
 @NgModule({
@@ -18,12 +21,16 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
+    JsonpModule,
     AppRoutingModule,
     JamsilModule,
     RndModule,
     SangamModule
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

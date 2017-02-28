@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DelaService } from './dela/dela.service';
+import { DelaService, LoadingService } from './dela/dela.service';
 
 @Component({
   selector: 'dela-root',
@@ -10,8 +10,11 @@ export class AppComponent {
 
   private loading: boolean;
 
-  constructor(delaService:DelaService) {
-    delaService.loading.subscribe(loading => this.loading = loading)
+  constructor(
+    delaService:DelaService,
+    loadingService:LoadingService
+  ) {
+    loadingService.loading.subscribe(loading => this.loading = loading)
   }
 
   isLoading() {

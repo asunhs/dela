@@ -1,6 +1,6 @@
 import { Inject, Component, ViewChild } from '@angular/core';
-import { CaloriesFiltered } from '../dela/calories-filtered';
-import { DelaService, API_URL } from '../dela/dela.service';
+import { Filter, CaloriesFiltered } from '../dela/filter';
+import { DelaService, PlaceService } from '../dela/dela.service';
 import { FolderDirective } from '../dela/folder.directive';
 
 import * as _ from 'lodash';
@@ -10,7 +10,8 @@ import * as _ from 'lodash';
   templateUrl: './rnd.component.html',
   styleUrls: ['./rnd.component.scss'],
   providers: [
-    { provide: API_URL, useValue: "https://dela-mini.firebaseio.com/delacourt/rnd.json" }
+    PlaceService,
+    { provide: 'API_URL', useValue: "https://dela-mini.firebaseio.com/delacourt/rnd.json" }
   ]
 })
 export class RndComponent extends CaloriesFiltered {
@@ -19,45 +20,35 @@ export class RndComponent extends CaloriesFiltered {
   dela: any = {
     menus: []
   };
-  zoneIds;
+  zoneFilter: Filter;
 
   @ViewChild(FolderDirective)
   private folder;
 
   constructor(
-    private delaService:DelaService,
-    @Inject(API_URL) url: string) {
+    placeService:PlaceService,
+    private delaService:DelaService
+  ) {
     super();
-    this.init();
-    delaService.getMenus(url).subscribe(dela => this.dela = dela);
     this.meal = this.now();
+    this.zoneFilter = Filter.getFilter(['A','B']);
+    this.clear();
+    placeService.getMenus().subscribe(dela => this.dela = dela);
   }
 
-  init() {
-    super.init();
-    this.zoneIds = ['A','B'];
+  clear() {
+    this.calorieFilter.clear();
+    this.zoneFilter.clear();
   }
 
   getFilteredMenus() {
     return _.filter(this.dela.menus[this.meal], (menu:any) => {
-      return this.isFilteredZone(menu.zoneId) && this.isFilteredCalorie(this.delaService.classify(menu.cal));
+      return this.zoneFilter.isFiltered(menu.zoneId) && this.calorieFilter.isFiltered(this.delaService.classify(menu.cal));
     });
   }
 
-  isFilteredZone(zoneId) {
-    return _.includes(this.zoneIds, zoneId);
-  }
-
-  toggleZoneFilter(zoneId) {
-    if (this.isFilteredZone(zoneId)) {
-      _.pull(this.zoneIds, zoneId);
-    } else {
-      this.zoneIds.push(zoneId);
-    }
-  }
-
-  isFiltered(): boolean {
-    return (_.size(this.zoneIds) < 2) || super.isFiltered();
+  hasFiltered(): boolean {
+    return this.zoneFilter.hasFiltered() || this.calorieFilter.hasFiltered();
   }
 
   now():number {

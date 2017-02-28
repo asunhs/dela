@@ -1,6 +1,6 @@
 import { Inject, Component } from '@angular/core';
-import { CaloriesFiltered } from '../dela/calories-filtered';
-import { DelaService, API_URL } from '../dela/dela.service';
+import { Filter, CaloriesFiltered } from '../dela/filter';
+import { DelaService, PlaceService } from '../dela/dela.service';
 
 import * as _ from 'lodash';
 
@@ -9,7 +9,8 @@ import * as _ from 'lodash';
   templateUrl: './sangam.component.html',
   styles: [],
   providers: [
-    { provide: API_URL, useValue: "https://dela-mini.firebaseio.com/delacourt/sangam.json" }
+    PlaceService,
+    { provide: 'API_URL', useValue: "https://dela-mini.firebaseio.com/delacourt/sangam.json" }
   ]
 })
 export class SangamComponent extends CaloriesFiltered {
@@ -17,21 +18,25 @@ export class SangamComponent extends CaloriesFiltered {
   dela: any = {};
 
   constructor(
-    private delaService:DelaService,
-    @Inject(API_URL) url: string
+    placeService:PlaceService,
+    private delaService:DelaService
   ) {
     super();
-    this.init();
-    delaService.getMenus(url).subscribe(dela => this.dela = dela);
+    this.clear();
+    placeService.getMenus().subscribe(dela => this.dela = dela);
   }
 
-  init() {
-    super.init();
+  clear() {
+    this.calorieFilter.clear();
+  }
+
+  hasFiltered(): boolean {
+    return this.calorieFilter.hasFiltered();
   }
 
   getFilteredMenus() {
     return _.filter(this.dela.menus, (menu:any) => {
-      return this.isFilteredCalorie(this.delaService.classify(menu.cal));
+      return this.calorieFilter.isFiltered(this.delaService.classify(menu.cal));
     });
   }
 }

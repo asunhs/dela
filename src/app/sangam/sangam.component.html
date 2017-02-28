@@ -1,13 +1,13 @@
 <p class="time">{{dela.time}}</p>
 <div *ngIf="!!dela.opened">
-  <div class="filter" [class.on]="isFiltered()">
-    <span class="filters" (click)="init()"></span>
+  <div class="filter" [class.on]="hasFiltered()">
+    <span class="filters" (click)="clear()"></span>
     <ul>
-      <li class="super-high" [class.on]="isFilteredCalorie('super-high')" (click)="toggleCalorieFilter('super-high')">초고</li>
-      <li class="high" [class.on]="isFilteredCalorie('high')" (click)="toggleCalorieFilter('high')">높은</li>
-      <li class="normal" [class.on]="isFilteredCalorie('normal')" (click)="toggleCalorieFilter('normal')">표준</li>
-      <li class="low" [class.on]="isFilteredCalorie('low')" (click)="toggleCalorieFilter('low')">낮은</li>
-      <li class="super-low" [class.on]="isFilteredCalorie('super-low')" (click)="toggleCalorieFilter('super-low')">초저</li>
+      <li class="super-high" [class.on]="calorieFilter.isFiltered('super-high')" (click)="calorieFilter.toggle('super-high')">초고</li>
+      <li class="high" [class.on]="calorieFilter.isFiltered('high')" (click)="calorieFilter.toggle('high')">높은</li>
+      <li class="normal" [class.on]="calorieFilter.isFiltered('normal')" (click)="calorieFilter.toggle('normal')">표준</li>
+      <li class="low" [class.on]="calorieFilter.isFiltered('low')" (click)="calorieFilter.toggle('low')">낮은</li>
+      <li class="super-low" [class.on]="calorieFilter.isFiltered('super-low')" (click)="calorieFilter.toggle('super-low')">초저</li>
     </ul>
   </div>
   <div class="dela-card-list">

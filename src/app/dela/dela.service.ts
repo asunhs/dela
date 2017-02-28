@@ -14,14 +14,21 @@ const CAL_LEVEL = {
 
 const matcher = /[^\d\.]/g;
 
-export const API_URL = new OpaqueToken("API_URL");
+
+@Injectable()
+export class LoadingService {
+  public loading = new EventEmitter<boolean>();
+}
+
+
 
 @Injectable()
 export class DelaService {
 
-  public loading = new EventEmitter<boolean>();
-
-  constructor(private jsonp: Jsonp) { }
+  constructor(
+    private jsonp: Jsonp,
+    private loadingService: LoadingService
+  ) { }
 
   getMenus(url:string): Observable<any> {
 
@@ -29,11 +36,11 @@ export class DelaService {
 
     params.set('callback', 'JSONP_CALLBACK');
 
-    this.loading.next(true);
+    this.loadingService.loading.next(true);
 
     return this.jsonp.get(url, {
       search: params
-    }).map(response => response.json()).do(() => this.loading.next(false));
+    }).map(response => response.json()).do(() => this.loadingService.loading.next(false));
   }
 
   classify(calorieStr: string): string {
@@ -55,5 +62,18 @@ export class DelaService {
 
   toNumber(value: string): number {
     return parseInt(value.replace(matcher, ''))
+  }
+}
+
+
+@Injectable()
+export class PlaceService {
+  constructor(
+    private delaService: DelaService,
+    @Inject('API_URL') private url: string,
+  ) { }
+
+  getMenus() {
+    return this.delaService.getMenus(this.url);
   }
 }
