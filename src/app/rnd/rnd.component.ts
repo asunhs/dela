@@ -1,6 +1,6 @@
 import { Inject, Component, ViewChild } from '@angular/core';
-import { filter, Filter, CaloriesFiltered } from '../dela/filter';
-import { DelaService, PlaceService } from '../dela/dela.service';
+import { Filter, Filtered } from '../dela/filter';
+import { DelaService, PlaceService, CAL_LEVEL } from '../dela/dela.service';
 import { FolderDirective } from '../dela/folder.directive';
 
 import * as _ from 'lodash';
@@ -14,14 +14,18 @@ import * as _ from 'lodash';
     { provide: 'API_URL', useValue: "https://dela-mini.firebaseio.com/delacourt/rnd.json" }
   ]
 })
-export class RndComponent extends CaloriesFiltered {
+export class RndComponent extends Filtered {
   
   meal:number = 1;
   dela: any = {
     menus: []
   };
 
-  @filter(['A','B']) zoneFilter: Filter;
+  @Filter.create(['A','B'])
+  zoneFilter: Filter;
+
+  @Filter.create(CAL_LEVEL)
+  calorieFilter:Filter;
 
   @ViewChild(FolderDirective)
   private folder;
@@ -36,19 +40,10 @@ export class RndComponent extends CaloriesFiltered {
     placeService.getMenus().subscribe(dela => this.dela = dela);
   }
 
-  clear() {
-    this.calorieFilter.clear();
-    this.zoneFilter.clear();
-  }
-
   getFilteredMenus() {
     return _.filter(this.dela.menus[this.meal], (menu:any) => {
       return this.zoneFilter.isFiltered(menu.zoneId) && this.calorieFilter.isFiltered(this.delaService.classify(menu.cal));
     });
-  }
-
-  hasFiltered(): boolean {
-    return this.zoneFilter.hasFiltered() || this.calorieFilter.hasFiltered();
   }
 
   now():number {

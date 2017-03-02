@@ -3,8 +3,9 @@ import { Jsonp, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import 'rxjs/Rx';
+import * as _ from 'lodash';
 
-const CAL_LEVEL = {
+export const CAL_LEVEL = {
   'SUPER_HIGH': 'super-high',
   'HIGH': 'high',
   'NORMAL': 'normal',
