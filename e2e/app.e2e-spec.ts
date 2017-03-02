@@ -1,6 +1,6 @@
 import { DelaPage } from './app.po';
 
-describe('dela App', function() {
+describe('dela App', () => {
   let page: DelaPage;
 
   beforeEach(() => {

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import * as _ from 'lodash';
 
 export class Filter {
@@ -38,11 +39,13 @@ export class Filter {
 }
 
 
-export class CaloriesFiltered {
-  
-  calorieFilter:Filter;
-
-  constructor() {
-    this.calorieFilter = Filter.getFilter(['super-high', 'high', 'normal', 'low', 'super-low'])
+export function filter(items:string[]) {
+  return function (target:any, key:string) {
+    target[key] = Filter.getFilter(items);
   }
+}
+
+
+export class CaloriesFiltered {
+  @filter(['super-high', 'high', 'normal', 'low', 'super-low']) calorieFilter:Filter;
 }

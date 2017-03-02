@@ -1,5 +1,5 @@
 import { Inject, Component, ViewChild } from '@angular/core';
-import { Filter, CaloriesFiltered } from '../dela/filter';
+import { filter, Filter, CaloriesFiltered } from '../dela/filter';
 import { DelaService, PlaceService } from '../dela/dela.service';
 import { FolderDirective } from '../dela/folder.directive';
 
@@ -20,7 +20,8 @@ export class RndComponent extends CaloriesFiltered {
   dela: any = {
     menus: []
   };
-  zoneFilter: Filter;
+
+  @filter(['A','B']) zoneFilter: Filter;
 
   @ViewChild(FolderDirective)
   private folder;
@@ -31,7 +32,6 @@ export class RndComponent extends CaloriesFiltered {
   ) {
     super();
     this.meal = this.now();
-    this.zoneFilter = Filter.getFilter(['A','B']);
     this.clear();
     placeService.getMenus().subscribe(dela => this.dela = dela);
   }

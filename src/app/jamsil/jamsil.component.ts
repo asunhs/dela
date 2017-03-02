@@ -1,9 +1,24 @@
 import { Inject, Component, ViewChild } from '@angular/core';
-import { Filter, CaloriesFiltered } from '../dela/filter';
+import { filter, Filter, CaloriesFiltered } from '../dela/filter';
 import { DelaService, PlaceService } from '../dela/dela.service';
 import { FolderDirective } from '../dela/folder.directive';
 
 import * as _ from 'lodash';
+
+
+function TestDeco(options) {
+  return function (target) {
+    // console.log(target, options);
+  }
+}
+
+function MethodDeco(target, key:string, des: PropertyDescriptor) {
+  // console.log(target);
+  // console.log(key);
+  // console.log(des);
+}
+
+
 
 @Component({
   selector: 'dela-jamsil',
@@ -17,7 +32,8 @@ import * as _ from 'lodash';
 export class JamsilComponent extends CaloriesFiltered {
   
   dela: any = {};
-  zoneFilter:Filter;
+
+  @filter(['B1','B2']) zoneFilter:Filter;
 
   @ViewChild(FolderDirective)
   private folder;
@@ -27,9 +43,13 @@ export class JamsilComponent extends CaloriesFiltered {
     private delaService:DelaService
   ) {
     super();
-    this.zoneFilter = Filter.getFilter(['B1','B2']);
+    // this.zoneFilter = Filter.getFilter(['B1','B2']);
     this.clear();
     placeService.getMenus().subscribe(dela => this.dela = dela);
+  }
+  
+  test(keyword: string): string {
+    return keyword;
   }
 
   clear() {
