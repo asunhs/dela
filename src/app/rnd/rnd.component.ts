@@ -41,15 +41,14 @@ export class RndComponent extends Filtered {
     placeService.getMenus().subscribe(dela => {
       this.menus = this.parse(dela.menus);
       this.opened = dela.opened;
-      this.time = dela.date;
+      this.time = dela.time;
     });
   }
 
   parse(menus:any[]) {
     return _.forEach(menus, p => {
       _.forEach(p, menu => {
-        menu["ko"] = menu.title;
-        menu["en"] = menu.menu.join(" ");
+        menu["description"] = menu.menu.join(" ");
         menu["zoneName"] = menu.zoneId == "A" ? "Cafe 2" : "Cafe 1";
       })
     });
