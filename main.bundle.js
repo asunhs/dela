@@ -1376,7 +1376,7 @@ exports = module.exports = __webpack_require__(68)();
 
 
 // module
-exports.push([module.i, "ul {\n  list-style-type: none;\n  padding: initial;\n  margin: initial;\n  float: right; }\n  ul li {\n    cursor: pointer;\n    color: #d3d3d3;\n    background-color: #375600;\n    display: inline-block;\n    padding: 2px 5px;\n    border-radius: 3px; }\n    ul li.on {\n      color: #f3f3f3;\n      background-color: #577620; }\n\ndiv.overlay {\n  position: fixed;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  background-color: black;\n  opacity: .3; }\n  div.overlay > span.loading-image {\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    width: 64px;\n    height: 64px;\n    background-size: 64px;\n    background-image: url(\"/assets/images/loading_apple.gif\"); }\n", ""]);
+exports.push([module.i, "ul {\n  list-style-type: none;\n  padding: initial;\n  margin: initial;\n  float: right; }\n  ul li {\n    cursor: pointer;\n    color: #d3d3d3;\n    background-color: #375600;\n    display: inline-block;\n    padding: 2px 5px;\n    border-radius: 3px; }\n    ul li.on {\n      color: #f3f3f3;\n      background-color: #577620; }\n\ndiv.overlay {\n  position: fixed;\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  background-color: black;\n  opacity: .3; }\n  div.overlay > span.loading-image {\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    width: 64px;\n    height: 64px;\n    background-size: 64px;\n    background-image: url(" + __webpack_require__(811) + "); }\n", ""]);
 
 // exports
 
@@ -1598,7 +1598,14 @@ var _a;
 
 /***/ }),
 
-/***/ 813:
+/***/ 811:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "loading_apple.9e0373c2b4410c49439d.gif";
+
+/***/ }),
+
+/***/ 814:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(350);
@@ -1606,5 +1613,5 @@ module.exports = __webpack_require__(350);
 
 /***/ })
 
-},[813]);
+},[814]);
 //# sourceMappingURL=main.bundle.js.map
