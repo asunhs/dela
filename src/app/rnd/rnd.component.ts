@@ -1,6 +1,6 @@
 import { Inject, Component, ViewChild } from '@angular/core';
 import { Filter, Filtered } from '../dela/filter';
-import { DelaService, PlaceService, CAL_LEVEL } from '../dela/dela.service';
+import { DelaService, PlaceService, CALORIES } from '../dela/dela.service';
 import { FolderDirective } from '../dela/folder.directive';
 
 import * as _ from 'lodash';
@@ -17,14 +17,15 @@ import * as _ from 'lodash';
 export class RndComponent extends Filtered {
   
   meal:number = 1;
-  dela: any = {
-    menus: []
-  };
+  menus: any[];
+  opened: boolean;
+  time: string;
 
-  @Filter.create(['A','B'])
+
+  @Filter.create({ B:'Cafe 1', A:'Cafe 2' })
   zoneFilter: Filter;
 
-  @Filter.create(CAL_LEVEL)
+  @Filter.create(CALORIES)
   calorieFilter:Filter;
 
   @ViewChild(FolderDirective)
@@ -37,11 +38,25 @@ export class RndComponent extends Filtered {
     super();
     this.meal = this.now();
     this.clear();
-    placeService.getMenus().subscribe(dela => this.dela = dela);
+    placeService.getMenus().subscribe(dela => {
+      this.menus = this.parse(dela.menus);
+      this.opened = dela.opened;
+      this.time = dela.date;
+    });
+  }
+
+  parse(menus:any[]) {
+    return _.forEach(menus, p => {
+      _.forEach(p, menu => {
+        menu["ko"] = menu.title;
+        menu["en"] = menu.menu.join(" ");
+        menu["zoneName"] = menu.zoneId == "A" ? "Cafe 2" : "Cafe 1";
+      })
+    });
   }
 
   getFilteredMenus() {
-    return _.filter(this.dela.menus[this.meal], (menu:any) => {
+    return _.filter(this.menus[this.meal], (menu:any) => {
       return this.zoneFilter.isFiltered(menu.zoneId) && this.calorieFilter.isFiltered(this.delaService.classify(menu.cal));
     });
   }

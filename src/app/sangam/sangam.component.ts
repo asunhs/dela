@@ -1,6 +1,6 @@
 import { Inject, Component } from '@angular/core';
 import { Filter, Filtered } from '../dela/filter';
-import { DelaService, PlaceService, CAL_LEVEL } from '../dela/dela.service';
+import { DelaService, PlaceService, CALORIES } from '../dela/dela.service';
 
 import * as _ from 'lodash';
 
@@ -15,9 +15,11 @@ import * as _ from 'lodash';
 })
 export class SangamComponent extends Filtered {
   
-  dela: any = {};
+  menus: any[];
+  opened: boolean;
+  time: string;
 
-  @Filter.create(CAL_LEVEL)
+  @Filter.create(CALORIES)
   calorieFilter:Filter;
 
   constructor(
@@ -26,11 +28,15 @@ export class SangamComponent extends Filtered {
   ) {
     super()
     this.clear();
-    placeService.getMenus().subscribe(dela => this.dela = dela);
+    placeService.getMenus().subscribe(dela => {
+      this.menus = dela.menus;
+      this.opened = dela.opened;
+      this.time = dela.time;
+    });
   }
 
   getFilteredMenus() {
-    return _.filter(this.dela.menus, (menu:any) => {
+    return _.filter(this.menus, (menu:any) => {
       return this.calorieFilter.isFiltered(this.delaService.classify(menu.cal));
     });
   }

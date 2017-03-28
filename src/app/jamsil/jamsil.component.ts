@@ -1,6 +1,6 @@
 import { Inject, Component, ViewChild } from '@angular/core';
 import { Filter, Filtered } from '../dela/filter';
-import { DelaService, PlaceService, CAL_LEVEL } from '../dela/dela.service';
+import { DelaService, PlaceService, CALORIES } from '../dela/dela.service';
 import { FolderDirective } from '../dela/folder.directive';
 
 import * as _ from 'lodash';
@@ -30,13 +30,16 @@ function MethodDeco(target, key:string, des: PropertyDescriptor) {
   ]
 })
 export class JamsilComponent extends Filtered {
-  
-  dela: any = {};
 
-  @Filter.create(['B1','B2'])
+  menus: any[];
+  opened: boolean;
+  time: string;
+
+
+  @Filter.create({B1:'B1', B2:'B2'})
   zoneFilter:Filter;
 
-  @Filter.create(CAL_LEVEL)
+  @Filter.create(CALORIES)
   calorieFilter:Filter;
 
   @ViewChild(FolderDirective)
@@ -48,11 +51,21 @@ export class JamsilComponent extends Filtered {
   ) {
     super();
     this.clear();
-    placeService.getMenus().subscribe(dela => this.dela = dela);
+    placeService.getMenus().subscribe(dela => {
+      this.menus = this.parse(dela.menus);
+      this.opened = dela.opened;
+      this.time = dela.time;
+    });
+  }
+
+  parse(menus:any[]) {
+    return _.forEach(menus, menu => {
+      menu["zoneName"] = menu.zoneId;
+    });
   }
 
   getFilteredMenus() {
-    return _.filter(this.dela.menus, (menu:any) => {
+    return _.filter(this.menus, (menu:any) => {
       return this.zoneFilter.isFiltered(menu.zoneId) && this.calorieFilter.isFiltered(this.delaService.classify(menu.cal));
     });
   }

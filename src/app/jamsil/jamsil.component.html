@@ -1,26 +1,19 @@
-<p class="time">{{dela.time}}</p>
-<div *ngIf="!!dela.opened">
+<p class="time">{{time}}</p>
+<div *ngIf="!!opened">
   <div class="filter" delaFolder="40px" [class.on]="hasFiltered()">
     <span class="filter-more" (click)="fold()"></span>
     <span class="filters" (click)="clear()"></span>
-    <ul>
-      <li class="B1" [class.on]="zoneFilter.isFiltered('B1')" (click)="zoneFilter.toggle('B1')">B1</li>
-      <li class="B2" [class.on]="zoneFilter.isFiltered('B2')" (click)="zoneFilter.toggle('B2')">B2</li>
-    </ul>
-    <ul>
-      <li class="super-high" [class.on]="calorieFilter.isFiltered('super-high')" (click)="calorieFilter.toggle('super-high')">초고</li>
-      <li class="high" [class.on]="calorieFilter.isFiltered('high')" (click)="calorieFilter.toggle('high')">높은</li>
-      <li class="normal" [class.on]="calorieFilter.isFiltered('normal')" (click)="calorieFilter.toggle('normal')">표준</li>
-      <li class="low" [class.on]="calorieFilter.isFiltered('low')" (click)="calorieFilter.toggle('low')">낮은</li>
-      <li class="super-low" [class.on]="calorieFilter.isFiltered('super-low')" (click)="calorieFilter.toggle('super-low')">초저</li>
-    </ul>
+
+    <dela-filter [filter]="zoneFilter"></dela-filter>
+    <dela-filter [filter]="calorieFilter"></dela-filter>
+    
   </div>
   <div class="dela-card-list">
-    <dela-card *ngFor="let menu of getFilteredMenus()" [menu]=menu></dela-card>
+    <dela-card *ngFor="let menu of getFilteredMenus()" [menu]=menu zone="true"></dela-card>
   </div>
 </div>
 
-<div class="closed" *ngIf="dela.opened === false">
+<div class="closed" *ngIf="opened === false">
   <p>지금은 영업중이 아닙니다.</p>
   <p>We're closed now</p>
 </div>

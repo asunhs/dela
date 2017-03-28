@@ -1,0 +1,8 @@
+<ul>
+  <li *ngFor="let entry of filter.items | entry"
+      [ngClass]="entry.key"
+      [class.on]="filter.isFiltered(entry.key)"
+      (click)="filter.toggle(entry.key)">
+      {{entry.value}}
+  </li>
+</ul>

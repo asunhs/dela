@@ -10,28 +10,28 @@ const FILTER = new OpaqueToken('FILTER');
 
 export class Filter {
   
-  items:string[];
+  items:{[key:string]:string};
   filtered:string[] = [];
 
-  private constructor(items:string[]) {
+  private constructor(items:{[key:string]:string}) {
     this.items = items;
     this.clear();
   }
 
   clear() {
       _.remove(this.filtered);
-      _.forEach(this.items, item => this.filtered.push(item))
+      this.filtered = _.keys(this.items);
   }
 
-  isFiltered(item):boolean {
-    return _.includes(this.filtered, item);
+  isFiltered(key:string):boolean {
+    return _.includes(this.filtered, key);
   }
 
-  toggle(item:string) {
-    if (this.isFiltered(item)) {
-      _.pull(this.filtered, item);
+  toggle(key:string) {
+    if (this.isFiltered(key)) {
+      _.pull(this.filtered, key);
     } else {
-      this.filtered.push(item);
+      this.filtered.push(key);
     }
     return false;
   }
@@ -40,16 +40,16 @@ export class Filter {
     return _.size(this.filtered) < _.size(this.items);
   }
 
-  static getFilter(items:string[]) {
+  static getFilter(items:{[key:string]:string}) {
     return new Filter(items);
   }
 
-  static create(items:(string[] | {})) {
-    return function (target:any, key:string) {
-      target[key] = Filter.getFilter(<string[]>_.map(items));
+  static create(items:{[key:string]:string}) {
+    return function (target:any, name:string) {
+      target[name] = Filter.getFilter(items);
 
       let filters:string[] = Reflect.hasMetadata(FILTER, target) ? Reflect.getMetadata(FILTER, target) : [];
-      filters.push(key);
+      filters.push(name);
       Reflect.defineMetadata(FILTER, filters, target);
     }
   }

@@ -4,7 +4,6 @@ import { DelaCommonModule } from '../dela/dela-common.module';
 import { SangamRoutingModule } from './sangam-routing.module';
 
 import { SangamComponent } from './sangam.component';
-import { CardComponent } from './card/card.component';
 
 @NgModule({
   imports: [
@@ -13,8 +12,7 @@ import { CardComponent } from './card/card.component';
     SangamRoutingModule
   ],
   declarations: [
-    SangamComponent,
-    CardComponent
+    SangamComponent
   ]
 })
 export class SangamModule { }

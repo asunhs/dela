@@ -13,6 +13,14 @@ export const CAL_LEVEL = {
   'SUPER_LOW': 'super-low'
 };
 
+export const CALORIES = {
+  [CAL_LEVEL.SUPER_HIGH]: '초고',
+  [CAL_LEVEL.HIGH]: '높음',
+  [CAL_LEVEL.NORMAL]: '표준',
+  [CAL_LEVEL.LOW]: '낮음',
+  [CAL_LEVEL.SUPER_LOW]: '초저'
+}
+
 const matcher = /[^\d\.]/g;
 
 

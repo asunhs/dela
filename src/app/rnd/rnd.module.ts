@@ -4,10 +4,8 @@ import { DelaCommonModule } from '../dela/dela-common.module';
 import { RndRoutingModule } from './rnd-routing.module';
 
 import { RndComponent } from './rnd.component';
-import { CardComponent } from './card/card.component';
 import { CafePipe } from './pipes/cafe.pipe';
 import { MealPipe } from './pipes/meal.pipe';
-import { PrefixPipe } from './pipes/prefix.pipe';
 
 @NgModule({
   imports: [
@@ -16,11 +14,9 @@ import { PrefixPipe } from './pipes/prefix.pipe';
     RndRoutingModule
   ],
   declarations: [
-    CardComponent,
     RndComponent,
     CafePipe,
-    MealPipe,
-    PrefixPipe
+    MealPipe
   ]
 })
 export class RndModule { }

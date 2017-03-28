@@ -1,0 +1,68 @@
+$card-height: 120px;
+$image-height: 100px;
+
+* {
+    box-sizing: border-box;
+}
+
+.dela-card-header {
+    color: #fff;
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+    display: flex;
+
+    span {
+        padding: 2px 10px;
+
+        &:first-child {
+            flex: 1;
+        }
+    }
+}
+
+div.dela-card-content {
+    background-color: #fff;
+    color: #3f3f3f;
+    width: 100%;
+    height: $card-height;
+    position: relative;
+    
+    padding: 10px;
+    margin-bottom: 10px;
+
+    span {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
+img {
+    height: $image-height;
+}
+
+span {
+    display: block;
+}
+
+.dela-card-image {
+    position: absolute;
+    right: 0;
+    width: 160px;
+    height: $image-height;
+    text-align: center;
+}
+
+.dela-card-menu {
+    font-size: 16px;
+}
+
+.dela-card-description {
+    font-size: 10px;
+    color: #afafaf;
+}
+
+.dela-card-calories {
+    font-size: 12px;
+    margin-top: 20px;
+}

@@ -4,7 +4,6 @@ import { DelaCommonModule } from '../dela/dela-common.module';
 import { JamsilRoutingModule } from './jamsil-routing.module';
 
 import { JamsilComponent } from './jamsil.component';
-import { CardComponent } from './card/card.component';
 
 @NgModule({
   imports: [
@@ -13,8 +12,7 @@ import { CardComponent } from './card/card.component';
     JamsilRoutingModule
   ],
   declarations: [
-    JamsilComponent,
-    CardComponent
+    JamsilComponent
   ]
 })
 export class JamsilModule { }
