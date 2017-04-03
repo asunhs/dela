@@ -140,8 +140,8 @@ var DelaCommonModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_12__filter_filter_component__["a" /* FilterComponent */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_10__dela_service__["c" /* DelaService */],
-                __WEBPACK_IMPORTED_MODULE_10__dela_service__["d" /* LoadingService */]
+                __WEBPACK_IMPORTED_MODULE_10__dela_service__["b" /* DelaService */],
+                __WEBPACK_IMPORTED_MODULE_10__dela_service__["c" /* LoadingService */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_3__unescape_pipe__["a" /* UnescapePipe */],
@@ -301,11 +301,11 @@ var JamsilComponent = (function (_super) {
             template: __webpack_require__(541),
             styles: [__webpack_require__(536)],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* PlaceService */],
+                __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["d" /* PlaceService */],
                 { provide: 'API_URL', useValue: "https://dela-mini.firebaseio.com/delacourt/jamsil.json" }
             ]
         }), 
-        __metadata('design:paramtypes', [(typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* PlaceService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* PlaceService */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["c" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["c" /* DelaService */]) === 'function' && _d) || Object])
+        __metadata('design:paramtypes', [(typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["d" /* PlaceService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["d" /* PlaceService */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* DelaService */]) === 'function' && _d) || Object])
     ], JamsilComponent);
     return JamsilComponent;
     var _a, _b, _c, _d;
@@ -407,11 +407,11 @@ var RndComponent = (function (_super) {
             template: __webpack_require__(542),
             styles: [__webpack_require__(537)],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* PlaceService */],
+                __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["d" /* PlaceService */],
                 { provide: 'API_URL', useValue: "https://dela-mini.firebaseio.com/delacourt/rnd.json" }
             ]
         }), 
-        __metadata('design:paramtypes', [(typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* PlaceService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* PlaceService */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["c" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["c" /* DelaService */]) === 'function' && _d) || Object])
+        __metadata('design:paramtypes', [(typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["d" /* PlaceService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["d" /* PlaceService */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* DelaService */]) === 'function' && _d) || Object])
     ], RndComponent);
     return RndComponent;
     var _a, _b, _c, _d;
@@ -425,11 +425,12 @@ var RndComponent = (function (_super) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dela_filter__ = __webpack_require__(133);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash__ = __webpack_require__(69);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SangamComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dela_filter__ = __webpack_require__(133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__dela_dela_service__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_lodash__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SingleComponent; });
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -448,45 +449,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var SangamComponent = (function (_super) {
-    __extends(SangamComponent, _super);
-    function SangamComponent(placeService, delaService) {
+
+var SingleComponent = (function (_super) {
+    __extends(SingleComponent, _super);
+    function SingleComponent(delaService, route) {
         var _this = this;
         _super.call(this);
         this.delaService = delaService;
+        route.url.subscribe(function (_a) {
+            var path = _a[0].path;
+            _this.init(path);
+        });
+    }
+    SingleComponent.prototype.init = function (path) {
+        var _this = this;
         this.clear();
-        placeService.getMenus().subscribe(function (dela) {
+        this.source = this.delaService.getSource(path);
+        this.delaService.getMenusFrom(path).subscribe(function (dela) {
             _this.menus = dela.menus;
             _this.opened = dela.opened;
             _this.time = dela.time;
         });
-    }
-    SangamComponent.prototype.getFilteredMenus = function () {
+    };
+    SingleComponent.prototype.getFilteredMenus = function () {
         var _this = this;
-        return __WEBPACK_IMPORTED_MODULE_3_lodash__["filter"](this.menus, function (menu) {
+        return __WEBPACK_IMPORTED_MODULE_4_lodash__["filter"](this.menus, function (menu) {
             return _this.calorieFilter.isFiltered(_this.delaService.classify(menu.cal));
         });
     };
     __decorate([
-        __WEBPACK_IMPORTED_MODULE_1__dela_filter__["a" /* Filter */].create(__WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["a" /* CALORIES */]), 
-        __metadata('design:type', (typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__dela_filter__["a" /* Filter */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__dela_filter__["a" /* Filter */]) === 'function' && _a) || Object)
-    ], SangamComponent.prototype, "calorieFilter", void 0);
-    SangamComponent = __decorate([
+        __WEBPACK_IMPORTED_MODULE_2__dela_filter__["a" /* Filter */].create(__WEBPACK_IMPORTED_MODULE_3__dela_dela_service__["a" /* CALORIES */]), 
+        __metadata('design:type', (typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__dela_filter__["a" /* Filter */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_filter__["a" /* Filter */]) === 'function' && _a) || Object)
+    ], SingleComponent.prototype, "calorieFilter", void 0);
+    SingleComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["y" /* Component */])({
-            selector: 'dela-jamsil',
-            template: __webpack_require__(543),
-            styles: [],
-            providers: [
-                __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* PlaceService */],
-                { provide: 'API_URL', useValue: "https://dela-mini.firebaseio.com/delacourt/sangam.json" }
-            ]
+            selector: 'dela-single',
+            template: __webpack_require__(543)
         }), 
-        __metadata('design:paramtypes', [(typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* PlaceService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["b" /* PlaceService */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["c" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__dela_dela_service__["c" /* DelaService */]) === 'function' && _c) || Object])
-    ], SangamComponent);
-    return SangamComponent;
+        __metadata('design:paramtypes', [(typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__dela_dela_service__["b" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__dela_dela_service__["b" /* DelaService */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === 'function' && _c) || Object])
+    ], SingleComponent);
+    return SingleComponent;
     var _a, _b, _c;
-}(__WEBPACK_IMPORTED_MODULE_1__dela_filter__["b" /* Filtered */]));
-//# sourceMappingURL=sangam.component.js.map
+}(__WEBPACK_IMPORTED_MODULE_2__dela_filter__["b" /* Filtered */]));
+//# sourceMappingURL=single.component.js.map
 
 /***/ }),
 
@@ -533,7 +538,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_platform_browser_dyna
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(87);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -555,10 +560,10 @@ var AppRoutingModule = (function () {
     AppRoutingModule = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forRoot(routes)
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forRoot(routes)
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]
             ]
         }), 
         __metadata('design:paramtypes', [])
@@ -601,7 +606,7 @@ var AppComponent = (function () {
             template: __webpack_require__(538),
             styles: [__webpack_require__(534)]
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__dela_dela_service__["c" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__dela_dela_service__["c" /* DelaService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__dela_dela_service__["d" /* LoadingService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__dela_dela_service__["d" /* LoadingService */]) === 'function' && _b) || Object])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__dela_dela_service__["b" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__dela_dela_service__["b" /* DelaService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__dela_dela_service__["c" /* LoadingService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__dela_dela_service__["c" /* LoadingService */]) === 'function' && _b) || Object])
     ], AppComponent);
     return AppComponent;
     var _a, _b;
@@ -614,13 +619,13 @@ var AppComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(130);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_routing_module__ = __webpack_require__(461);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__jamsil_jamsil_module__ = __webpack_require__(473);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__rnd_rnd_module__ = __webpack_require__(477);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__sangam_sangam_module__ = __webpack_require__(479);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__single_single_module__ = __webpack_require__(479);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(462);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_http__ = __webpack_require__(182);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
@@ -657,7 +662,7 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_2__app_routing_module__["a" /* AppRoutingModule */],
                 __WEBPACK_IMPORTED_MODULE_4__jamsil_jamsil_module__["a" /* JamsilModule */],
                 __WEBPACK_IMPORTED_MODULE_5__rnd_rnd_module__["a" /* RndModule */],
-                __WEBPACK_IMPORTED_MODULE_6__sangam_sangam_module__["a" /* SangamModule */]
+                __WEBPACK_IMPORTED_MODULE_6__single_single_module__["a" /* SingleModule */]
             ],
             providers: [
                 { provide: __WEBPACK_IMPORTED_MODULE_3__angular_common__["a" /* LocationStrategy */], useClass: __WEBPACK_IMPORTED_MODULE_3__angular_common__["b" /* HashLocationStrategy */] }
@@ -712,7 +717,7 @@ var CaloriesPipe = (function () {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["d" /* Pipe */])({
             name: 'calories'
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__dela_service__["c" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__dela_service__["c" /* DelaService */]) === 'function' && _a) || Object])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__dela_service__["b" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__dela_service__["b" /* DelaService */]) === 'function' && _a) || Object])
     ], CaloriesPipe);
     return CaloriesPipe;
     var _a;
@@ -949,7 +954,7 @@ var ToNumberPipe = (function () {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["d" /* Pipe */])({
             name: 'toNumber'
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__dela_service__["c" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__dela_service__["c" /* DelaService */]) === 'function' && _a) || Object])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__dela_service__["b" /* DelaService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__dela_service__["b" /* DelaService */]) === 'function' && _a) || Object])
     ], ToNumberPipe);
     return ToNumberPipe;
     var _a;
@@ -1000,7 +1005,7 @@ var UnescapePipe = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__jamsil_component__ = __webpack_require__(307);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return JamsilRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1024,10 +1029,10 @@ var JamsilRoutingModule = (function () {
     JamsilRoutingModule = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forChild(routes)
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]
             ]
         }), 
         __metadata('design:paramtypes', [])
@@ -1173,7 +1178,7 @@ var MealPipe = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rnd_component__ = __webpack_require__(308);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RndRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1197,10 +1202,10 @@ var RndRoutingModule = (function () {
     RndRoutingModule = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forChild(routes)
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]
             ]
         }), 
         __metadata('design:paramtypes', [])
@@ -1268,9 +1273,9 @@ var RndModule = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(131);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sangam_component__ = __webpack_require__(309);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SangamRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__single_component__ = __webpack_require__(309);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SingleRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1284,25 +1289,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var routes = [
-    { path: 'sangam', component: __WEBPACK_IMPORTED_MODULE_2__sangam_component__["a" /* SangamComponent */] }
+    { path: 'sangam', component: __WEBPACK_IMPORTED_MODULE_2__single_component__["a" /* SingleComponent */] },
+    { path: 'pangyo', component: __WEBPACK_IMPORTED_MODULE_2__single_component__["a" /* SingleComponent */] }
 ];
-var SangamRoutingModule = (function () {
-    function SangamRoutingModule() {
+var SingleRoutingModule = (function () {
+    function SingleRoutingModule() {
     }
-    SangamRoutingModule = __decorate([
+    SingleRoutingModule = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forChild(routes)
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]
             ]
         }), 
         __metadata('design:paramtypes', [])
-    ], SangamRoutingModule);
-    return SangamRoutingModule;
+    ], SingleRoutingModule);
+    return SingleRoutingModule;
 }());
-//# sourceMappingURL=sangam-routing.module.js.map
+//# sourceMappingURL=single-routing.module.js.map
 
 /***/ }),
 
@@ -1313,9 +1319,9 @@ var SangamRoutingModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dela_dela_common_module__ = __webpack_require__(196);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sangam_routing_module__ = __webpack_require__(478);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__sangam_component__ = __webpack_require__(309);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SangamModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__single_routing_module__ = __webpack_require__(478);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__single_component__ = __webpack_require__(309);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SingleModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1330,25 +1336,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var SangamModule = (function () {
-    function SangamModule() {
+var SingleModule = (function () {
+    function SingleModule() {
     }
-    SangamModule = __decorate([
+    SingleModule = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["c" /* CommonModule */],
                 __WEBPACK_IMPORTED_MODULE_2__dela_dela_common_module__["a" /* DelaCommonModule */],
-                __WEBPACK_IMPORTED_MODULE_3__sangam_routing_module__["a" /* SangamRoutingModule */]
+                __WEBPACK_IMPORTED_MODULE_3__single_routing_module__["a" /* SingleRoutingModule */]
             ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_4__sangam_component__["a" /* SangamComponent */]
+                __WEBPACK_IMPORTED_MODULE_4__single_component__["a" /* SingleComponent */]
             ]
         }), 
         __metadata('design:paramtypes', [])
-    ], SangamModule);
-    return SangamModule;
+    ], SingleModule);
+    return SingleModule;
 }());
-//# sourceMappingURL=sangam.module.js.map
+//# sourceMappingURL=single.module.js.map
 
 /***/ }),
 
@@ -1394,7 +1400,7 @@ exports = module.exports = __webpack_require__(68)();
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box; }\n\n.dela-card-header {\n  color: #fff;\n  font-weight: bold;\n  font-size: 11px;\n  text-transform: uppercase;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex; }\n  .dela-card-header span {\n    padding: 2px 10px; }\n    .dela-card-header span:first-child {\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1; }\n\ndiv.dela-card-content {\n  background-color: #fff;\n  color: #3f3f3f;\n  width: 100%;\n  height: 120px;\n  position: relative;\n  padding: 10px;\n  margin-bottom: 10px; }\n  div.dela-card-content span {\n    white-space: nowrap;\n    overflow: hidden; }\n\nimg {\n  height: 100px; }\n\nspan {\n  display: block; }\n\n.dela-card-image {\n  position: absolute;\n  right: 0;\n  width: 160px;\n  height: 100px;\n  text-align: center; }\n\n.dela-card-menu {\n  font-size: 16px; }\n\n.dela-card-description {\n  font-size: 10px;\n  color: #afafaf; }\n\n.dela-card-calories {\n  font-size: 12px;\n  margin-top: 20px; }\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box; }\n\n.dela-card-header {\n  color: #fff;\n  font-weight: bold;\n  font-size: 11px;\n  text-transform: uppercase;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex; }\n  .dela-card-header span {\n    padding: 2px 10px; }\n    .dela-card-header span:first-child {\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1; }\n\ndiv.dela-card-content {\n  background-color: #fff;\n  color: #3f3f3f;\n  width: 100%;\n  height: 120px;\n  position: relative;\n  padding: 10px;\n  margin-bottom: 10px; }\n  div.dela-card-content span.dela-card-menu {\n    white-space: nowrap;\n    overflow: hidden; }\n\nimg {\n  height: 100px; }\n\nspan {\n  display: block; }\n\n.dela-card-image {\n  float: right;\n  width: 160px;\n  height: 100px;\n  text-align: center; }\n\n.dela-card-menu {\n  font-size: 16px; }\n\n.dela-card-description {\n  font-size: 10px;\n  color: #afafaf; }\n\n.dela-card-calories {\n  font-size: 12px;\n  margin-top: 20px; }\n", ""]);
 
 // exports
 
@@ -1443,14 +1449,14 @@ module.exports = module.exports.toString();
 /***/ 538:
 /***/ (function(module, exports) {
 
-module.exports = "<header>\r\n    Delacourt Mini\r\n\r\n    <ul>\r\n        <li routerLink=\"/jamsil\" routerLinkActive=\"on\">잠실</li>\r\n        <li routerLink=\"/rnd\" routerLinkActive=\"on\">우면</li>\r\n        <li routerLink=\"/sangam\" routerLinkActive=\"on\">상암</li>\r\n    </ul>\r\n</header>\r\n<router-outlet></router-outlet>\r\n<div class=\"overlay\" *ngIf=\"isLoading()\">\r\n    <span class=\"loading-image\"></span>\r\n</div>"
+module.exports = "<header>\r\n    Delacourt Mini\r\n\r\n    <ul>\r\n        <li routerLink=\"/jamsil\" routerLinkActive=\"on\">잠실</li>\r\n        <li routerLink=\"/rnd\" routerLinkActive=\"on\">우면</li>\r\n        <li routerLink=\"/sangam\" routerLinkActive=\"on\">상암</li>\r\n        <li routerLink=\"/pangyo\" routerLinkActive=\"on\">판교</li>\r\n    </ul>\r\n</header>\r\n<router-outlet></router-outlet>\r\n<div class=\"overlay\" *ngIf=\"isLoading()\">\r\n    <span class=\"loading-image\"></span>\r\n</div>"
 
 /***/ }),
 
 /***/ 539:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"dela-card-header\">  \r\n  <span [class]=\"menu.sectionId | prefix\">{{menu.sectionName}}</span>\r\n  <span [class]=\"menu.cal | calories\">{{menu.cal | calories:\"name\"}}</span>\r\n  <span *ngIf=\"!!zone\" [class]=\"menu.zoneId\">{{menu.zoneName}}</span>\r\n</div>\r\n\r\n<div class=\"dela-card-content\">\r\n  <span class=\"dela-card-image\">\r\n    <img [src]=\"menu.imgSrc\" [alt]=\"menu.name\" onError=\"this.src = 'assets/images/no-image.png'\" />\r\n  </span>\r\n  \r\n  <span class=\"dela-card-menu\">{{menu.name | unescape}}</span>\r\n  <span class=\"dela-card-description\">{{menu.description | unescape}}</span>\r\n  <span class=\"dela-card-calories\">{{menu.cal}}</span>\r\n</div>"
+module.exports = "<div class=\"dela-card-header\">  \r\n  <span [class]=\"menu.sectionId | prefix\">{{menu.sectionName}}</span>\r\n  <span [class]=\"menu.cal | calories\">{{menu.cal | calories:\"name\"}}</span>\r\n  <span *ngIf=\"!!zone\" [class]=\"menu.zoneId\">{{menu.zoneName}}</span>\r\n</div>\r\n\r\n<div class=\"dela-card-content\">\r\n  <span class=\"dela-card-image\" *ngIf=\"!!menu.imgSrc\">\r\n    <img [src]=\"menu.imgSrc\" [alt]=\"menu.name\" onError=\"this.src = 'assets/images/no-image.png'\" />\r\n  </span>\r\n  \r\n  <span class=\"dela-card-menu\">{{menu.name | unescape}}</span>\r\n  <span class=\"dela-card-description\">{{menu.description | unescape}}</span>\r\n  <span class=\"dela-card-calories\">{{menu.cal}}</span>\r\n</div>"
 
 /***/ }),
 
@@ -1464,7 +1470,7 @@ module.exports = "<ul>\r\n  <li *ngFor=\"let entry of filter.items | entry\"\r\n
 /***/ 541:
 /***/ (function(module, exports) {
 
-module.exports = "<p class=\"time\">{{time}}</p>\r\n<div *ngIf=\"!!opened\">\r\n  <div class=\"filter\" delaFolder=\"40px\" [class.on]=\"hasFiltered()\">\r\n    <span class=\"filter-more\" (click)=\"fold()\"></span>\r\n    <span class=\"filters\" (click)=\"clear()\"></span>\r\n\r\n    <dela-filter [filter]=\"zoneFilter\"></dela-filter>\r\n    <dela-filter [filter]=\"calorieFilter\"></dela-filter>\r\n    \r\n  </div>\r\n  <div class=\"dela-card-list\">\r\n    <dela-card *ngFor=\"let menu of getFilteredMenus()\" [menu]=menu zone=\"true\"></dela-card>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"closed\" *ngIf=\"opened === false\">\r\n  <p>지금은 영업중이 아닙니다.</p>\r\n  <p>We're closed now</p>\r\n</div>\r\n\r\n<div class=\"page-info\">\r\n    <p>메뉴 내용은 모두 <a href=\"http://sdsfoodmenu.co.kr:9106/foodcourt/menuplanner/list\" target=\"_blank\">Delacourt for SDS</a>에 권리가 있습니다.</p>\r\n    <p>더 좋은 사이트가 될 수 있도록 <a href=\"http://github.com/asunhs/dela\" target=\"_blank\">Github</a>에 참여해주세요</p>\r\n</div>"
+module.exports = "<p class=\"time\">{{time}}</p>\r\n<div *ngIf=\"!!opened\">\r\n  <div class=\"filter\" delaFolder=\"40px\" [class.on]=\"hasFiltered()\">\r\n    <span class=\"filter-more\" (click)=\"fold()\"></span>\r\n    <span class=\"filters\" (click)=\"clear()\"></span>\r\n\r\n    <dela-filter [filter]=\"zoneFilter\"></dela-filter>\r\n    <dela-filter [filter]=\"calorieFilter\"></dela-filter>\r\n    \r\n  </div>\r\n  <div class=\"dela-card-list\">\r\n    <dela-card *ngFor=\"let menu of getFilteredMenus()\" [menu]=menu zone=\"true\"></dela-card>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"closed\" *ngIf=\"opened === false\">\r\n  <p>지금은 영업중이 아닙니다.</p>\r\n  <p>We're closed now</p>\r\n</div>\r\n\r\n<div class=\"page-info\">\r\n    <p>메뉴 내용은 모두 <a href=\"http://sdsfoodmenu.co.kr:9106/foodcourt/menuplanner/list?zoneId=AS\" target=\"_blank\">Delacourt for SDS</a>에 권리가 있습니다.</p>\r\n    <p>더 좋은 사이트가 될 수 있도록 <a href=\"http://github.com/asunhs/dela\" target=\"_blank\">Github</a>에 참여해주세요</p>\r\n</div>"
 
 /***/ }),
 
@@ -1478,7 +1484,7 @@ module.exports = "<p class=\"time\">{{time}}</p>\r\n<div *ngIf=\"!!opened\">\r\n
 /***/ 543:
 /***/ (function(module, exports) {
 
-module.exports = "<p class=\"time\">{{time}}</p>\r\n<div *ngIf=\"!!opened\">\r\n  <div class=\"filter\" [class.on]=\"hasFiltered()\">\r\n    <span class=\"filters\" (click)=\"clear()\"></span>\r\n    \r\n    <dela-filter [filter]=\"calorieFilter\"></dela-filter>\r\n    \r\n  </div>\r\n  <div class=\"dela-card-list\">\r\n    <dela-card *ngFor=\"let menu of getFilteredMenus()\" [menu]=menu></dela-card>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"closed\" *ngIf=\"opened === false\">\r\n  <p>지금은 영업중이 아닙니다.</p>\r\n  <p>We're closed now</p>\r\n</div>\r\n\r\n<div class=\"page-info\">\r\n    <p>메뉴 내용은 모두 <a href=\"http://sdsfoodmenu.co.kr:9106/foodcourt/menuplanner/list?zoneId=SA\" target=\"_blank\">Delacourt for SDS</a>에 권리가 있습니다.</p>\r\n    <p>더 좋은 사이트가 될 수 있도록 <a href=\"http://github.com/asunhs/dela\" target=\"_blank\">Github</a>에 참여해주세요</p>\r\n</div>"
+module.exports = "<p class=\"time\">{{time}}</p>\r\n<div *ngIf=\"!!opened\">\r\n  <div class=\"filter\" [class.on]=\"hasFiltered()\">\r\n    <span class=\"filters\" (click)=\"clear()\"></span>\r\n    \r\n    <dela-filter [filter]=\"calorieFilter\"></dela-filter>\r\n    \r\n  </div>\r\n  <div class=\"dela-card-list\">\r\n    <dela-card *ngFor=\"let menu of getFilteredMenus()\" [menu]=menu></dela-card>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"closed\" *ngIf=\"opened === false\">\r\n  <p>지금은 영업중이 아닙니다.</p>\r\n  <p>We're closed now</p>\r\n</div>\r\n\r\n<div class=\"page-info\">\r\n    <p>메뉴 내용은 모두 <a [href]=\"source\" target=\"_blank\">Delacourt for SDS</a>에 권리가 있습니다.</p>\r\n    <p>더 좋은 사이트가 될 수 있도록 <a href=\"http://github.com/asunhs/dela\" target=\"_blank\">Github</a>에 참여해주세요</p>\r\n</div>"
 
 /***/ }),
 
@@ -1492,9 +1498,9 @@ module.exports = "<p class=\"time\">{{time}}</p>\r\n<div *ngIf=\"!!opened\">\r\n
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__);
 /* unused harmony export CAL_LEVEL */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CALORIES; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return LoadingService; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return DelaService; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PlaceService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return LoadingService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DelaService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return PlaceService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1525,6 +1531,15 @@ var CALORIES = (_a = {},
     _a[CAL_LEVEL.SUPER_LOW] = '초저',
     _a
 );
+var SOURCE = {
+    jamsil: 'AS',
+    sangam: 'SA',
+    pangyo: 'PK',
+    suwon: 'SW',
+    gumi: 'GM'
+};
+var BASE = "https://dela-mini.firebaseio.com/delacourt/";
+var SOURCE_BASE = "http://sdsfoodmenu.co.kr:9106/foodcourt/menuplanner/list?zoneId=";
 var matcher = /[^\d\.]/g;
 var LoadingService = (function () {
     function LoadingService() {
@@ -1541,6 +1556,15 @@ var DelaService = (function () {
         this.jsonp = jsonp;
         this.loadingService = loadingService;
     }
+    DelaService.prototype.getSource = function (path) {
+        return SOURCE_BASE + SOURCE[path];
+    };
+    DelaService.prototype.getUrl = function (path) {
+        return [BASE, path, ".json"].join("");
+    };
+    DelaService.prototype.getMenusFrom = function (path) {
+        return this.getMenus(this.getUrl(path));
+    };
     DelaService.prototype.getMenus = function (url) {
         var _this = this;
         var params = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* URLSearchParams */]();
