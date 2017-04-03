@@ -5,7 +5,7 @@
 </div>
 
 <div class="dela-card-content">
-  <span class="dela-card-image">
+  <span class="dela-card-image" *ngIf="!!menu.imgSrc">
     <img [src]="menu.imgSrc" [alt]="menu.name" onError="this.src = 'assets/images/no-image.png'" />
   </span>
   

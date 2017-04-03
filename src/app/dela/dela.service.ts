@@ -19,7 +19,18 @@ export const CALORIES = {
   [CAL_LEVEL.NORMAL]: '표준',
   [CAL_LEVEL.LOW]: '낮음',
   [CAL_LEVEL.SUPER_LOW]: '초저'
-}
+};
+
+const SOURCE = {
+  jamsil: 'AS',
+  sangam: 'SA',
+  pangyo: 'PK',
+  suwon: 'SW',
+  gumi: 'GM'
+};
+
+const BASE = "https://dela-mini.firebaseio.com/delacourt/";
+const SOURCE_BASE = "http://sdsfoodmenu.co.kr:9106/foodcourt/menuplanner/list?zoneId="
 
 const matcher = /[^\d\.]/g;
 
@@ -38,6 +49,18 @@ export class DelaService {
     private jsonp: Jsonp,
     private loadingService: LoadingService
   ) { }
+
+  getSource(path: string): string {
+    return SOURCE_BASE + SOURCE[path];
+  }
+
+  getUrl(path:string): string {
+    return [BASE, path, ".json"].join("");
+  }
+
+  getMenusFrom(path: string): Observable<any> {
+    return this.getMenus(this.getUrl(path));
+  }
 
   getMenus(url:string): Observable<any> {
 

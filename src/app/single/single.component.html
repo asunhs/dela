@@ -1,15 +1,13 @@
 <p class="time">{{time}}</p>
 <div *ngIf="!!opened">
-  <div class="filter" delaFolder="40px" [class.on]="hasFiltered()">
-    <span class="filter-more" (click)="fold()"></span>
+  <div class="filter" [class.on]="hasFiltered()">
     <span class="filters" (click)="clear()"></span>
-
-    <dela-filter [filter]="zoneFilter"></dela-filter>
+    
     <dela-filter [filter]="calorieFilter"></dela-filter>
     
   </div>
   <div class="dela-card-list">
-    <dela-card *ngFor="let menu of getFilteredMenus()" [menu]=menu zone="true"></dela-card>
+    <dela-card *ngFor="let menu of getFilteredMenus()" [menu]=menu></dela-card>
   </div>
 </div>
 
@@ -19,6 +17,6 @@
 </div>
 
 <div class="page-info">
-    <p>메뉴 내용은 모두 <a href="http://sdsfoodmenu.co.kr:9106/foodcourt/menuplanner/list?zoneId=AS" target="_blank">Delacourt for SDS</a>에 권리가 있습니다.</p>
+    <p>메뉴 내용은 모두 <a [href]="source" target="_blank">Delacourt for SDS</a>에 권리가 있습니다.</p>
     <p>더 좋은 사이트가 될 수 있도록 <a href="http://github.com/asunhs/dela" target="_blank">Github</a>에 참여해주세요</p>
 </div>

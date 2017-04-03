@@ -6,7 +6,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { JamsilModule } from './jamsil/jamsil.module';
 import { RndModule } from './rnd/rnd.module';
-import { SangamModule } from './sangam/sangam.module';
+import { SingleModule } from './single/single.module';
 
 import { AppComponent } from './app.component';
 
@@ -26,7 +26,7 @@ import { Jsonp } from '@angular/http';
     AppRoutingModule,
     JamsilModule,
     RndModule,
-    SangamModule
+    SingleModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy}

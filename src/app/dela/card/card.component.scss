@@ -31,7 +31,7 @@ div.dela-card-content {
     padding: 10px;
     margin-bottom: 10px;
 
-    span {
+    span.dela-card-menu {
         white-space: nowrap;
         overflow: hidden;
     }
@@ -46,8 +46,7 @@ span {
 }
 
 .dela-card-image {
-    position: absolute;
-    right: 0;
+    float: right;
     width: 160px;
     height: $image-height;
     text-align: center;
