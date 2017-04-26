@@ -25,7 +25,7 @@ div.dela-card-content {
     background-color: #fff;
     color: #3f3f3f;
     width: 100%;
-    height: $card-height;
+    min-height: $card-height;
     position: relative;
     
     padding: 10px;
