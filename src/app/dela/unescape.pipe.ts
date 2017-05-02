@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 export class UnescapePipe implements PipeTransform {
 
   transform(value: string, args?: any): string {
-    return !!value && _.unescape(value);
+    return (!!value && _.unescape(value)) || '';
   }
 
 }
