@@ -986,7 +986,7 @@ var UnescapePipe = (function () {
     function UnescapePipe() {
     }
     UnescapePipe.prototype.transform = function (value, args) {
-        return !!value && __WEBPACK_IMPORTED_MODULE_1_lodash__["unescape"](value);
+        return (!!value && __WEBPACK_IMPORTED_MODULE_1_lodash__["unescape"](value)) || '';
     };
     UnescapePipe = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["d" /* Pipe */])({
@@ -1400,7 +1400,7 @@ exports = module.exports = __webpack_require__(68)();
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box; }\n\n.dela-card-header {\n  color: #fff;\n  font-weight: bold;\n  font-size: 11px;\n  text-transform: uppercase;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex; }\n  .dela-card-header span {\n    padding: 2px 10px; }\n    .dela-card-header span:first-child {\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1; }\n\ndiv.dela-card-content {\n  background-color: #fff;\n  color: #3f3f3f;\n  width: 100%;\n  height: 120px;\n  position: relative;\n  padding: 10px;\n  margin-bottom: 10px; }\n  div.dela-card-content span.dela-card-menu {\n    white-space: nowrap;\n    overflow: hidden; }\n\nimg {\n  height: 100px; }\n\nspan {\n  display: block; }\n\n.dela-card-image {\n  float: right;\n  width: 160px;\n  height: 100px;\n  text-align: center; }\n\n.dela-card-menu {\n  font-size: 16px; }\n\n.dela-card-description {\n  font-size: 10px;\n  color: #afafaf; }\n\n.dela-card-calories {\n  font-size: 12px;\n  margin-top: 20px; }\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box; }\n\n.dela-card-header {\n  color: #fff;\n  font-weight: bold;\n  font-size: 11px;\n  text-transform: uppercase;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex; }\n  .dela-card-header span {\n    padding: 2px 10px; }\n    .dela-card-header span:first-child {\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1; }\n\ndiv.dela-card-content {\n  background-color: #fff;\n  color: #3f3f3f;\n  width: 100%;\n  min-height: 120px;\n  position: relative;\n  padding: 10px;\n  margin-bottom: 10px; }\n  div.dela-card-content span.dela-card-menu {\n    overflow: hidden; }\n\nimg {\n  height: 100px; }\n\nspan {\n  display: block; }\n\n.dela-card-image {\n  float: right;\n  width: 150px;\n  text-align: center; }\n\n.dela-card-menu {\n  font-size: 16px; }\n\n.dela-card-description {\n  font-size: 10px;\n  color: #afafaf; }\n\n.dela-card-calories {\n  font-size: 12px;\n  margin-top: 20px; }\n", ""]);
 
 // exports
 
